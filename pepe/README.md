@@ -29,7 +29,7 @@ Every R/r is followed by a specific amount of E/e, which tells, what command is 
 
 - `Ee` - Move counter to the other stack
 - `EE` - Copy counter to the other stack
-- `ee` - Push input to stack
+- `ee` - Push input to stack (parsed as integer; if it's string, it's each letter's charcode is pushed instead)
 - `eE` - Push 0 to stack
 
 ### 3 E/e
