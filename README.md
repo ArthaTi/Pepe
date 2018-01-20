@@ -8,7 +8,9 @@ Ex: `REEE` operates on stack `R` while `rEEE` operates on stack `r`.
 
 Every R/r is followed by a specific amount of E/e, which tells, what command is executed.
 
-## Hello, World!
+## Examples
+
+### Hello, World!
 
 ```
 rEEEEEeee reEEEEeEE ReeeEeEee REeE REeE reEEEeeeE reEeeeeee reEeeeEeE rEEeeEeeE
@@ -16,6 +18,14 @@ reEeEeeeE reEeeEEEe REeE reEeEEEee reEeeeeEE
 ```
 
 This might not be the cleanest and the shortest solution, but works. Uses the character constants and outputs `Hello, World!`
+
+### Cat
+
+```
+ree reeE
+```
+
+Take input and print it. Just note, that if the input is a valid integer, Pepe will try to convert it to a charcode.
 
 ## List of commands
 
