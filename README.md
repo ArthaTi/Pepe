@@ -29,6 +29,8 @@ Take input and print it. Just note, that if the input is a valid integer, Pepe w
 
 ## List of commands
 
+Pepe is yet in developement! Not every command works yet; more information in issue [#1](https://github.com/Soaku/Pepe/issues/1).
+
 >Counter is the last element of stack.  
 >Pre-counter is the element before the last in stack.  
 >Pop is operation of deleting the last element of stack.  
