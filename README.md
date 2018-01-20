@@ -123,4 +123,4 @@ Every R/r is followed by a specific amount of E/e, which tells, what command is 
 - `eeeEE` - `!`
 - `eeeEe` - `?`
 - `eeeeE` - `.`
-- `eeeee` - `pepe`/`PEPE` word
+- `eeeee` - `,`
