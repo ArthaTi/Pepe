@@ -8,6 +8,15 @@ Ex: `REEE` operates on stack `R` while `rEEE` operates on stack `r`.
 
 Every R/r is followed by a specific amount of E/e, which tells, what command is executed.
 
+## Hello, World!
+
+```
+rEEEEEeee reEEEEeEE ReeeEeEee REeE REeE reEEEeeeE reEeeeeee reEeeeEeE rEEeeEeeE
+reEeEeeeE reEeeEEEe REeE reEeEEEee reEeeeeEE
+```
+
+This might not be the cleanest and the shortest solution, but works. Uses the character constants and outputs `Hello, World!`
+
 ## List of commands
 
 >Counter is the last element of stack.  
@@ -110,18 +119,18 @@ Every R/r is followed by a specific amount of E/e, which tells, what command is 
 - `EeeEe` - `n`
 - `EeeeE` - `o`
 - `Eeeee` - `p`
-- `eEEEE` - `r`
-- `eEEEe` - `s`
-- `eEEeE` - `t`
-- `eEEee` - `u`
-- `eEeEE` - `v`
-- `eEeEe` - `w`
-- `eEeeE` - `x`
-- `eEeee` - `y`
-- `eeEEE` - `z`
-- `eeEEe` - ` ` space
-- `eeEeE` - `\n` Line feed
-- `eeEee` - `\t` Tab
+- `eEEEE` - `q`
+- `eEEEe` - `r`
+- `eEEeE` - `s`
+- `eEEee` - `t`
+- `eEeEE` - `u`
+- `eEeEe` - `v`
+- `eEeeE` - `w`
+- `eEeee` - `x`
+- `eeEEE` - `y`
+- `eeEEe` - `z` 
+- `eeEeE` - ` ` space
+- `eeEee` - `\n` Line feed
 - `eeeEE` - `!`
 - `eeeEe` - `?`
 - `eeeeE` - `.`
