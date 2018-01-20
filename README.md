@@ -91,6 +91,8 @@ Every R/r is followed by a specific amount of E/e, which tells, what command is 
 > 8 E/e functions starting with `E` output uppercase chars, while functions starting with `e` output lowercase ones.
 >
 > 8 E/e functions 2nd letter decides what to do with the character: `E` outputs them, `e`, pushes their charcode.
+>
+> 8 E/e functions 3rd letter is actually unused (!)
 
 - `EEEEE` - `a`
 - `EEEEe` - `b`
