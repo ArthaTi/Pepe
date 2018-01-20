@@ -47,7 +47,7 @@ function pepe(code, inp) {
 
     code.forEach(function(x,i) {
       var now;
-      var other;
+      var other, stck;
       if (x == "R") return;
       if (x == "!") {
         // later
@@ -60,8 +60,9 @@ function pepe(code, inp) {
         return;
       }
       if (x.charAt(0).toUpperCase() == "R") {
-        now = s[x.charAt(0)];
-        other = s[(x.charAt(0)=="R"?"r":"R")];
+      	stck = x.charAt(0);
+        now = s[stck];
+        other = s[(stck=="R"?"r":"R")];
         x = x.substr(1);
       }
       switch (x) {
@@ -126,15 +127,67 @@ function pepe(code, inp) {
         	now.forEach(function(t, i) {
           	sum += t;
           });
-          if (x=="EEEe" || x=="EeEe") {
-          	now.length = 0;
-          }
           if (x=="EeEE" || x=="EeEe") {
           	now.push(sum);
           } else {
           	out += sum;
           }
+          if (x=="EEEe" || x=="EeEe") {
+          	now.length = 0;
+          }
         	break;
+        default:
+        	// 8 E/e
+          if (x.length == 8) {
+          	var uc = x.charAt(0) == "E";
+            var pr = x.charAt(1) == "E";
+            var lt = x.substr(3);
+            console.log(uc,pr,lt);
+            lt = {
+            	EEEEE:"a",
+              EEEEe:"b",
+              EEEeE:"c",
+              EEEee:"d",
+              EEeEE:"e",
+              EEeEe:"f",
+              EEeeE:"g",
+              EEeee:"h",
+              EeEEE:"i",
+              EeEEe:"j",
+              EeEeE:"k",
+              EeEee:"l",
+              EeeEE:"m",
+              EeeEe:"n",
+              EeeeE:"o",
+              Eeeee:"p",
+              eEEEE:"q",
+              eEEEe:"r",
+              eEEeE:"s",
+              eEEee:"t",
+              eEeEE:"u",
+              eEeEe:"v",
+              eEeeE:"w",
+              eEeee:"x",
+              eeEEE:"y",
+              eeEEe:"z",
+              eeEeE:" ",
+              eeEee:"\n",
+              eeeEE:"!",
+              eeeEe:"?",
+              eeeeE:".",
+              eeeee:",",
+            }[lt];
+            if (uc) lt=lt.toUpperCase();
+            console.log(lt);
+            if (pr) {
+            	out += lt;
+            } else {
+            	now.push(lt.charCodeAt(0));
+            }
+          } else {
+          	// Else: error
+          	out += stck+x+"ERROR!";
+          }
       }
       console.log(x, now, other);
     });
