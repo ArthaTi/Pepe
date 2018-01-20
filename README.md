@@ -26,7 +26,7 @@ This might not be the cleanest and the shortest solution, but works. Uses the ch
 
 **`?` and `!` are special, each is a single command. R!!! would be 3 commands, not one, unlike other operators.**
 
-- `?` - Execute counter bitwise. 00 = r, 01 = R, 10 = e, 11 = R
+- `?` - Execute counter bitwise. 00 = r, 01 = R, 10 = e, 11 = E
 - `!` - Execute counter bitwise on the current stack. 0 = e, 1 = E
 
 > If `?` or `!` is placed after a normal command, `R` or `r` is automatically placed after it, depending on what stack did the previous command use, ex: `REEE!EEE` will transpile to `REEE!REEE`
