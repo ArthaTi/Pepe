@@ -1,6 +1,6 @@
 # Pepe
 
-Pepe is a programming language, which uses only 6 characters: `r`, `e`, `R`, `E`, `!` and `?`. Others are ignored. Also, it's preffered to separate commands with a space
+Pepe is a programming language, which uses only 4 characters: `r`, `e`, `R`, `E` and 2 as an extension: `!` and `?`. Others are ignored. Also, it's preffered to separate commands with a space
 
 Pepe is stack-based and has 2 stacks: `r` and `R`. Every command starts with the stack name, defining on which stack will it work.
 
