@@ -27,21 +27,16 @@ ree reeE
 
 Take input and print it. Just note, that if the input is a valid integer, Pepe will try to convert it to a charcode.
 
-## List of commands
+## List of screams
 
-Pepe is yet in developement! Not every command works yet; more information in issue [#1](https://github.com/Soaku/Pepe/issues/1).
+*In Pepe, every command is a scream.*
+
+Pepe is yet in developement! Not every scream works yet; more information in issue [#1](https://github.com/Soaku/Pepe/issues/1).
 
 >Counter is the last element of stack.  
 >Pre-counter is the element before the last in stack.  
 >Pop is operation of deleting the last element of stack.  
 >If stack is empty, a new item is automatically added.
-
-**`?` and `!` are special, each is a single command. R!!! would be 3 commands, not one, unlike other operators.**
-
-- `?` - Execute counter bitwise. 00 = r, 01 = R, 10 = e, 11 = E
-- `!` - Execute counter bitwise on the current stack. 0 = e, 1 = E
-
-> If `?` or `!` is placed after a normal command, `R` or `r` is automatically placed after it, depending on what stack did the previous command use, ex: `REEE!EEE` will transpile to `REEE!REEE`
 
 ### 1 E/e
 
