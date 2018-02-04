@@ -31,7 +31,7 @@ Take input and print it. Just note, that if the input is a valid integer, Pepe w
 
 *In Pepe, every command is a scream.*
 
-Pepe is yet in developement! Not every scream works yet; more information in issue [#1](https://github.com/Soaku/Pepe/issues/1).
+**Warning:** Pepe was never yet released and commands are yet WIP. Check out issue [#1](https://github.com/Soaku/Pepe/issues/1), there  you can discuss which commands would be useful and which would not.
 
 >Counter is the last element of stack.  
 >Pre-counter is the element before the last in stack.  
