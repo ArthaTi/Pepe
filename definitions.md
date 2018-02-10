@@ -7,4 +7,4 @@ Stack related:
 - WI - Working item - the currently selected item (with the pointer) in the WS.
 - Push - Append item to the WS.
 - Pop - Remove last item from the WS.
-- Counter - Last item in stack
+- Counter - Last item in WS
