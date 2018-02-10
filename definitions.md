@@ -8,3 +8,4 @@ Stack related:
 - Push - Append item to the WS.
 - Pop - Remove last item from the WS.
 - Counter - Last item in WS
+- BSI - Both selected items - Selected items from both stacks
