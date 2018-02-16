@@ -95,7 +95,7 @@ List of commands available in Pepe.
 
 ### [7 E/e (128) Cross-stack](https://github.com/Soaku/Pepe/projects/2#column-2172008)
 
-*9 slots left*
+*121 slots left*
 
 - `EEEEEEE` - [Move active item to the other stack](https://github.com/Soaku/Pepe/projects/2#card-7338040)
 - `EEEEEEe` - [Copy active item to the other stack](https://github.com/Soaku/Pepe/projects/2#card-7338048)
