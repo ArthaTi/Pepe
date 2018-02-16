@@ -13,11 +13,12 @@ Every R/r is followed by a specific amount of E/e, which tells, what command is 
 ### Hello, World!
 
 ```
-rEEEEEeee reEEEEeEE ReeeEeEee REeE REeE reEEEeeeE reEeeeeee reEeeeEeE rEEeeEeeE
-reEeEeeeE reEeeEEEe REeE reEeEEEee reEeeeeEE
+reeEeeEeee reeEEeeEeE rEeEEeEEee reee reee reeEEeEEEE reeeEeEEee reeeEeeeee reeEeEeEEE reeEEeEEEE reeEEEeeEe reee reeEEeeEee reeeEeeeeE
 ```
 
-This might not be the cleanest and the shortest solution, but works. Uses the character constants and outputs `Hello, World!`
+This might not be the cleanest and the shortest solution, but works. Uses the character constants and outputs `Hello, World!`.
+
+`l` here is stored as a variable and is repeated. Every `reee` here prints one `l`.
 
 ### Cat
 
@@ -27,118 +28,6 @@ ree reeE
 
 Take input and print it. Just note, that if the input is a valid integer, Pepe will try to convert it to a charcode.
 
-## List of screams
+## List of commands
 
-*In Pepe, every command is a scream.*
-
-**Warning:** Pepe was never yet released and commands are yet WIP. Check out issue [#1](https://github.com/Soaku/Pepe/issues/1), there  you can discuss which commands would be useful and which would not.
-
->Counter is the last element of stack.  
->Pre-counter is the element before the last in stack.  
->Pop is operation of deleting the last element of stack.  
->If stack is empty, a new item is automatically added.
-
-### 1 E/e
-
-- `E` - Increase counter by 1
-- `e` - Decrease counter by 1
-
-### 2 E/e
-
-- `Ee` - Move counter to the other stack
-- `EE` - Copy counter to the other stack
-- `ee` - Push input to stack (parsed as integer; if it's string, it's each letter's charcode is pushed instead)
-- `eE` - Push 0 to stack
-
-### 3 E/e
-
-- `EEE` - Output counter
-- `EEe` - `EEE` and pop the stack
-- `EeE` - Read counter as charcode and output it
-- `Eee` - `EeE` and pop the stack
-- `eEE` - Join all items and output them (ex, `13`, `37` = 1337).
-- `eEe` - `eEE` and clear the stack
-- `eeE` - Read all items as charcode, join and output them
-- `eee` - `eeE` and clear the stack
-
-### 4 E/e
-
-- `EEEE` - Sum the stack and output it
-- `EEEe` - `EEEE` and clear the stack
-- `EEeE` - `a` = 0, for each item in stack, starting with last (going backwards); if a+item <= 255, Increase `a` by item, otherwise: read `a` as charcode and output it
-- `EEee` - `EEeE` and remove affected items
-- `EeEE` - Push sum of the stack
-- `EeEe` - `EeEE` and clear the stack, except counter
-- `EeeE` - `EEeE`, but push instead of outputting
-- `Eeee` - `EEee`, but push instead of outputting
-- `eEEE` - Output counter minus sum of other items
-- `eEEe` - `eEEE` and clear the stack
-- `eEeE` - `a` = counter, for each item in stack, starting with the element before last (going backwards); if a-item > 255, Decrease `a` by item, otherwise: read `a` as charcode and output it
-- `eEee` - `eEeE` and remove affected items
-- `eeEE` - `eEEE`, but push instead of outputting
-- `eeEe` - `eeEE`, but clear the stack, except counter
-- `eeeE` - `eEeE`, but push instead of outputting
-- `eeee` - `eEee`, but push instead of outputting
-
-### 5 E/e
-
-- `EEEEE` - Output counter to the 2nd power
-- `EEEEe` - `EEEEE`, but push instead of outputting.
-- `EEEeE` - Output sqrt(counter).
-- `EEEee` - Push sqrt(counter).
-- `EEeEE` - Output counter to the pre-counter power. If there is only one item in the stack, the power is 2.
-- `EEeEe` - `EEeEE`, but push instead of outputting.
-- `EEeeE` - Output the pre-counter'th root of counter.
-- `EEeee` - `EEeeE`, but push instead of outputting.
-
-...Few coming soon functions later...
-
-### 6 E/e soon
-
-### 7 E/e
-
-- `EEEEEEE` - Outputs `https://www.youtube.com/watch?v=m-NgHh36_vU` [lennyface]
-- Coming soon
-
-### 8 E/e
-
-> 8 E/e functions push/output literal characters
->
-> 8 E/e functions starting with `E` output uppercase chars, while functions starting with `e` output lowercase ones.
->
-> 8 E/e functions 2nd letter decides what to do with the character: `E` outputs them, `e`, pushes their charcode.
->
-> 8 E/e functions 3rd letter is actually unused (!)
-
-- `EEEEE` - `a`
-- `EEEEe` - `b`
-- `EEEeE` - `c`
-- `EEEee` - `d`
-- `EEeEE` - `e`
-- `EEeEe` - `f`
-- `EEeeE` - `g`
-- `EEeee` - `h`
-- `EeEEE` - `i`
-- `EeEEe` - `j`
-- `EeEeE` - `k`
-- `EeEee` - `l`
-- `EeeEE` - `m`
-- `EeeEe` - `n`
-- `EeeeE` - `o`
-- `Eeeee` - `p`
-- `eEEEE` - `q`
-- `eEEEe` - `r`
-- `eEEeE` - `s`
-- `eEEee` - `t`
-- `eEeEE` - `u`
-- `eEeEe` - `v`
-- `eEeeE` - `w`
-- `eEeee` - `x`
-- `eeEEE` - `y`
-- `eeEEe` - `z` 
-- `eeEeE` - ` ` space
-- `eeEee` - `\n` Line feed
-- `eeeEE` - `!`
-- `eeeEe` - `?`
-- `eeeeE` - `.`
-- `eeeee` - `,`
+List of all commands is available [here](commands.md)

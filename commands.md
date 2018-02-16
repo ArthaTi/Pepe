@@ -2,8 +2,6 @@
 
 List of commands available in Pepe.
 
-> The name between dashes is the possible function name if Pepe gets an "easy" version (that would be transpiled to normal Pepe). It's also used to refer to the function.
-
 - Click the section title to view corresponding column in [the project](https://github.com/Soaku/Pepe/projects/2).
 - Click the command name to view corresponding note in [the project](https://github.com/Soaku/Pepe/projects/2).
 - `Stack <<` - Push to stack
@@ -41,7 +39,7 @@ List of commands available in Pepe.
 - `eEE` - [WS >> Output as number](https://github.com/Soaku/Pepe/projects/2#card-7344002)
 - `eEe` - [WS >> Output as character](https://github.com/Soaku/Pepe/projects/2#card-7337895)
 - `eeE` - Empty
-- `eee` - Empty
+- `eee` - [WS >> Output as string](https://github.com/Soaku/Pepe/projects/2#card-7493465)
 
 ### [4 E/e (16) Pointer](https://github.com/Soaku/Pepe/projects/2#column-2171962)
 
