@@ -23,7 +23,7 @@ This might not be the cleanest and the shortest solution, but works. Uses the ch
 ### Cat
 
 ```
-ree reeE
+rEEe reee
 ```
 
 Take input and print it. Just note, that if the input is a valid integer, Pepe will try to convert it to a charcode.
