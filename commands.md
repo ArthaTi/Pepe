@@ -39,7 +39,7 @@ List of commands available in Pepe.
 - `Eee` - [WS << Parse input as float](https://github.com/Soaku/Pepe/projects/2#card-7337874)
 - `eEE` - [WS >> Output as number](https://github.com/Soaku/Pepe/projects/2#card-7344002)
 - `eEe` - [WS >> Output as character](https://github.com/Soaku/Pepe/projects/2#card-7337895)
-- `eeE` - Empty
+- `eeE` - [Output newline (`\n`)](https://github.com/Soaku/Pepe/projects/2#card-7501362)
 - `eee` - [WS >> Output as string](https://github.com/Soaku/Pepe/projects/2#card-7493465)
 
 ### [4 E/e (16) Pointer](https://github.com/Soaku/Pepe/projects/2#column-2171962)
