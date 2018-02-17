@@ -8,7 +8,7 @@ Ex: `REEE` operates on stack `R` while `rEEE` operates on stack `r`.
 
 Every R/r is followed by a specific amount of E/e, which tells, what command is executed.
 
-Untested and uncomplete interpreter available [on JSFiddle](https://jsfiddle.net/mjam3s6r/1/).
+Untested and uncomplete interpreter available [on JSFiddle](https://jsfiddle.net/mjam3s6r/5/).
 
 ## Examples
 
