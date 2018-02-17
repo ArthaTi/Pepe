@@ -25,7 +25,7 @@ List of commands available in Pepe.
   - Calling again with the same name will result in replacing previous label
 - `Ee` - [Return to where a goto was called last](https://github.com/Soaku/Pepe/projects/2#card-7339434)
 - `eE` - [Goto label X if WS isn't empty](https://github.com/Soaku/Pepe/projects/2#card-7338767)
-- `eE` - [Goto label X if active item is > 0](https://github.com/Soaku/Pepe/projects/2#card-7338775)
+- `ee` - [Goto label X if active item is > 0](https://github.com/Soaku/Pepe/projects/2#card-7338775)
 
 ### [3 E/e (8) I/O](https://github.com/Soaku/Pepe/projects/2#column-2171797)
 
