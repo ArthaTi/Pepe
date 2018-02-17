@@ -29,8 +29,6 @@ List of commands available in Pepe.
 
 ### [3 E/e (8) I/O](https://github.com/Soaku/Pepe/projects/2#column-2171797)
 
-*2 slots left*
-
 > If input is a string, every contained byte is pushed as an integer
 
 - `EEE` - [WS << Auto-parse input](https://github.com/Soaku/Pepe/projects/2#card-7337865)
@@ -40,7 +38,7 @@ List of commands available in Pepe.
 - `eEE` - [WS >> Output as number](https://github.com/Soaku/Pepe/projects/2#card-7344002)
 - `eEe` - [WS >> Output as character](https://github.com/Soaku/Pepe/projects/2#card-7337895)
 - `eeE` - [Output newline (`\n`)](https://github.com/Soaku/Pepe/projects/2#card-7501362)
-- `eee` - [Output WS content as string](https://github.com/Soaku/Pepe/projects/2#card-7493465)
+- `eee` - [Output WS content as string without popping](https://github.com/Soaku/Pepe/projects/2#card-7493465)
 
 ### [4 E/e (16) Pointer](https://github.com/Soaku/Pepe/projects/2#column-2171962)
 
