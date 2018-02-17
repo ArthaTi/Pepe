@@ -102,8 +102,8 @@ List of commands available in Pepe.
 - `EEEEEee` - [Copy WS content to the other stack](https://github.com/Soaku/Pepe/projects/2#card-7338052)
 - `EEEEeEE` - [Reverse stack names (R = r; r = R)](https://github.com/Soaku/Pepe/projects/2#card-7344098)
 - `EEEEeEe` - Empty
-- `EEEEeeE` - [Dupe diff - Remove items from WS that occur in the other stack](https://github.com/Soaku/Pepe/projects/2#card-7487263)
-- `EEEEeee` - [Diff - Remove items from wS that **don't** occur in the other stack](https://github.com/Soaku/Pepe/projects/2#card-7487284)
+- `EEEEeeE` - [Diff - Remove items from WS that occur in the other stack](https://github.com/Soaku/Pepe/projects/2#card-7487263)
+- `EEEEeee` - [Reverse diff - Remove items from wS that **don't** occur in the other stack](https://github.com/Soaku/Pepe/projects/2#card-7487284)
 
 ### [8 E/e (256) Full stack](https://github.com/Soaku/Pepe/projects/2#column-2172176)
 
