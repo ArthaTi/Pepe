@@ -5,7 +5,7 @@ List of commands available in Pepe.
 - Click the section title to view corresponding column in [the project](https://github.com/Soaku/Pepe/projects/2).
 - Click the command name to view corresponding note in [the project](https://github.com/Soaku/Pepe/projects/2).
 - `Stack <<` - Push to stack
-- `Stack >>` - Pop from stack and perform action on the popped item.
+- `Stack >>` - Pop **selected item** from the stack and perform action on the popped item.
 - Pushed items always go to the end of stack and they don't change pointer location.
 
 ## Planned
