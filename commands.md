@@ -137,7 +137,7 @@ First letter:
 Following letters are parsed as:
 
 - `E` - 1
-- - 0
+- `e` - 0
 
 Converted to a binary number, then to a corresponding ASCII character.
 
