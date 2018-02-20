@@ -110,6 +110,8 @@ List of commands available in Pepe.
 *246 slots left*
 
 > Commands operating on the whole stack
+>
+> Unlike a lot of other commands, these don't clear the stack! [See information](https://github.com/Soaku/Pepe/projects/2#card-7488668)
 
 - `EEEEEEEE` - [Sum (+)](https://github.com/Soaku/Pepe/projects/2#card-7338609)
 - `EEEEEEEe` - Empty
