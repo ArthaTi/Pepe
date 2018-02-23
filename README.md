@@ -8,24 +8,22 @@ Ex: `REEE` operates on stack `R` while `rEEE` operates on stack `r`.
 
 Every R/r is followed by a specific amount of E/e, which tells, what command is executed.
 
-Untested and uncomplete interpreter available [on JSFiddle](https://jsfiddle.net/mjam3s6r/5/).
-
 ## Examples
 
 ### Hello, World!
 
 ```
-reeEeeEeee reeEEeeEeE rEeEEeEEee reee reee reeEEeEEEE reeeEeEEee reeeEeeeee reeEeEeEEE reeEEeEEEE reeEEEeeEe reee reeEEeeEee reeeEeeeeE
+reeEeeEeee reeEEeeEeE rEeEEeEEee reEe reEe reeEEeEEEE reeeEeEEee reeeEeeeee reeEeEeEEE reeEEeEEEE reeEEEeeEe reEe reeEEeeEee reeeEeeeeE
 ```
 
 This might not be the cleanest and the shortest solution, but works. Uses the character constants and outputs `Hello, World!`.
 
-`l` here is stored as a variable and is repeated. Every `reee` here prints one `l`.
+`l` here is stored as a variable and is repeated. Every `reEe` here prints one `l`.
 
 ### Cat
 
 ```
-rEEe reee
+REEE Reee 
 ```
 
 Take input and print it. Just note, that if the input is a valid integer, Pepe will try to convert it to a charcode.
