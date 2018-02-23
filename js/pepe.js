@@ -105,7 +105,7 @@ function nstack() {
    pop: function() {
 	 var t = this;
 	 var sel = t.now();
-	 delete t[t.pointer];
+	 t.array.splice(t.pointer, 1);
 	 return sel;
    },
  };
