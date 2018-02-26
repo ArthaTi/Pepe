@@ -350,6 +350,7 @@ function pepe(code, inp) {
 				break;
 			case "EEeEeE":
 				stack.push(stack.pop() % other.pop());
+				break;
 				// Empty slots
 				
 
