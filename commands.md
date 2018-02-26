@@ -8,7 +8,7 @@ List of commands available in Pepe.
 - `Stack >>` - Pop **selected item** from the stack and perform action on the popped item.
 - Pushed items always go to the end of stack and they don't change pointer location.
 
-## Planned
+## v.1.0 alpha
 
 ### [1 E/e (2) Basic stack operations](https://github.com/Soaku/Pepe/projects/2#column-2205663)
 
@@ -25,7 +25,8 @@ List of commands available in Pepe.
   - Calling again with the same name will result in replacing previous label
 - `Ee` - [Return to where a goto was called last](https://github.com/Soaku/Pepe/projects/2#card-7339434)
 - `eE` - [Goto label X if WS isn't empty](https://github.com/Soaku/Pepe/projects/2#card-7338767)
-- `ee` - [Goto label X if active item is > 0](https://github.com/Soaku/Pepe/projects/2#card-7338775)
+- `ee` - [Goto label X if active item is > 0](https://github.com/Soaku/Pepe/projects/2#card-7338775)  
+   [*deprecated*](#planned)
 
 ### [3 E/e (8) I/O](https://github.com/Soaku/Pepe/projects/2#column-2171797)
 
@@ -146,3 +147,9 @@ Following letters are parsed as:
 Converted to a binary number, then to a corresponding ASCII character.
 
 Ex: To print `A`, the command would be `reEeeeeeeE`.
+
+## Planned
+
+### 2 E/e (4) Program flow
+
+- `ee` - [Goto label X if active item is equal to the active item in the other stack](https://github.com/Soaku/Pepe/projects/2#card-7716208)
