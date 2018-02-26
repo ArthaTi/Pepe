@@ -53,6 +53,10 @@ function nstack() {
 			} else if (t.pointer < 0) {
 				t.pointer = 0;
 			}
+			if (!t.array.length) {
+				t.push(0);
+				t.pointer = 0;
+			}
 		},
 		now: function() {
 			var t = this;
@@ -179,15 +183,15 @@ function pepe(code, inp) {
 					i = lgoto + 1;
 				}
 				continue loop;
-			case "eE": // goto if ws
+			case "eE": // goto if WI == OI
 				lgoto = i;
-				if (stack.array.length) {
+				if (stack.now() == other.now()) {
 					i = labels.goto(stack.now());
 				}
 				continue loop;
-			case "ee": // goto if active item > 0
+			case "ee": // goto if WI != OI
 				lgoto = i;
-				if (stack.now() > 0) {
+				if (stack.now() != other.now()) {
 					i = labels.goto(stack.now());
 				}
 				continue loop;
