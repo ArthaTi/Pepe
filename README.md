@@ -1,12 +1,14 @@
 # Pepe
 
-Pepe is a programming language, which uses only 4 characters: `r`, `e`, `R`, `E`. Others are ignored. Also, it's preffered to separate commands with a space
+Pepe is a programming language based on an outdated meme*, which uses only 4 characters: `r`, `e`, `R`, `E`. Others are ignored. Also, it's preffered to separate commands with a space
 
 Pepe is stack-based and has 2 stacks: `r` and `R`. Every command starts with the stack name, defining on which stack will it work.
 
 Ex: `REEE` operates on stack `R` while `rEEE` operates on stack `r`.
 
 Every R/r is followed by a specific amount of E/e, which tells, what command is executed.
+
+* It's time ended long ago, but it's the type of meme that is and will be still *used* - For example to show how negative you are about something, like "REEEEEE Why there's so much normies?!"
 
 ## Examples
 
