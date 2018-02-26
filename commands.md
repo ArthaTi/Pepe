@@ -54,7 +54,7 @@ List of commands available in Pepe.
 
 ### [5 E/e (32) Active item](https://github.com/Soaku/Pepe/projects/2#column-2173896)
 
-*16 slots left*
+*14 slots left*
 
 - `EEEEE` - [Increment active item](https://github.com/Soaku/Pepe/projects/2#card-7338659)
 - `EEEEe` - [Decrement active item](https://github.com/Soaku/Pepe/projects/2#card-7338662)
@@ -72,10 +72,12 @@ List of commands available in Pepe.
 - `EeeEe` - [Cube - Raise active item to third power](https://github.com/Soaku/Pepe/projects/2#card-7487662)
 - `EeeeE` - [Square root of active item](https://github.com/Soaku/Pepe/projects/2#card-7488241)
 - `Eeeee` - [Cube root of active item](https://github.com/Soaku/Pepe/projects/2#card-7488346)
+- `eEEEE` - [Modulo 2 of active item](https://github.com/Soaku/Pepe/projects/2#card-7708043)
+- `eEEEe` - [Modulo 3 of active item](https://github.com/Soaku/Pepe/projects/2#card-7708024)
 
 ### [6 E/e (64) 2 value](https://github.com/Soaku/Pepe/projects/2#column-2172019)
 
-*56 slots left*
+*55 slots left*
 
 > Commands operating on active items from both stacks.
 >
@@ -91,6 +93,8 @@ List of commands available in Pepe.
 - `EEEeee` - Empty
 - `EEeEEE` - [WS << A^B](https://github.com/Soaku/Pepe/projects/2#card-7487563)
 - `EEeEEe` - [WS << B'th root of A](https://github.com/Soaku/Pepe/projects/2#card-7487580)
+- `EEeEeE` - [WS << A%B (modulo)](https://github.com/Soaku/Pepe/projects/2#card-7708060)
+- `EEeEee` - Empty
 
 ### [7 E/e (128) Cross-stack](https://github.com/Soaku/Pepe/projects/2#column-2172008)
 
