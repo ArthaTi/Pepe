@@ -231,9 +231,9 @@ function pepe(code, inp) {
 				output("\n");
 				break;
 			case "eee":
-				for (let i in stack.array) {
-					output(String.fromCharCode(stack.array[i]));
-				}
+				stack.array.forEach(function(i) {
+					output(String.fromCharCode(i));
+				});
 				break;
 
 			// 4 E/e (pointer)
