@@ -8,7 +8,7 @@ List of commands available in Pepe.
 - `Stack >>` - Pop **selected item** from the stack and perform action on the popped item.
 - Pushed items always go to the end of stack and they don't change pointer location.
 
-## Planned
+## v.1.0 alpha
 
 ### [1 E/e (2) Basic stack operations](https://github.com/Soaku/Pepe/projects/2#column-2205663)
 
