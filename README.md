@@ -8,7 +8,7 @@ Ex: `REEE` operates on stack `R` while `rEEE` operates on stack `r`.
 
 Every R/r is followed by a specific amount of E/e, which tells, what command is executed.
 
-* It's time ended long ago, but it's the type of meme that is and will be still *used* - For example to show how negative you are about something, like "REEEEEE Why there's so much normies?!"
+\*It's time ended long ago, but it's the type of meme that is and will be still *used* - For example to show how negative you are about something, like "REEEEEE Why there's so much normies?!"
 
 ## Examples
 
