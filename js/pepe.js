@@ -68,11 +68,7 @@ function nstack() {
 		set: function(val) {
 			var t = this;
 			t.refresh();
-			if (t.array.length) {
-				t.array[t.pointer] = val;
-			} else {
-				t.push(val);
-			}
+			t.array[t.pointer] = val;
 			return val;
 		},
 		next: function() {
@@ -119,6 +115,8 @@ function pepe(code, inp) {
 	var out = "";
 
 	function output(text) {
+		console.log(JSON.stringify(text));
+		debugger;
 		out += text;
 		return text;
 	}
@@ -134,7 +132,7 @@ function pepe(code, inp) {
 			if (t.hasOwnProperty(label)) {
 				return t[label];
 			} else {
-				return 0;
+				return -1;
 			}
 		}
 	};
@@ -176,25 +174,33 @@ function pepe(code, inp) {
 			// 2 E/e (flow)
 			case "EE": // label
 				labels[stack.now()] = i;
+				console.log("label",i);
 				break;
 			case "Ee": // return
 				debug(lgoto);
 				if (lgoto > 0) {
 					i = lgoto + 1;
 				}
-				continue loop;
+				break;
 			case "eE": // goto if WI == OI
 				lgoto = i;
 				if (stack.now() == other.now()) {
-					i = labels.goto(stack.now());
+					var n = labels.goto(stack.now());
+					if (n != -1) {
+						i = n;
+					}
 				}
-				continue loop;
+				break;
 			case "ee": // goto if WI != OI
 				lgoto = i;
 				if (stack.now() != other.now()) {
-					i = labels.goto(stack.now());
+					var n = labels.goto(stack.now());
+					if (n != -1) {
+						i = n;
+					}
 				}
-				continue loop;
+				console.log(stack.now(), other.now(), "goto",i);
+				break;
 
 			// 3 E/e (I/O)
 			case "EEE":
@@ -366,7 +372,7 @@ function pepe(code, inp) {
 				other.push(stack.pop());
 				break;
 			case "EEEEEEe": // copy single
-				other.push(stack.get());
+				other.push(stack.now());
 				break;
 			case "EEEEEeE": // move all
 			case "EEEEEee": // copy all
@@ -448,6 +454,7 @@ function pepe(code, inp) {
 					var res = scream.substr(1).replace(/e/g, 0).replace(/E/g, 1).toString(2);
 					var deb = res;
 					res = parseInt(res, 2);
+					console.log(push, res, String.fromCharCode(res));
 					//debug(res, push);
 					if (push) {
 						stack.push(res);
