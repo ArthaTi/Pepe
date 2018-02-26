@@ -208,14 +208,14 @@ function pepe(code, inp) {
 				}
 				break;
 			case "EeE":
-				if (isNan(inp)) {
+				if (isNaN(inp)) {
 					stack.push(0);
 				} else {
 					stack.push(Math.round(inp))
 				}
 				break;
 			case "Eee":
-				if (isNan(inp)) {
+				if (isNaN(inp)) {
 					stack.push(0);
 				} else {
 					stack.push(inp)
