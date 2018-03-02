@@ -8,6 +8,8 @@ Ex: `REEE` operates on stack `R` while `rEEE` operates on stack `r`.
 
 Every R/r is followed by a specific amount of E/e, which tells, what command is executed.
 
+Pepe might also participate in codegolf, because it support 2 forms of code: normal and shortened. Well, it's not that great to compete with Jelly, but it's able to fight with Python.
+
 \*It's time ended long ago, but it's the type of meme that is and will be still *used* - For example to show how negative you are about something, like "REEEEEE Why there's so much normies?!"
 
 ## Examples
