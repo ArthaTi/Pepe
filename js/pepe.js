@@ -116,7 +116,6 @@ function pepe(code, inp) {
 
 	function output(text) {
 		console.log(JSON.stringify(text));
-		debugger;
 		out += text;
 		return text;
 	}

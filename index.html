@@ -21,7 +21,7 @@
 
 <body>
 
-<p>Code <button onclick="gettext()">Generate text</button></p>
+<p>Code <button onclick="gettext()">Generate text</button> <button onclick="getlink()">Get link</button> <a id="link"></a></p>
 <textarea id="code" rows="15"></textarea>
 <p>Input</p>
 <textarea id="input"></textarea>
@@ -33,12 +33,48 @@
 <pre id="debug"></pre>
 
 <script>
-var gettext = function(){alert("Wait a bit, please!")};
- $(function() {
+var getlink, gettext;
+getlink = gettext = function(){alert("Wait a bit, then retry, please!")};
+$(function() {
+
+	var loadc = location.hash.substr(1);
+	console.log(loadc);
+	if (loadc) {
+		var code = loadc.replace(/(z)/gi, " $1");
+		code = code.split(" ");
+		console.log(code);
+		code = code.filter(function(i) {
+			return i
+		});
+		code = code.map(function(i) {
+			console.log(i.charAt(0));
+			return i.charAt(0).replace("z", "r").replace("Z", "R")+parseInt(i.substr(1), 35).toString(2).substr(1).replace(/0/g, "e").replace(/1/g, "E");
+		}).join(" ");
+		$("#code").text(code);
+	}
  
+	getlink = function() {
+		code = $("#code").val();
+		code = code.replace(/#.*|[^re]/ig, "");
+		code = code.replace(/(r)/gi, " $1");
+		code = code.replace(/r/g, "z");
+		code = code.replace(/R/g, "Z");
+		code = code.replace(/E/g, "1");
+		code = code.replace(/e/g, "0");
+		code = code.split(" ");
+		code = code.filter(function(i) {
+			return i
+		});
+		code = code.map(function(i) {
+			return i.charAt(0)+parseInt("1"+i.substr(1), 2).toString(35);
+		}).join("");
+		console.log(code);
+		$("#link").text("#"+code).attr("href", "#"+code);
+	}
  
 	gettext = function() {
 		var val = prompt("Enter text");
+		if (!val) val = "";
 		var res = "";
 		for (let i = 0; i < val.length; i++) { // For each, except first, letter
 			var ch = val.charCodeAt(i).toString(2).padStart(8, "e");
