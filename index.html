@@ -21,7 +21,8 @@
 
 <body>
 
-<p>Code <button onclick="gettext()">Generate text</button> <button onclick="getlink()">Get link</button> <a id="link"></a></p>
+<p>Code <button onclick="gettext()">Generate text</button> <a id="link"></a></p>
+<p style="font-size:0.75em" id="count"></p>
 <textarea id="code" rows="15"></textarea>
 <p>Input</p>
 <textarea id="input"></textarea>
@@ -33,24 +34,18 @@
 <pre id="debug"></pre>
 
 <script>
-var getlink, gettext;
+var getlink, gettext, init = false;
 getlink = gettext = function(){alert("Wait a bit, then retry, please!")};
 $(function() {
 
-	var loadc = location.hash.substr(1);
-	console.log(loadc);
-	if (loadc) {
-		var code = loadc.replace(/(z)/gi, " $1");
-		code = code.split(" ");
-		console.log(code);
-		code = code.filter(function(i) {
-			return i
-		});
-		code = code.map(function(i) {
-			console.log(i.charAt(0));
-			return i.charAt(0).replace("z", "r").replace("Z", "R")+parseInt(i.substr(1), 35).toString(2).substr(1).replace(/0/g, "e").replace(/1/g, "E");
-		}).join(" ");
-		$("#code").text(code);
+	$("#code").keyup(calclen);
+
+	function calclen() {
+		if (init) {
+			var code = $("#code").val();
+			code = code.replace(/[^rReE]/g, "");
+			$("#count").text(code.length+" bytes golfed, "+getlink().length+" shortened");
+		}
 	}
  
 	getlink = function() {
@@ -68,8 +63,9 @@ $(function() {
 		code = code.map(function(i) {
 			return i.charAt(0)+parseInt("1"+i.substr(1), 2).toString(35);
 		}).join("");
-		console.log(code);
+		//console.log(code);
 		$("#link").text("#"+code).attr("href", "#"+code);
+		return code;
 	}
  
 	gettext = function() {
@@ -84,6 +80,7 @@ $(function() {
 			res += " re"+ch;
 		}
 		$("#code").val($("#code").val()+res);
+		calclen();
 	}
 
   
@@ -102,6 +99,28 @@ $(function() {
     	console.log("Error caught");
     	$("#debug").text(a.message);
     }
+	
+	init = true;
+	
+	
+	
+
+	var loadc = location.hash.substr(1);
+	if (loadc) {
+		var code = loadc.replace(/(z)/gi, " $1");
+		code = code.split(" ");
+		//console.log(code);
+		code = code.filter(function(i) {
+			return i
+		});
+		code = code.map(function(i) {
+			console.log(i.charAt(0));
+			return i.charAt(0).replace("z", "r").replace("Z", "R")+parseInt(i.substr(1), 35).toString(2).substr(1).replace(/0/g, "e").replace(/1/g, "E");
+		}).join(" ");
+		$("#code").val(code);
+		calclen();
+	}
+	
 });
 </script>
 </body>
