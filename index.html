@@ -7,6 +7,7 @@
   integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4="
   crossorigin="anonymous"></script>
   <script src="js/pepe.js"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   
   <style>
 	textarea {
@@ -21,7 +22,8 @@
 
 <body>
 
-<p>Code <button onclick="gettext()">Generate text</button> <a id="link"></a></p>
+<p>Code <button onclick="gettext()">Generate text</button></p>
+<p>Shortened: <code><a id="link"></a></code></p>
 <p style="font-size:0.75em" id="count"></p>
 <textarea id="code" rows="15"></textarea>
 <p>Input</p>
@@ -44,7 +46,7 @@ $(function() {
 		if (init) {
 			var code = $("#code").val();
 			code = code.replace(/[^rReE]/g, "");
-			$("#count").text(code.length+" bytes golfed, "+getlink().length+" shortened");
+			$("#count").text(code.length+" bytes minimum, "+getlink().length+" compressed");
 		}
 	}
  
@@ -64,7 +66,7 @@ $(function() {
 			return i.charAt(0)+parseInt("1"+i.substr(1), 2).toString(35);
 		}).join("");
 		//console.log(code);
-		$("#link").text("#"+code).attr("href", "#"+code);
+		$("#link").text(code).attr("href", "#"+code);
 		return code;
 	}
  
