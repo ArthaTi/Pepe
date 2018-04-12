@@ -23,7 +23,7 @@
 <body>
 
 <p>Code <button onclick="gettext()">Generate text</button></p>
-<p>Shortened: <code><a id="link"></a></code></p>
+<p>Compressed & permalink: <code><a id="link"></a></code></p>
 <p style="font-size:0.75em" id="count"></p>
 <textarea id="code" rows="15"></textarea>
 <p>Input</p>
@@ -45,6 +45,7 @@ $(function() {
 	function calclen() {
 		if (init) {
 			var code = $("#code").val();
+			code = code.replace(/#.*/g, "");
 			code = code.replace(/[^rReE]/g, "");
 			$("#count").text(code.length+" bytes minimum, "+getlink().length+" compressed");
 		}
