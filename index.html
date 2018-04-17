@@ -41,6 +41,36 @@ getlink = gettext = function(){alert("Wait a bit, then retry, please!")};
 $(function() {
 
 	$("#code").keyup(calclen);
+	
+	function upperPepe(x) {
+		x = x.toUpperCase();
+		x = x.replace(/1/g, "!");
+		x = x.replace(/2/g, "@");
+		x = x.replace(/3/g, "-");
+		x = x.replace(/4/g, "$");
+		x = x.replace(/5/g, ".");
+		x = x.replace(/6/g, "_");
+		x = x.replace(/7/g, "&");
+		x = x.replace(/8/g, "*");
+		x = x.replace(/9/g, "/");
+		x = x.replace(/0/g, "?");
+		return x;
+	}
+	
+	function lowerPepe(x) {
+		x = x.toLowerCase();
+		x = x.replace(/\!/g, "1");
+		x = x.replace(/\@/g, "2");
+		x = x.replace(/\-/g, "3");
+		x = x.replace(/\$/g, "4");
+		x = x.replace(/\./g, "5");
+		x = x.replace(/\_/g, "6");
+		x = x.replace(/\&/g, "7");
+		x = x.replace(/\*/g, "8");
+		x = x.replace(/\//g, "9");
+		x = x.replace(/\?/g, "0");
+		return x;
+	}
 
 	function calclen() {
 		if (init) {
@@ -55,16 +85,20 @@ $(function() {
 		code = $("#code").val();
 		code = code.replace(/#.*|[^re]/ig, "");
 		code = code.replace(/(r)/gi, " $1");
-		code = code.replace(/r/g, "z");
-		code = code.replace(/R/g, "Z");
 		code = code.replace(/E/g, "1");
 		code = code.replace(/e/g, "0");
 		code = code.split(" ");
-		code = code.filter(function(i) {
-			return i
+		code = code.filter(function(x) {
+			return x;
 		});
-		code = code.map(function(i) {
-			return i.charAt(0)+parseInt("1"+i.substr(1), 2).toString(35);
+		code = code.map(function(x) {
+			var stack = x.charAt(0)
+			x = x.substr(1);
+			x = "1"+x+(+(stack == "R"));
+			x = parseInt(x, 2).toString(36);
+			x = upperPepe(x.charAt(0)) + x.substr(1);
+			console.log(x);
+			return x;
 		}).join("");
 		//console.log(code);
 		$("#link").text(code).attr("href", "#"+code);
@@ -110,16 +144,40 @@ $(function() {
 
 	var loadc = location.hash.substr(1);
 	if (loadc) {
-		var code = loadc.replace(/(z)/gi, " $1");
-		code = code.split(" ");
-		//console.log(code);
-		code = code.filter(function(i) {
-			return i
-		});
-		code = code.map(function(i) {
-			console.log(i.charAt(0));
-			return i.charAt(0).replace("z", "r").replace("Z", "R")+parseInt(i.substr(1), 35).toString(2).substr(1).replace(/0/g, "e").replace(/1/g, "E");
-		}).join(" ");
+		var fl = loadc.charAt(0)
+		
+		// If the first letter is uppercase, 
+		if (fl == fl.toUpperCase()) {
+		
+			// It's the new compressor
+			var code = loadc.replace(/([\W_A-Z])/gi, " $1");
+			code = code.split(" ");
+			//console.log(code);
+			code = code.filter(function(i) {
+				return i
+			});
+			code = code.map(function(i) {
+				i = parseInt(lowerPepe(i), 36).toString(2).substr(1);
+				var stack = i.slice(-1).replace("0", "r").replace("1", "R");
+				return stack + i.slice(0, -1).replace(/0/g, "e").replace(/1/g, "E");
+			}).join(" ");
+			
+		} else {
+			// It's the old one
+			
+			var code = loadc.replace(/(z)/gi, " $1");
+			code = code.split(" ");
+			//console.log(code);
+			code = code.filter(function(i) {
+				return i
+			});
+			code = code.map(function(i) {
+				console.log(i.charAt(0));
+				return i.charAt(0).replace("z", "r").replace("Z", "R")+parseInt(i.substr(1), 35).toString(2).substr(1).replace(/0/g, "e").replace(/1/g, "E");
+			}).join(" ");
+			
+		}
+		
 		$("#code").val(code);
 		calclen();
 	}
