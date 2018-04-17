@@ -145,12 +145,13 @@ $(function() {
 	var loadc = location.hash.substr(1);
 	if (loadc) {
 		var fl = loadc.charAt(0)
+		var code = loadc;
 		
 		// If the first letter is uppercase, 
 		if (fl == fl.toUpperCase()) {
 		
 			// It's the new compressor
-			var code = loadc.replace(/([\W_A-Z])/gi, " $1");
+			code = code.replace(/([\W_A-Z])/g, " $1");
 			code = code.split(" ");
 			//console.log(code);
 			code = code.filter(function(i) {
@@ -165,7 +166,7 @@ $(function() {
 		} else {
 			// It's the old one
 			
-			var code = loadc.replace(/(z)/gi, " $1");
+			code = code.replace(/(z)/gi, " $1");
 			code = code.split(" ");
 			//console.log(code);
 			code = code.filter(function(i) {
