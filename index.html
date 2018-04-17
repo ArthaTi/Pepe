@@ -101,6 +101,7 @@ $(function() {
 			return x;
 		}).join("");
 		//console.log(code);
+		
 		$("#link").text(code).attr("href", "#"+code);
 		return code;
 	}
@@ -144,13 +145,12 @@ $(function() {
 
 	var loadc = location.hash.substr(1);
 	if (loadc) {
-		var fl = loadc.charAt(0)
 		var code = loadc;
 		
-		// If the first letter is uppercase, 
-		if (fl == fl.toUpperCase()) {
-		
+		// If it contains a letter that wasn't used in the old compressor, 
+		if (/[\W_A-Y]/.test(code)) {
 			// It's the new compressor
+			
 			code = code.replace(/([\W_A-Z])/g, " $1");
 			code = code.split(" ");
 			//console.log(code);
