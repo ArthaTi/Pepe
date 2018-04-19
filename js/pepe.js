@@ -227,7 +227,7 @@ function pepe(code, inp) {
 				if (isNaN(inp)) {
 					stack.push(0);
 				} else {
-					stack.push(inp)
+					stack.push(parseFloat(inp))
 				}
 				break;
 			case "eEE":
