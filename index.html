@@ -3,10 +3,11 @@
 
 <head>
   <script
-  src="https://code.jquery.com/jquery-3.3.0.min.js"
+  src="http://code.jquery.com/jquery-3.3.0.min.js"
   integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4="
   crossorigin="anonymous"></script>
   <script src="js/pepe.js"></script>
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   
   <style>
@@ -16,6 +17,7 @@
 
 	pre {
 	  white-space: pre-wrap;
+	  word-wrap: break-word;
 	}
   </style>
 </head>
@@ -28,10 +30,22 @@
 <textarea id="code" rows="15"></textarea>
 <p>Input</p>
 <textarea id="input"></textarea>
-<button id="run">Run</button>
+<button id="run">Run</button> <button id="step" disabled>Step</button> <span id="steps"></span>
 
 <p>Output</p>
 <pre id="output"></pre>
+
+<p>Execution flags</p>
+<div>
+	<input type="checkbox" id="boxstep" name="step"> 
+	<label for="boxstep">Debug step by step</label>
+	
+	<div style="margin-left:20px;">
+		<input type="checkbox" id="boxclear" name="clear" checked> 
+		<label for="boxclear">Clear log each step</label>
+	</div>
+</div>
+
 <p>Debug</p>
 <pre id="debug"></pre>
 
@@ -124,15 +138,57 @@ $(function() {
   
     
     try {
+		var stdlog = function(){
+						var d = $("#debug");
+						var args = Array.prototype.slice.call(arguments);
+						d.text(d.text()+args.join(" ")+"\n");
+						return arguments[0];
+					}
+	
+		var exc, res, can=false;
     	$("#run").click(function(){
-      	$("#debug, #output").text("");
-    		$("#output").text(pepe($("#code").val(), $("#input").val(), function(){
-        	var d = $("#debug");
-          var args = Array.prototype.slice.call(arguments);
-        	d.text(d.text()+args.join(" ")+"\n");
-          return arguments[0];
-        }));
-      });
+			$("#debug, #output").text("");
+			if ($("[name=step]:checked").length) {
+				exc = pepe(
+					$("#code").val(),
+					$("#input").val(),
+					stdlog,
+					{"step":true}
+				);
+				//console.log(exc);
+				$("#steps").text(0);
+				if (exc) {
+					can = true;
+					$("#step")
+						.prop("disabled", false)
+						.click(function() {
+							if (!can) return;
+						
+							if ($("[name=clear]:checked").length) {
+								$("#debug").text("");
+							}
+						
+							res = exc();
+							console.log(res)
+							if (res) {
+								$("#output").text(res[1]);	
+								$("#steps").text(+$("#steps").text()+1)
+							}
+							if (!res || res[0]) {
+								can = false;
+								$("#step").prop("disabled", true);
+								stdlog("Execution finished")
+							}
+						})
+				} else {
+					stdlog("Nothing to execute.")
+				}
+			} else {
+				$("#output").text(
+					pepe($("#code").val(), $("#input").val(), stdlog)
+				);
+			}
+		});
     } catch(a) {
     	console.log("Error caught");
     	$("#debug").text(a.message);

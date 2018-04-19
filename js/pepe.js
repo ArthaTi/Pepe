@@ -113,6 +113,7 @@ function nstack() {
 
 function pepe(code, inp) {
 	var out = "";
+	var flags = {};
 
 	function output(text) {
 		console.log(JSON.stringify(text));
@@ -123,7 +124,18 @@ function pepe(code, inp) {
 	var debug = function() {
 		console.log.apply(window, arguments);
 	}
-	if (arguments.length >= 3) debug = arguments[2];
+	
+	if (arguments.length >= 3) {
+		var fi = 2;
+		if (typeof arguments[2] == "function") {
+			debug = arguments[2];
+			fi = 3;
+		} 
+		
+		if (arguments.length > fi) {
+			flags = arguments[fi];
+		}
+	}
 
 	var labels = {
 		goto: function(label) {
@@ -146,7 +158,11 @@ function pepe(code, inp) {
 	code = code.filter(function(i) {
 		return i
 	});
-	loop: for (var i = 0; i < code.length; i++) {
+	
+	var i = -1;
+	var loop = function() {
+		if (i >= code.length) return false;
+		i++;
 		var cmd = code[i];
 		var stack, other;
 		switch (cmd.charAt(0)) {
@@ -159,24 +175,28 @@ function pepe(code, inp) {
 				other = stacks.r;
 				break;
 		}
+		var expl = cmd+"  # ";
 		var scream = cmd.substr(1);
 		console.log(stack, other, scream);
 		switch (scream) {
 			// 1 E/e (basic)
 			case "E":
+				expl += "Push 0"
 				stack.push(0);
 				break;
 			case "e":
+				expl += "Pop the stack"
 				stack.pop();
 				break;
 
 			// 2 E/e (flow)
 			case "EE": // label
+				expl += "Create label "+stack.now();
 				labels[stack.now()] = i;
 				console.log("label",i);
 				break;
 			case "Ee": // return
-				debug(lgoto);
+				expl += "Return to command "+(lgoto+1)
 				if (lgoto > 0) {
 					i = lgoto + 1;
 				}
@@ -184,19 +204,25 @@ function pepe(code, inp) {
 			case "eE": // goto if WI == OI
 				lgoto = i;
 				if (stack.now() == other.now()) {
+					expl += "A==B, Goto label "+stack.now();
 					var n = labels.goto(stack.now());
 					if (n != -1) {
 						i = n;
 					}
+				} else {
+					expl += "A==B, false";
 				}
 				break;
 			case "ee": // goto if WI != OI
 				lgoto = i;
 				if (stack.now() != other.now()) {
+					expl += "A!=B, Goto label "+stack.now();
 					var n = labels.goto(stack.now());
 					if (n != -1) {
 						i = n;
 					}
+				} else {
+					expl += "A!=B, false";
 				}
 				console.log(stack.now(), other.now(), "goto",i);
 				break;
@@ -204,42 +230,55 @@ function pepe(code, inp) {
 			// 3 E/e (I/O)
 			case "EEE":
 				if (isNaN(inp) || !inp.length) {
+					expl += "Input auto-parsed as string"
 					for (var j = 0; j < inp.length; j++) {
 						stack.push(inp.charCodeAt(j));
 					}
 				} else {
-					stack.push(parseFloat(inp, 10));
+					expl += "Input auto-parsed as number"
+					var parse = parseFloat(inp, 10);
+					debug("input:",parse)
+					stack.push(parse);
 				}
 				break;
 			case "EEe":
+				expl += "Input (string)"
 				for (let j = 0; j < inp.length; j++) {
 					stack.push(inp.charCodeAt(j));
 				}
 				break;
 			case "EeE":
 				if (isNaN(inp)) {
+					expl += "Input isn't a number, push 0 instead";
 					stack.push(0);
 				} else {
+					expl += "Input (int): "+Math.round(inp);
 					stack.push(Math.round(inp))
 				}
 				break;
 			case "Eee":
 				if (isNaN(inp)) {
+					expl += "Input isn't a number, push 0 instead";
 					stack.push(0);
 				} else {
+					expl += "Input (float): "+inp;
 					stack.push(parseFloat(inp))
 				}
 				break;
 			case "eEE":
+				expl += "Output as number";
 				output(stack.pop());
 				break;
 			case "eEe":
+				expl += "Output as character"
 				output(String.fromCharCode(stack.pop()));
 				break;
 			case "eeE":
+				expl += "Output line break"
 				output("\n");
 				break;
 			case "eee":
+				expl += "Output stack as string";
 				stack.array.forEach(function(i) {
 					output(String.fromCharCode(i));
 				});
@@ -247,74 +286,96 @@ function pepe(code, inp) {
 
 			// 4 E/e (pointer)
 			case "EEEE":
+				expl += "Move pointer to first position";
 				stack.pointer = 0;
 				break;
 			case "EEEe":
+				expl += "Move pointer to last position";
 				stack.pointer = stack.array.length - 1;
 				break;
 			case "EEeE":
-				stack.pointer--;
+				expl += "Move pointer to previous position";
+				stack.prev()
 				break;
 			case "EEee":
-				stack.pointer++;
+				expl += "Move pointer to next position";
+				stack.next();
 				break;
 				// empty slots...
 			case "EeEE":
+				expl += "Move pointer to a random position";
 				stack.pointer = Math.floor(Math.random() * stack.array.length);
 				break;
 				// empty random slot
 
 			// 5 E/e (active)
 			case "EEEEE": // ++
+				expl += "Increment, "+stack.now()+" → "+(stack.now()+1);
 				stack.set(stack.now() + 1);
 				break;
 			case "EEEEe": // --
+				expl += "Decrement, "+stack.now()+" → "+(stack.now()-1);
 				stack.set(stack.now() - 1);
 				break;
 			case "EEEeE": // insert dupe
+				expl += "Insert self (duplicate to next)";
 				stack.insert(stack.now());
 				break;
 			case "EEEee": // push dupe
+				expl += "Push self (duplicate to end)";
 				stack.push(stack.now());
 				break;
 			case "EEeEE": // random
+				expl += "Random value from 0 to "+stack.now();
 				stack.set(Math.floor(Math.random() * stack.now()));
 				break;
 				// Empty slot
 			case "EEeeE": // round
+				expl += "Round, "+stack.now()+" → "+Math.round(stack.now());
 				stack.set(Math.round(stack.now()));
 				break;
 			case "EEeee": // round to 0.5
+				expl += "Round to 0.5, "+stack.now()+" → "+(Math.round(stack.now()*2)/2);
 				stack.set(Math.round(stack.now() * 2) / 2);
 				break;
 			case "EeEEE":
+				expl += "Ceil, "+stack.now()+" → "+Math.ceil(stack.now());
 				stack.set(Math.ceil(stack.now()));
 				break;
 			case "EeEEe":
+				expl += "Floor, "+stack.now()+" → "+Math.floor(stack.now());
 				stack.set(Math.floor(stack.now()));
 				break;
 			case "EeEeE":
+				expl += "Absolute, "+stack.now()+" → "+Math.abs(stack.now());
 				stack.set(Math.abs(stack.now()));
 				break;
 			case "EeEee":
+				expl += "Reverse, "+stack.now()+" → "+(stack.now()*-1);
 				stack.set(stack.now() * -1);
 				break;
 			case "EeeEE":
+				expl += "Square, "+stack.now()+" → "+Math.pow(stack.now(), 2);
 				stack.set(Math.pow(stack.now(), 2));
 				break;
 			case "EeeEe":
+				expl += "Cube, "+stack.now()+" → "+Math.pow(stack.now(),3);
 				stack.set(Math.pow(stack.now(), 3));
 				break;
 			case "EeeeE":
+				expl += "Square root, "+stack.now()+" → "+Math.sqrt(stack.now());
 				stack.set(Math.sqrt(stack.now()));
 				break;
 			case "Eeeee":
+				expl += "Cube root, "+stack.now()+" → "+Math.cbrt(stack.now());
 				stack.set(Math.cbrt(stack.now()));
 				break;
 			case "eEEEE":
+				expl += "Modulus 2, "+stack.now()+" → "(stack.now()%2);
 				stack.set(stack.now()%2);
 				break;
 			case "eEEEe":
+				expl += "Modulus 3, "+stack.now()+" → "(stack.now()%3);
 				stack.set(stack.now()%3);
 				break;
 				// Empty slots
@@ -322,21 +383,27 @@ function pepe(code, inp) {
 
 			// 6 E/e (2 value)
 			case "EEEEEE":
+				expl += "Sum, "+stack.now()+" + "+other.now()+" = "+(stack.now() + other.now());
 				stack.push(stack.pop() + other.pop());
 				break;
 			case "EEEEEe":
+				expl += "Substract, "+stack.now()+" - "+other.now()+" = "+(stack.now() - other.now());
 				stack.push(stack.pop() - other.pop());
 				break;
 			case "EEEEeE":
+				expl += "Multiply, "+stack.now()+" * "+other.now()+" = "+(stack.now() * other.now());
 				stack.push(stack.pop() * other.pop());
 				break;
 			case "EEEEee":
+				expl += "Divide, "+stack.now()+" / "+other.now()+" = "+(stack.now() / other.now());
 				stack.push(stack.pop() / other.pop());
 				break;
 			case "EEEeEE":
+				expl += "Join, "+stack.now()+" + "+other.now()+" = "+("" + stack.now() + other.now());
 				stack.push(parseInt("" + stack.pop() + other.pop()));
 				break;
 			case "EEEeEe":
+				expl += "Split "+stack.now()+" every "+other.now()+" digits";
 				var str = stack.pop();
 				var sep = other.pop();
 				for (var m = 0; m < str.length; m += sep) {
@@ -344,6 +411,7 @@ function pepe(code, inp) {
 				}
 				break;
 			case "EEEeeE":
+				expl += "Chunk - Split "+stack.now()+" to "+other.now()+" parts";
 				var d2 = other.pop();
 				var d1 = stack.pop() / d2;
 				for (var n = 0; n < d2; n++) {
@@ -352,12 +420,15 @@ function pepe(code, inp) {
 				break;
 				// Empty slot
 			case "EEeEEE":
+				expl += "Power, "+stack.now()+" ^ "+other.now()+" = "+Math.pow(stack.now(), other.now());
 				stack.push(Math.pow(stack.pop(), other.pop()));
 				break;
 			case "EEeEEe":
+				expl += stack.now()+"th root of "+other.now()+" = "+nthroot(stack.now(), other.now());
 				stack.push(nthroot(stack.pop(), other.pop()));
 				break;
 			case "EEeEeE":
+				expl += "Modulus, "+stack.now()+" % "+other.now()+" = "+(stack.now() % other.now());
 				stack.push(stack.pop() % other.pop());
 				break;
 				// Empty slots
@@ -368,9 +439,11 @@ function pepe(code, inp) {
 				if (false) { // don't remove, don't set to true. it's exactly like it should be.
 					output("https://www.youtube.com/watch?v=m-NgHh36_vU");
 				}
+				expl += "Move "+stack.now()+" to the other stack";
 				other.push(stack.pop());
 				break;
 			case "EEEEEEe": // copy single
+				expl += "Copy "+stack.now()+" to the other stack";
 				other.push(stack.now());
 				break;
 			case "EEEEEeE": // move all
@@ -380,51 +453,65 @@ function pepe(code, inp) {
 				}
 				if (scream == "EEEEEeE") { // move mode? Remove!
 					stack.array.splice(0, stack.array.length);
+					expl += "Move everything to the other stack";
+				} else {
+					expl += "Copy everything to the other stack. ";
+					expl += "NOTE: This function might be bugged.";
 				}
 				break;
 			case "EEEEeEE":
+				expl += "Swap R with r";
 				var temp = stacks.r;
 				stacks.r = stacks.R;
 				stacks.R = temp;
 				break;
 				// empty slot
 			case "EEEEeeE":
+				expl += "Diff - remove items from stack which are in the other stack too";
 				stack.array.diff(other.array);
 				break;
 			case "EEEEeee":
+				expl += "Reverse diff - remove items from stack which aren't in the other stack";
 				stack.array.diff(other.array, true);
 				break;
 
 			// 8 E/e
 			case "EEEEEEEE":
+				expl += "Sum stack content";
 				stack.push(stack.array.reduce(function(a, b) {
 					return a + b;
 				}, 0));
 				break;
 			case "EEEEEEeE":
+				expl += "Multiply stack content";
 				stack.push(stack.array.reduce(function(a, b) {
 					return a * b;
 				}, 0));
 				break;
 			case "EEEEEeEE":
+				expl += "Join stack content";
 				stack.push(stack.array.reduce(function(a, b) {
 					return window.parseInt(a.toString() + b.toString());
 				}, 0));
 				break;
 			case "EEEEEeeE":
+				expl += "Increment stack content";
 				stack.array = stack.array.forEach(function(a) {
 					a++;
 				});
 				break;
 			case "EEEEEeee":
+				expl += "Decrement stack content";
 				stack.array = stack.array.forEach(function(a) {
 					a--;
 				});
 				break;
 			case "EEEEeEEE":
+				expl += "Clear the stack";
 				stack.array.length = 0;
 				break;
 			case "EEEEeEEe":
+				expl += "Clear without removing selected item";
 				for (var it in stack.array) {
 					stack.refresh();
 					if (it != stack.pointer) {
@@ -433,18 +520,20 @@ function pepe(code, inp) {
 				}
 				break;
 			case "EEEEeEeE":
+				expl += "Sort the stack";
 				stack.array.sort();
 				break;
 			case "EEEEeEee":
+				expl += "Reverse the stack";
 				stack.array.reverse();
 				break;
 			case "EEEEeeEE":
+				expl += "Shuffle the stack";
 				stack.array.shuffle();
 				break;
 
 				// error
 			default:
-				//debug("REEEE!", typeof scream, scream, scream.length, "EEEER");
 				if (scream.length == 9) {
 					var push = false;
 					if (scream.charAt(0) == "E") {
@@ -453,20 +542,53 @@ function pepe(code, inp) {
 					var res = scream.substr(1).replace(/e/g, 0).replace(/E/g, 1).toString(2);
 					var deb = res;
 					res = parseInt(res, 2);
-					console.log(push, res, String.fromCharCode(res));
-					//debug(res, push);
+					
 					if (push) {
+						expl += "Push "+res;
 						stack.push(res);
 					} else {
-						output(String.fromCharCode(res));
+						var str = String.fromCharCode(res);
+						expl += "print '"+str+"'";
+						output(str);
 					}
-				} else output(cmd + "ERROR!");
+				} else {
+					expl += "ERROR: "+cmd+" doesn't exist"
+					output(cmd + "ERROR!");
+				}
+		}
+		
+		debug(expl)
+		debug("")
+		
+		debug("Labels:");
+		debug("\t", JSON.stringify(labels));
+		debug("");
+		
+		debug("Stacks:");
+		debug("\tR", JSON.stringify(stacks.R.array));
+		debug("\tr", JSON.stringify(stacks.r.array));
+		debug("");
+		
+		if (i >= code.length-1) {
+			// Execution finished
+			return [true, out];
+		} else {
+			// Or not
+			return [false, out];
 		}
 	}
-	console.log(code, stacks);
-	debug(JSON.stringify(stacks.r.array))
-	debug(JSON.stringify(stacks.R.array))
-	debug("\nLabels:");
-	debug(JSON.stringify(labels));
+	
+	var c = 0
+	if (flags["step"]) {
+		if (code.length) {
+			return loop;
+		} else {
+			return false;
+		}
+	} else {
+		while(true) {
+			if (loop()[0]) break;
+		}
+	}
 	return out;
 }
