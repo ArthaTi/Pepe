@@ -208,7 +208,7 @@ function pepe(code, inp) {
 						stack.push(inp.charCodeAt(j));
 					}
 				} else {
-					stack.push(parseInt(inp, 10));
+					stack.push(parseFloat(inp, 10));
 				}
 				break;
 			case "EEe":
