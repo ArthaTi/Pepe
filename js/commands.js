@@ -3,11 +3,12 @@ var cmds = []
 /**
 	Load list of commands
 */
-function cmd_init() {
+function cmd_init(callback) {
 	$.get("./commands.md", function(data){
 		data.replace(/- `([eE]+)`\s*-\s*\[/g, function(m, cmd){
 			cmds.push(cmd);
 		})
+		if (callback) callback();
 	})
 }
 

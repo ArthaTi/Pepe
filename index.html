@@ -114,7 +114,10 @@ $(function() {
 		return this.clone().find(sel||">*").remove().end();
 	};
 
-	cmd_init();
+	cmd_init(function(){
+		highlight();
+		init = true;
+	});
 
 	$("#code").on("keyup", calclen);
 	
@@ -341,8 +344,6 @@ $(function() {
     	console.log("Error caught");
     	$("#debug").text(a.message);
     }
-	
-	init = true;
 	
 	
 	
