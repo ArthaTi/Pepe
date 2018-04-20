@@ -4,7 +4,7 @@ var cmds = []
 	Load list of commands
 */
 function cmd_init() {
-	$.get("../commands.md", function(data){
+	$.get("./commands.md", function(data){
 		data.replace(/- `([eE]+)`\s*-\s*\[/g, function(m, cmd){
 			cmds.push(cmd);
 		})
