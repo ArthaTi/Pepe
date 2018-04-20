@@ -36,12 +36,13 @@
 		font-size: 13px;
 		color: rgba(0,0,0,0.5);
 		caret-color: black;
+		overflow:hidden;
 	}
 	#highlight {
 		font-size:13px;
 		z-index: 3;
 		font-family:monospace;
-		overflow: auto;
+		overflow: hidden;
 		pointer-events: none;
 		padding: 6px;
 	}
@@ -119,7 +120,12 @@ $(function() {
 		init = true;
 	});
 
-	$("#code").on("keyup", calclen);
+	$("#code")
+		.on("keyup", calclen)
+		.on("keydown", function() {
+			var ecode = $("#code")[0];
+			if (ecode.clientHeight < ecode.scrollHeight) { ecode.style.height = ecode.scrollHeight + 'px'; }
+		});
 	
 	function upperPepe(x) {
 		x = x.toUpperCase();
@@ -152,13 +158,12 @@ $(function() {
 	}
 
 	function calclen() {
-		if (init) {
-			var code = $("#code").val();
-			code = code.replace(/#.*/g, "");
-			code = code.replace(/[^rReE]/g, "");
-			$("#count").text(code.length+" bytes minimum, "+getlink().length+" compressed");
-			highlight();
-		}
+		var code = $("#code").val();
+		code = code.replace(/#.*/g, "");
+		code = code.replace(/[^rReE]/g, "");
+		$("#count").text(code.length+" bytes minimum, "+getlink().length+" compressed");
+		
+		if (init) highlight();
 	}
  
 	getlink = function() {
