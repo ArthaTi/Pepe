@@ -557,24 +557,27 @@ function pepe(code, inp) {
 				}
 		}
 		
-		debug(expl)
-		debug("")
+		if (flags["step"] || i >= code.length-1) {
 		
-		debug("Labels:");
-		debug("\t", JSON.stringify(labels));
-		debug("");
-		
-		debug("Stacks:");
-		debug("\tR", JSON.stringify(stacks.R.array));
-		debug("\tr", JSON.stringify(stacks.r.array));
-		debug("");
+			debug(expl)
+			debug("")
+			
+			debug("Labels:");
+			debug("\t", JSON.stringify(labels));
+			debug("");
+			
+			debug("Stacks:");
+			debug("\tR", JSON.stringify(stacks.R.array));
+			debug("\tr", JSON.stringify(stacks.r.array));
+			debug("");
+		}
 		
 		if (i >= code.length-1) {
 			// Execution finished
-			return [true, out];
+			return [true, out, i];
 		} else {
 			// Or not
-			return [false, out];
+			return [false, out, i];
 		}
 	}
 	

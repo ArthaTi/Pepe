@@ -18,6 +18,35 @@
 	  white-space: pre-wrap;
 	  word-wrap: break-word;
 	}
+	
+	.pepe-comment {
+		color: #5c5;
+	}
+	
+	.pepe-highlight {
+		color: blue;
+		text-decoration: underline;
+	}
+	#highlight {
+		z-index: 3;
+		font-family:monospace;
+		background:white;
+		overflow:auto;
+	}
+	table {
+		width:100%;
+	}
+	
+	.relative {
+		position:relative
+	}
+	.absolute {
+		position: absolute;
+		top:0;
+		left:0;
+		right:0;
+		bottom:0
+	}
   </style>
 </head>
 
@@ -26,10 +55,20 @@
 <p>Code <button onclick="gettext()">Generate text</button></p>
 <p>Compressed & permalink: <code><a id="link"></a></code></p>
 <p style="font-size:0.75em" id="count"></p>
-<textarea id="code" rows="15"></textarea>
+<table class="relative">
+	<tr>
+		<td>
+			<textarea id="code" rows="15"></textarea>
+		</td>
+		<td style="display:none" class="absolute" id="highlight">
+		</td>
+	</tr>
+</table>
 <p>Input</p>
 <textarea id="input"></textarea>
-<button id="run">Run</button> <button id="step" disabled>Step</button> <span id="steps"></span>
+<button id="run">Run</button> 
+<button id="stop" disabled>Stop</button> 
+<button id="step" disabled>&gt;</button> <span id="steps"></span>
 
 <p>Output</p>
 <pre id="output"></pre>
@@ -49,7 +88,7 @@
 <pre id="debug"></pre>
 
 <script>
-var getlink, gettext, init = false;
+var getlink, gettext, init = false, highlight;
 getlink = gettext = function(){alert("Wait a bit, then retry, please!")};
 $(function() {
 
@@ -110,13 +149,77 @@ $(function() {
 			x = "1"+x+(+(stack == "R"));
 			x = parseInt(x, 2).toString(36);
 			x = upperPepe(x.charAt(0)) + x.substr(1);
-			console.log(x);
 			return x;
 		}).join("");
 		//console.log(code);
 		
 		$("#link").text(code).attr("href", "#"+code);
 		return code;
+	}
+	
+	highlight = function(mark=-1) {
+		var mode = 0;
+		var cmd  = 0;
+		var code = $("#code").val();
+		var res  = "";
+		var match = false;
+		var flag  = true;
+		
+		console.log(code)
+		
+		lexing: for(var i = 0; i < code.length; i++) {
+			var c = code[i];
+			
+			if (mode == 0) {
+				switch (c) {
+					case "#":
+						if (match) res += "</span>"
+						res += "<span class='pepe-comment'>"
+						mode = 1;
+						break;
+					case "r":
+					case "R":
+						if (!flag) {
+							cmd++;
+						}
+						if (match) {
+							match = false;
+							res += "</span>";
+						}
+						
+						if (mark == cmd) {
+							match = true;
+							res += "<span class='pepe-highlight'>"
+						}
+						flag = false;
+						break;
+					case "E":
+					case "e":
+						break;
+					default:
+						if (match) res += "</span>";
+						res += "<span class='pepe-comment'>"+c+"</span>";
+						if (match) res += "<span class='pepe-highlight'>";
+						continue lexing;
+				}
+			} else if (mode == 1) {
+				switch (c) {
+					case "\r":
+					case "\n":
+						mode = 0;
+						res += "</span>"
+						if (match) res += "<span class='pepe-highlight'>"
+						break;
+				}
+			}
+			
+			res += c;
+		}
+		res = res.replace(/\r\n|\n|\r/g, "<br />")
+		console.log(res);
+		$("#highlight")
+			.show()
+			.html(res);
 	}
  
 	gettext = function() {
@@ -125,7 +228,6 @@ $(function() {
 		var res = "";
 		for (let i = 0; i < val.length; i++) { // For each, except first, letter
 			var ch = val.charCodeAt(i).toString(2).padStart(8, "e");
-			console.log(ch);
 			ch = ch.replace(/1/g, "E");
 			ch = ch.replace(/0/g, "e");
 			res += " re"+ch;
@@ -144,50 +246,66 @@ $(function() {
 						return arguments[0];
 					}
 	
-		var exc, res, can=false;
+		var exc, res, can=false, steps, i=-1;
+		$("#stop").click(function(a) {
+			$("#stop, #step").prop("disabled", true);
+			$("#run").text("Run");
+			$("#highlight").hide();
+		});
     	$("#run").click(function(){
 			$("#debug, #output").text("");
+				
 			if ($("[name=step]:checked").length) {
+				$("#run").text("Restart");
+				$("#stop, #step").prop("disabled", false);
+				console.log("REEE");
 				exc = pepe(
 					$("#code").val(),
 					$("#input").val(),
 					stdlog,
 					{"step":true}
 				);
+				console.log(exc);
+				highlight();
 				//console.log(exc);
-				$("#steps").text(0);
+				steps = 0;
+				
+				$("#steps").text(steps);
 				if (exc) {
 					can = true;
-					$("#step")
-						.prop("disabled", false)
-						.click(function() {
-							if (!can) return;
-						
-							if ($("[name=clear]:checked").length) {
-								$("#debug").text("");
-							}
-						
-							res = exc();
-							console.log(res)
-							if (res) {
-								$("#output").text(res[1]);	
-								$("#steps").text(+$("#steps").text()+1)
-							}
-							if (!res || res[0]) {
-								can = false;
-								$("#step").prop("disabled", true);
-								stdlog("Execution finished")
-							}
-						})
 				} else {
 					stdlog("Nothing to execute.")
 				}
 			} else {
+				$("#highlight").hide();
 				$("#output").text(
 					pepe($("#code").val(), $("#input").val(), stdlog)
 				);
 			}
 		});
+		$("#step")
+			.click(function() {
+				if (!can) return;
+			
+				if ($("[name=clear]:checked").length) {
+					$("#debug").text("");
+				}
+			
+				highlight(i+1);
+				res = exc();
+				i = res[2]
+				console.log(res)
+				if (res) {
+					$("#output").text(res[1]);
+					steps += 1;
+					$("#steps").text(steps)
+				}
+				if (!res || res[0]) {
+					can = false;
+					$("#step").prop("disabled", true);
+					stdlog("Execution finished")
+				}
+			})
     } catch(a) {
     	console.log("Error caught");
     	$("#debug").text(a.message);
