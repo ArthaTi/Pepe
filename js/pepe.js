@@ -496,14 +496,14 @@ function pepe(code, inp) {
 				break;
 			case "EEEEEeeE":
 				expl += "Increment stack content";
-				stack.array = stack.array.forEach(function(a) {
-					a++;
+				stack.array = stack.array.map(function(a) {
+					return a+1;
 				});
 				break;
 			case "EEEEEeee":
 				expl += "Decrement stack content";
-				stack.array = stack.array.forEach(function(a) {
-					a--;
+				stack.array.forEach(function(a) {
+					return a-1;
 				});
 				break;
 			case "EEEEeEEE":
