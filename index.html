@@ -6,6 +6,7 @@
   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
   crossorigin="anonymous"></script>
   <script src="js/pepe.js"></script>
+  <script src="js/commands.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   
@@ -19,19 +20,29 @@
 	  word-wrap: break-word;
 	}
 	
+	.pepe-highlight {
+		color: blue;
+	}
+	
 	.pepe-comment {
 		color: #5c5;
 	}
 	
-	.pepe-highlight {
-		color: blue;
-		text-decoration: underline;
+	.pepe-error {
+		color: red;
+	}
+	
+	#code {
+		font-size: 13px;
+		color: rgba(0,0,0,0.5);
+		caret-color: black;
 	}
 	#highlight {
 		z-index: 3;
 		font-family:monospace;
-		background:white;
-		overflow:auto;
+		overflow: auto;
+		pointer-events: none;
+		padding: 6px;
 	}
 	table {
 		width:100%;
@@ -58,7 +69,13 @@
 <table class="relative">
 	<tr>
 		<td>
-			<textarea id="code" rows="15"></textarea>
+			<textarea 
+				id="code" 
+				rows="15" 
+				autocomplete="off" 
+				autocorrect="off" 
+				autocapitalize="off" 
+				spellcheck="false"></textarea>
 		</td>
 		<td style="display:none" class="absolute" id="highlight">
 		</td>
@@ -80,7 +97,7 @@
 	
 	<div style="margin-left:20px;">
 		<input type="checkbox" id="boxclear" name="clear" checked> 
-		<label for="boxclear">Clear log each step</label>
+		<label for="boxclear">Clear log each step (major optimization)</label>
 	</div>
 </div>
 
@@ -92,7 +109,13 @@ var getlink, gettext, init = false, highlight;
 getlink = gettext = function(){alert("Wait a bit, then retry, please!")};
 $(function() {
 
-	$("#code").keyup(calclen);
+	$.fn.ignore = function(sel){
+		return this.clone().find(sel||">*").remove().end();
+	};
+
+	cmd_init();
+
+	$("#code").on("keyup", calclen);
 	
 	function upperPepe(x) {
 		x = x.toUpperCase();
@@ -130,6 +153,7 @@ $(function() {
 			code = code.replace(/#.*/g, "");
 			code = code.replace(/[^rReE]/g, "");
 			$("#count").text(code.length+" bytes minimum, "+getlink().length+" compressed");
+			highlight();
 		}
 	}
  
@@ -165,41 +189,42 @@ $(function() {
 		var match = false;
 		var flag  = true;
 		
-		console.log(code)
-		
 		lexing: for(var i = 0; i < code.length; i++) {
 			var c = code[i];
 			
 			if (mode == 0) {
 				switch (c) {
 					case "#":
-						if (match) res += "</span>"
 						res += "<span class='pepe-comment'>"
 						mode = 1;
 						break;
 					case "r":
 					case "R":
+						var classes = ""
+					
 						if (!flag) {
 							cmd++;
 						}
 						if (match) {
 							match = false;
+						}
+						if (cmd) {
 							res += "</span>";
 						}
 						
 						if (mark == cmd) {
 							match = true;
-							res += "<span class='pepe-highlight'>"
+							classes += "pepe-highlight"
 						}
+						res += "<span class='pepe-cmd "+classes+"'>";
+						
 						flag = false;
 						break;
 					case "E":
 					case "e":
 						break;
 					default:
-						if (match) res += "</span>";
 						res += "<span class='pepe-comment'>"+c+"</span>";
-						if (match) res += "<span class='pepe-highlight'>";
 						continue lexing;
 				}
 			} else if (mode == 1) {
@@ -208,15 +233,22 @@ $(function() {
 					case "\n":
 						mode = 0;
 						res += "</span>"
-						if (match) res += "<span class='pepe-highlight'>"
 						break;
 				}
 			}
 			
 			res += c;
 		}
-		res = res.replace(/\r\n|\n|\r/g, "<br />")
-		console.log(res);
+		res = res.replace(/\r\n|\n|\r/g, "<br />");
+		
+		var res = $($.parseHTML(res));
+		res.each(function(){
+			var cmd = $(this).ignore(".pepe-comment").text();
+			if (!cmd_exists(cmd)) {
+				console.log(cmd);
+				$(this).addClass("pepe-error");
+			}
+		});
 		$("#highlight")
 			.show()
 			.html(res);
@@ -250,7 +282,6 @@ $(function() {
 		$("#stop").click(function(a) {
 			$("#stop, #step").prop("disabled", true);
 			$("#run").text("Run");
-			$("#highlight").hide();
 		});
     	$("#run").click(function(){
 			$("#debug, #output").text("");
@@ -277,7 +308,6 @@ $(function() {
 					stdlog("Nothing to execute.")
 				}
 			} else {
-				$("#highlight").hide();
 				$("#output").text(
 					pepe($("#code").val(), $("#input").val(), stdlog)
 				);
