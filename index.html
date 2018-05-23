@@ -21,7 +21,7 @@
 	}
 	
 	.pepe-highlight {
-		color: blue;
+		color: #08f;
 	}
 	
 	.pepe-comment {
@@ -336,8 +336,7 @@ $(function() {
 				console.log(res)
 				if (res) {
 					$("#output").text(res[1]);
-					steps += 1;
-					$("#steps").text(steps)
+					$("#steps").text(++steps)
 				}
 				if (!res || res[0]) {
 					can = false;
