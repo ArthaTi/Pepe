@@ -24,6 +24,10 @@
 		color: #08f;
 	}
 	
+	.pepe-jump .pepe-highlight:not(.pepe-target) {
+		color: #adf;
+	}
+	
 	.pepe-comment {
 		color: #5c5;
 	}
@@ -193,6 +197,7 @@ $(function() {
 	highlight = function(mark=-1) {
 		var mode = 0;
 		var cmd  = 0;
+		var cmt  = false;
 		var code = $("#code").val();
 		var res  = "";
 		var match = false;
@@ -204,11 +209,20 @@ $(function() {
 			if (mode == 0) {
 				switch (c) {
 					case "#":
-						res += "<span class='pepe-comment'>"
+						if (cmt) {
+							cmt = false;
+						} else {
+							res += "<span class='pepe-comment'>"
+						}
 						mode = 1;
+						
 						break;
 					case "r":
 					case "R":
+						if (cmt) {
+							res += "</span>";
+							cmt = false;
+						}
 						var classes = ""
 					
 						if (!flag) {
@@ -233,7 +247,9 @@ $(function() {
 					case "e":
 						break;
 					default:
-						res += "<span class='pepe-comment'>"+c+"</span>";
+						if (cmt) break;
+						cmt = true;
+						res += "<span class='pepe-comment'>"+c;
 						continue lexing;
 				}
 			} else if (mode == 1) {
