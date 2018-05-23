@@ -194,7 +194,15 @@ $(function() {
 		return code;
 	}
 	
-	highlight = function(mark=-1) {
+	highlight = function(mark=-1, preserve) {
+		if (preserve) {
+			console.log(mark, $("#highlight .pepe-cmd"));
+			$("#highlight .pepe-cmd").eq(mark).addClass("pepe-highlight").addClass("pepe-target");
+			$("#highlight").addClass("pepe-jump");
+			return;
+		} else {
+			$("#highlight").removeClass("pepe-jump");
+		}
 		var mode = 0;
 		var cmd  = 0;
 		var cmt  = false;
@@ -348,11 +356,15 @@ $(function() {
 			
 				highlight(i+1);
 				res = exc();
-				i = res[2]
-				console.log(res)
+				var pre = i;
+				i = res[2];
+				console.log("CMP:", pre, i);
+				if (pre+1 != i) {
+					highlight(i, true)
+				}
 				if (res) {
 					$("#output").text(res[1]);
-					$("#steps").text(++steps)
+					$("#steps").text(++steps);
 				}
 				if (!res || res[0]) {
 					can = false;
