@@ -114,6 +114,15 @@ function nstack() {
 function pepe(code, inp) {
 	var out = "";
 	var flags = {};
+	var ip = 0;
+	
+	function getinp() {
+		if (inp[ip]) {
+			return inp[ip];
+		} else {
+			return 0;
+		}
+	}
 
 	function output(text) {
 		console.log(JSON.stringify(text));
@@ -229,41 +238,45 @@ function pepe(code, inp) {
 
 			// 3 E/e (I/O)
 			case "EEE":
-				if (isNaN(inp) || !inp.length) {
+				if (isNaN(getinp()) || !getinp().length) {
 					expl += "Input auto-parsed as string"
-					for (var j = 0; j < inp.length; j++) {
-						stack.push(inp.charCodeAt(j));
+					for (var j = 0; j < getinp().length; j++) {
+						stack.push(getinp().charCodeAt(j));
 					}
 				} else {
 					expl += "Input auto-parsed as number"
-					var parse = parseFloat(inp, 10);
+					var parse = parseFloat(getinp(), 10);
 					debug("input:",parse)
 					stack.push(parse);
 				}
+				ip++;
 				break;
 			case "EEe":
 				expl += "Input (string)"
-				for (let j = 0; j < inp.length; j++) {
-					stack.push(inp.charCodeAt(j));
+				for (let j = 0; j < getinp().length; j++) {
+					stack.push(getinp().charCodeAt(j));
 				}
+				ip++;
 				break;
 			case "EeE":
-				if (isNaN(inp)) {
+				if (isNaN(getinp())) {
 					expl += "Input isn't a number, push 0 instead";
 					stack.push(0);
 				} else {
-					expl += "Input (int): "+Math.round(inp);
-					stack.push(Math.round(inp))
+					expl += "Input (int): "+Math.round(getinp());
+					stack.push(Math.round(getinp()))
 				}
+				ip++;
 				break;
 			case "Eee":
-				if (isNaN(inp)) {
+				if (isNaN(getinp())) {
 					expl += "Input isn't a number, push 0 instead";
 					stack.push(0);
 				} else {
-					expl += "Input (float): "+inp;
-					stack.push(parseFloat(inp))
+					expl += "Input (float): "+getinp();
+					stack.push(parseFloat(getinp()))
 				}
+				ip++;
 				break;
 			case "eEE":
 				expl += "Output as number";

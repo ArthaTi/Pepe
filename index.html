@@ -87,8 +87,15 @@
 		</td>
 	</tr>
 </table>
+
 <p>Input</p>
 <textarea id="input"></textarea>
+<p>
+	<input type="checkbox" id="isinpsep" checked />
+	<label for="isinpsep"> Separated by </label>
+	<input type="text" id="inpsep" value=";" />
+</p>
+
 <button id="run">Run</button> 
 <button id="stop" disabled>Stop</button> 
 <button id="step" disabled>&gt;</button> <span id="steps"></span>
@@ -318,6 +325,10 @@ $(function() {
 		});
     	$("#run").click(function(){
 			$("#debug, #output").text("");
+			
+			var inputs = $("#input").val();
+			if ($("#isinpsep").is(":checked")) inputs = inputs.split($("#inpsep").val());
+			else inputs = [inputs];
 				
 			if ($("[name=step]:checked").length) {
 				$("#run").text("Restart");
@@ -325,7 +336,7 @@ $(function() {
 				console.log("REEE");
 				exc = pepe(
 					$("#code").val(),
-					$("#input").val(),
+					inputs,
 					stdlog,
 					{"step":true}
 				);
@@ -342,7 +353,7 @@ $(function() {
 				}
 			} else {
 				$("#output").text(
-					pepe($("#code").val(), $("#input").val(), stdlog)
+					pepe($("#code").val(), inputs, stdlog)
 				);
 			}
 		});
