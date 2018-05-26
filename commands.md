@@ -30,6 +30,9 @@ List of commands available in Pepe.
 ### [3 E/e (8) I/O](https://github.com/Soaku/Pepe/projects/2#column-2171797)
 
 > If input is a string, every contained byte is pushed as an integer
+>
+> **WARNING** - Pepe is going to have multiple inputs support. Calling an input-taking 
+> function will move the "input pointer" to the next value
 
 - `EEE` - [WS << Auto-parse input](https://github.com/Soaku/Pepe/projects/2#card-7337865)
 - `EEe` - [WS << Parse input as string](https://github.com/Soaku/Pepe/projects/2#card-7337875)
