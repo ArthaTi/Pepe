@@ -79,7 +79,7 @@ List of commands available in Pepe.
   > r = [Insert], 
   > R = [Prepend]
    - `EEEee` - [Push active item (duplicate to end)](https://github.com/Soaku/Pepe/projects/2#card-7338640)
-> Flags:
+- > Flags:
   > r = [PopPush],
   > R = [PreservePush]
    - `EEeEE` - [Random from 0 to active item value](https://github.com/Soaku/Pepe/projects/2#card-7486911)
