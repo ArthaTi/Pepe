@@ -10,6 +10,12 @@ List of commands available in Pepe.
 
 ## v.1.0.1 alpha
 
+[Preserve]: https://github.com/Soaku/Pepe/projects/4#card-10518943
+[Insert]: https://github.com/Soaku/Pepe/projects/4#card-10519066
+[Prepend]: https://github.com/Soaku/Pepe/projects/4#card-10519078
+[PopPush]: https://github.com/Soaku/Pepe/projects/4#card-10520673
+[PreservePush]: https://github.com/Soaku/Pepe/projects/4#card-10520695
+
 ### [1 E/e (2) Basic stack operations](https://github.com/Soaku/Pepe/projects/2#column-2205663)
 
 - `E` - [WS << push 0](https://github.com/Soaku/Pepe/projects/2#card-7485469)
@@ -20,6 +26,8 @@ List of commands available in Pepe.
 > For every command in section: X is value of the selected item from WS.
 >
 > Goto commands don't do anything if corresponding labels don't exist.
+>
+> Commands in this section do not pop.
 
 - `EE` - [Create label with name X](https://github.com/Soaku/Pepe/projects/2#card-7338713)
   - Calling again with the same name will result in replacing previous label
@@ -31,12 +39,17 @@ List of commands available in Pepe.
 
 > If input is a string, every contained byte is pushed as an integer
 
-- `EEE` - [WS << Auto-parse input](https://github.com/Soaku/Pepe/projects/2#card-7337865)
-- `EEe` - [WS << Parse input as string](https://github.com/Soaku/Pepe/projects/2#card-7337875)
-- `EeE` - [WS << Parse input as integer](https://github.com/Soaku/Pepe/projects/2#card-7485918)
-- `Eee` - [WS << Parse input as float](https://github.com/Soaku/Pepe/projects/2#card-7337874)
-- `eEE` - [WS >> Output as number](https://github.com/Soaku/Pepe/projects/2#card-7344002)
-- `eEe` - [WS >> Output as character](https://github.com/Soaku/Pepe/projects/2#card-7337895)
+- > Flags:
+  > r = [Insert],
+  > R = [Prepend]
+   - `EEE` - [WS << Auto-parse input](https://github.com/Soaku/Pepe/projects/2#card-7337865)
+   - `EEe` - [WS << Parse input as string](https://github.com/Soaku/Pepe/projects/2#card-7337875)
+   - `EeE` - [WS << Parse input as integer](https://github.com/Soaku/Pepe/projects/2#card-7485918)
+   - `Eee` - [WS << Parse input as float](https://github.com/Soaku/Pepe/projects/2#card-7337874)
+- > Flags:
+  > r = [Preserve]
+   - `eEE` - [WS >> Output as number](https://github.com/Soaku/Pepe/projects/2#card-7344002)
+   - `eEe` - [WS >> Output as character](https://github.com/Soaku/Pepe/projects/2#card-7337895)
 - `eeE` - [Output newline (`\n`)](https://github.com/Soaku/Pepe/projects/2#card-7501362)
 - `eee` - [Output WS content as string without popping](https://github.com/Soaku/Pepe/projects/2#card-7493465)
 
@@ -56,24 +69,33 @@ List of commands available in Pepe.
 
 *14 slots left*
 
-- `EEEEE` - [Increment active item](https://github.com/Soaku/Pepe/projects/2#card-7338659)
-- `EEEEe` - [Decrement active item](https://github.com/Soaku/Pepe/projects/2#card-7338662)
-- `EEEeE` - [Duplicate active item (duplicate to next)](https://github.com/Soaku/Pepe/projects/2#card-7338639)
-- `EEEee` - [Push active item (duplicate to end)](https://github.com/Soaku/Pepe/projects/2#card-7338640)
-- `EEeEE` - [Random from 0 to active item value](https://github.com/Soaku/Pepe/projects/2#card-7486911)
-- `EEeEe` - Empty (reserved for random function)
-- `EEeeE` - [Round active item](https://github.com/Soaku/Pepe/projects/2#card-7344007)
-- `EEeee` - [Round active item to 0.5](https://github.com/Soaku/Pepe/projects/2#card-7487731)
-- `EeEEE` - [Ceil active item](https://github.com/Soaku/Pepe/projects/2#card-7344020)
-- `EeEEe` - [Floor active item](https://github.com/Soaku/Pepe/projects/2#card-7344011)
-- `EeEeE` - [Absolute value of active item](https://github.com/Soaku/Pepe/projects/2#card-7485569)
-- `EeEee` - [Reverse sign of active item (times -1)](https://github.com/Soaku/Pepe/projects/2#card-7344091)
-- `EeeEE` - [Square - Raise active item to second power](https://github.com/Soaku/Pepe/projects/2#card-7487657)
-- `EeeEe` - [Cube - Raise active item to third power](https://github.com/Soaku/Pepe/projects/2#card-7487662)
-- `EeeeE` - [Square root of active item](https://github.com/Soaku/Pepe/projects/2#card-7488241)
-- `Eeeee` - [Cube root of active item](https://github.com/Soaku/Pepe/projects/2#card-7488346)
-- `eEEEE` - [Modulo 2 of active item](https://github.com/Soaku/Pepe/projects/2#card-7708043)
-- `eEEEe` - [Modulo 3 of active item](https://github.com/Soaku/Pepe/projects/2#card-7708024)
+- > Flags:
+  > r = [PopPush],
+  > R = [PreservePush]
+   - `EEEEE` - [Increment active item](https://github.com/Soaku/Pepe/projects/2#card-7338659)
+   - `EEEEe` - [Decrement active item](https://github.com/Soaku/Pepe/projects/2#card-7338662)
+- *Deprecated* `EEEeE` - [Duplicate active item (duplicate to next)](https://github.com/Soaku/Pepe/projects/2#card-7338639)
+- > Flags:
+  > r = [Insert], 
+  > R = [Prepend]
+   - `EEEee` - [Push active item (duplicate to end)](https://github.com/Soaku/Pepe/projects/2#card-7338640)
+> Flags:
+  > r = [PopPush],
+  > R = [PreservePush]
+   - `EEeEE` - [Random from 0 to active item value](https://github.com/Soaku/Pepe/projects/2#card-7486911)
+   - `EEeEe` - Empty (reserved for random function)
+   - `EEeeE` - [Round active item](https://github.com/Soaku/Pepe/projects/2#card-7344007)
+   - `EEeee` - [Round active item to 0.5](https://github.com/Soaku/Pepe/projects/2#card-7487731)
+   - `EeEEE` - [Ceil active item](https://github.com/Soaku/Pepe/projects/2#card-7344020)
+   - `EeEEe` - [Floor active item](https://github.com/Soaku/Pepe/projects/2#card-7344011)
+   - `EeEeE` - [Absolute value of active item](https://github.com/Soaku/Pepe/projects/2#card-7485569)
+   - `EeEee` - [Reverse sign of active item (times -1)](https://github.com/Soaku/Pepe/projects/2#card-7344091)
+   - `EeeEE` - [Square - Raise active item to second power](https://github.com/Soaku/Pepe/projects/2#card-7487657)
+   - `EeeEe` - [Cube - Raise active item to third power](https://github.com/Soaku/Pepe/projects/2#card-7487662)
+   - `EeeeE` - [Square root of active item](https://github.com/Soaku/Pepe/projects/2#card-7488241)
+   - `Eeeee` - [Cube root of active item](https://github.com/Soaku/Pepe/projects/2#card-7488346)
+   - `eEEEE` - [Modulo 2 of active item](https://github.com/Soaku/Pepe/projects/2#card-7708043)
+   - `eEEEe` - [Modulo 3 of active item](https://github.com/Soaku/Pepe/projects/2#card-7708024)
 
 ### [6 E/e (64) 2 value](https://github.com/Soaku/Pepe/projects/2#column-2172019)
 
@@ -82,6 +104,13 @@ List of commands available in Pepe.
 > Commands operating on active items from both stacks.
 >
 > A = active item from WS, B = active item from the other stack
+
+> All commands here support the flags:
+>
+> r = [Preserve], \
+> R = Empty,      \
+> rr = [Insert],  \
+> rR = [Prepend]
 
 - `EEEEEE` - [WS << A+B](https://github.com/Soaku/Pepe/projects/2#card-7338110)
 - `EEEEEe` - [WS << A-B](https://github.com/Soaku/Pepe/projects/2#card-7338448)
@@ -114,15 +143,19 @@ List of commands available in Pepe.
 *246 slots left*
 
 > Commands operating on the whole stack
->
-> Unlike a lot of other commands, these don't clear the stack! [See information](https://github.com/Soaku/Pepe/projects/2#card-7488668)
 
-- `EEEEEEEE` - [Sum (+)](https://github.com/Soaku/Pepe/projects/2#card-7338609)
-- `EEEEEEEe` - Empty
-- `EEEEEEeE` - [Product (\*)](https://github.com/Soaku/Pepe/projects/2#card-7338613)
-- `EEEEEEee` -  Empty
-- `EEEEEeEE` - [Join](https://github.com/Soaku/Pepe/projects/2#card-7338617)
-- `EEEEEeEe` - Empty
+
+- > Flags: \
+  > r = [Preserve], \
+  > R = Empty,      \
+  > rr = [Preserve] & [Insert], \
+  > rR = [Preserve] & [Prepend] \
+    - `EEEEEEEE` - [Sum (+)](https://github.com/Soaku/Pepe/projects/2#card-7338609)
+    - `EEEEEEEe` - Empty
+    - `EEEEEEeE` - [Product (\*)](https://github.com/Soaku/Pepe/projects/2#card-7338613)
+    - `EEEEEEee` -  Empty
+    - `EEEEEeEE` - [Join](https://github.com/Soaku/Pepe/projects/2#card-7338617)
+    - `EEEEEeEe` - Empty
 - `EEEEEeeE` - [Increment all](https://github.com/Soaku/Pepe/projects/2#card-7338669)
 - `EEEEEeee` - [Decrement all](https://github.com/Soaku/Pepe/projects/2#card-7338670)
 - `EEEEeEEE` - [Clear](https://github.com/Soaku/Pepe/projects/2#card-7338687)
@@ -146,3 +179,8 @@ Following letters are parsed as:
 Converted to a binary number, then to a corresponding ASCII character.
 
 Ex: To print `A`, the command would be `reEeeeeeeE`.
+
+> Supported flags:
+>
+> r = [Insert]
+> R = [Prepend]
