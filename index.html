@@ -253,7 +253,24 @@ $(function() {
 							cmt = false;
 						}
 
-						var classes = ""
+						var classes = "";
+
+						var isflag = false;
+
+						for (var j = i+1; j < code.length; j++) {
+							var d = code[j].toLowerCase();
+							if (d == "e") break;
+							if (d == "r") {
+								isflag = true;
+								break;
+							}
+						}
+
+						if (isflag) {
+							classes += "pepe-flag ";
+						} else {
+							classes += "pepe-cmd ";
+						}
 					
 						if (!flag) {
 							cmd++;
@@ -273,7 +290,7 @@ $(function() {
 							match = true;
 							classes += "pepe-highlight"
 						}
-						res += "<span class='pepe-cmd "+classes+"'>";
+						res += "<span class='"+classes+"'>";
 						
 						flag = false;
 						break;
