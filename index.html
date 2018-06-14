@@ -234,10 +234,12 @@ $(function() {
 						break;
 					case "r":
 					case "R":
+
 						if (cmt) {
 							res += "</span>";
 							cmt = false;
 						}
+						
 						var classes = ""
 					
 						if (!flag) {
@@ -258,8 +260,15 @@ $(function() {
 						
 						flag = false;
 						break;
+
 					case "E":
 					case "e":
+
+						if (cmt) {
+							res += "</span>";
+							cmt = false;
+						}
+
 						break;
 					default:
 						if (cmt) break;
