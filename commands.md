@@ -18,7 +18,10 @@ List of commands available in Pepe.
 
 ### [1 E/e (2) Basic stack operations](https://github.com/Soaku/Pepe/projects/2#column-2205663)
 
-- `E` - [WS << push 0](https://github.com/Soaku/Pepe/projects/2#card-7485469)
+- > Flags:
+  > r = [Insert],
+  > R = [Prepend]
+  - `E` - [WS << push 0](https://github.com/Soaku/Pepe/projects/2#card-7485469)
 - `e` - [WS >> Do nothing (pop)](https://github.com/Soaku/Pepe/projects/2#card-7485481)
 
 ### [2 E/e (4) Program flow](https://github.com/Soaku/Pepe/projects/2#column-2172199)
