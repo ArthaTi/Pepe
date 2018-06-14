@@ -168,6 +168,17 @@ function pepe(code, inp) {
 		return i
 	});
 	
+	var pflags = "";
+
+	if (code.length && code[0].charAt(0).toLowerCase() != "r") {
+		pflags = code[0];
+		code.splice(0, 1)
+	}
+
+	if (pflags) {
+		debug("Warning: Program flags are not supported yet.")
+	}
+	
 	var i = -1;
 	var loop = function() {
 		i++;

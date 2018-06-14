@@ -35,6 +35,10 @@
 	.pepe-error {
 		color: red;
 	}
+
+	.pepe-flag {
+		color: purple;
+	}
 	
 	#code {
 		font-size: 13px;
@@ -217,6 +221,7 @@ $(function() {
 		var res  = "";
 		var match = false;
 		var flag  = true;
+		var f_started = false;
 		
 		lexing: for(var i = 0; i < code.length; i++) {
 			var c = code[i];
@@ -227,7 +232,11 @@ $(function() {
 						if (cmt) {
 							cmt = false;
 						} else {
-							res += "<span class='pepe-comment'>"
+							if (f_started) {
+								f_started = false;
+								res += "</span>";
+							}
+							res += "<span class='pepe-comment'>";
 						}
 						mode = 1;
 						
@@ -239,12 +248,16 @@ $(function() {
 							res += "</span>";
 							cmt = false;
 						}
-						
+
 						var classes = ""
 					
 						if (!flag) {
 							cmd++;
 						}
+						if (flag && f_started) {
+							res += "</span>";
+						}
+
 						if (match) {
 							match = false;
 						}
@@ -269,6 +282,11 @@ $(function() {
 							cmt = false;
 						}
 
+						if (flag && !f_started) {
+							f_started = true;
+							res += "<span class='pepe-flag'>"
+						}
+
 						break;
 					default:
 						if (cmt) break;
@@ -291,7 +309,7 @@ $(function() {
 		res = res.replace(/\r\n|\n|\r/g, "<br />");
 		
 		var res = $($.parseHTML(res));
-		res.each(function(){
+		res.filter(".pepe-cmd").add(res.find(".pepe-cmd")).each(function(){
 			var cmd = $(this).ignore(".pepe-comment").text();
 			if (!cmd_exists(cmd)) {
 				console.log(cmd);
