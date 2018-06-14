@@ -110,7 +110,9 @@ List of commands available in Pepe.
 > r = [Preserve], \
 > R = Empty,      \
 > rr = [Insert],  \
-> rR = [Prepend]
+> rR = [Prepend], \
+> Rr = [Insert] & [Preserve], \
+> RR = [Prepend] & [Preserve]
 
 - `EEEEEE` - [WS << A+B](https://github.com/Soaku/Pepe/projects/2#card-7338110)
 - `EEEEEe` - [WS << A-B](https://github.com/Soaku/Pepe/projects/2#card-7338448)
@@ -148,8 +150,10 @@ List of commands available in Pepe.
 - > Flags: \
   > r = [Preserve], \
   > R = Empty,      \
-  > rr = [Preserve] & [Insert], \
-  > rR = [Preserve] & [Prepend] \
+  > rr = [Insert],  \
+  > rR = [Prepend], \
+  > Rr = [Insert] & [Preserve], \
+  > RR = [Prepend] & [Preserve]
     - `EEEEEEEE` - [Sum (+)](https://github.com/Soaku/Pepe/projects/2#card-7338609)
     - `EEEEEEEe` - Empty
     - `EEEEEEeE` - [Product (\*)](https://github.com/Soaku/Pepe/projects/2#card-7338613)
