@@ -37,12 +37,16 @@
 	}
 
 	.pepe-flag {
+		display: inline-block;
 		color: purple;
+		font-style: italic;
+		transform: scale(1, 0.75);
+		transform-origin: 50% 90%;
 	}
 	
 	#code {
 		font-size: 13px;
-		color: rgba(0,0,0,0.5);
+		color: rgba(0,0,0,0);
 		caret-color: black;
 		overflow:hidden;
 	}
@@ -136,7 +140,7 @@ $(function() {
 	});
 
 	$("#code")
-		.on("keyup", calclen)
+		.on("input propertychange", calclen)
 		.on("keydown", function() {
 			var ecode = $("#code")[0];
 			if (ecode.clientHeight < ecode.scrollHeight) { ecode.style.height = ecode.scrollHeight + 'px'; }
