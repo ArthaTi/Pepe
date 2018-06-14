@@ -170,8 +170,8 @@ function pepe(code, inp) {
 	
 	var i = -1;
 	var loop = function() {
-		if (i >= code.length) return false;
 		i++;
+		if (i >= code.length) return [true, out, i];
 		var cmd = code[i];
 		var stack, other;
 		switch (cmd.charAt(0)) {
