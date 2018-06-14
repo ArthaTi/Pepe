@@ -46,6 +46,11 @@ function nstack() {
 	return {
 		array: [],
 		pointer: 0,
+		flag: 0,
+		PRESERVE: 1,
+		INSERT: 2,
+		PREPEND: 4,
+		PUSH: 8,
 		refresh: function() {
 			var t = this;
 			if (t.array.length <= t.pointer) {
@@ -68,7 +73,13 @@ function nstack() {
 		set: function(val) {
 			var t = this;
 			t.refresh();
-			t.array[t.pointer] = val;
+			console.log("flag:", t.flag.toString(2));
+			if (t.flag & t.PUSH) {
+				t.pop();
+				t.push(val);
+			} else {
+				t.array[t.pointer] = val;
+			}
 			return val;
 		},
 		next: function() {
@@ -93,7 +104,21 @@ function nstack() {
 		},
 		push: function(item) {
 			var t = this;
-			t.array.push(item);
+
+			if (t.flag & t.INSERT) {
+				t.insert(item);
+			} else if (t.flag & t.PREPEND) {
+				t.prepend(item);
+			} else {
+				t.array.push(item);
+			}
+
+			return item;
+		},
+		prepend: function(item) {
+			var t = this;
+			t.refresh();
+			t.array.splice(0, 0, item);
 			return item;
 		},
 		insert: function(item) {
@@ -105,7 +130,11 @@ function nstack() {
 		pop: function() {
 			var t = this;
 			var sel = t.now();
-			t.array.splice(t.pointer, 1);
+
+			if (!(t.flag & t.PRESERVE)) {
+				t.array.splice(t.pointer, 1);
+			}
+			
 			return sel;
 		},
 	};
@@ -162,7 +191,7 @@ function pepe(code, inp) {
 	stacks.r = nstack();
 	stacks.R = nstack();
 	code = code.replace(/#.*|[^re]/ig, "");
-	code = code.replace(/(r)/gi, " $1");
+	code = code.replace(/(r+)/gi, " $1");
 	code = code.split(" ");
 	code = code.filter(function(i) {
 		return i
@@ -184,8 +213,12 @@ function pepe(code, inp) {
 		i++;
 		if (i >= code.length) return [true, out, i];
 		var cmd = code[i];
+		var m = cmd.match(/^(r*)(r)(e*)/i);
+		var cflag  = m[1];
+		var stname = m[2];
+		var scream = m[3];
 		var stack, other;
-		switch (cmd.charAt(0)) {
+		switch (stname) {
 			case "r":
 				stack = stacks.r;
 				other = stacks.R;
@@ -195,12 +228,56 @@ function pepe(code, inp) {
 				other = stacks.r;
 				break;
 		}
+
 		var expl = cmd+"  # ";
-		var scream = cmd.substr(1);
+
+		var patterns = {
+			pos: {
+				r: stack.INSERT,
+				R: stack.PREPEND,
+			},
+			pop: {
+				r: stack.PRESERVE,
+			},
+			push: {
+				r: stack.PUSH,
+				R: stack.PUSH | stack.PRESERVE,
+			},
+			mix: {
+				r: stack.PRESERVE,
+				R: 0,
+				rr: stack.INSERT,
+				rR: stack.PREPEND,
+				Rr: stack.INSERT  | stack.PRESERVE,
+				RR: stack.PREPEND | stack.PRESERVE,
+			}
+		};
+
+		function cmdflag(pattern) {
+			var res = 0;
+
+			if (pattern[cflag]) {
+				res = pattern[cflag];
+			} else if (cflag && pattern.length) {
+				debug("Warning: Unknown command flag " + cflag);
+			}
+
+			stack.flag = res;
+			other.flag = res;
+		}
+
+		if (scream.length == 6
+			|| scream.length == 7) {
+			cmdflag(patterns.mix);
+		} else {
+			cmdflag({});
+		}
+
 		console.log(stack, other, scream);
 		switch (scream) {
 			// 1 E/e (basic)
 			case "E":
+			cmdflag(patterns.pos)
 				expl += "Push 0"
 				stack.push(0);
 				break;
@@ -249,6 +326,9 @@ function pepe(code, inp) {
 
 			// 3 E/e (I/O)
 			case "EEE":
+
+				cmdflag(patterns.pos);
+
 				if (isNaN(getinp()) || !getinp().length) {
 					expl += "Input auto-parsed as string"
 					for (var j = 0; j < getinp().length; j++) {
@@ -262,14 +342,22 @@ function pepe(code, inp) {
 				}
 				ip++;
 				break;
+
 			case "EEe":
+
+				cmdflag(patterns.pos);
+
 				expl += "Input (string)"
 				for (let j = 0; j < getinp().length; j++) {
 					stack.push(getinp().charCodeAt(j));
 				}
 				ip++;
 				break;
+
 			case "EeE":
+
+				cmdflag(patterns.pos);
+
 				if (isNaN(getinp())) {
 					expl += "Input isn't a number, push 0 instead";
 					stack.push(0);
@@ -279,7 +367,11 @@ function pepe(code, inp) {
 				}
 				ip++;
 				break;
+
 			case "Eee":
+
+				cmdflag(patterns.pos);
+
 				if (isNaN(getinp())) {
 					expl += "Input isn't a number, push 0 instead";
 					stack.push(0);
@@ -289,19 +381,29 @@ function pepe(code, inp) {
 				}
 				ip++;
 				break;
+
 			case "eEE":
+
+				cmdflag(patterns.pop);
 				expl += "Output as number";
 				output(stack.pop());
 				break;
+
 			case "eEe":
+
+				cmdflag(patterns.pop);
 				expl += "Output as character"
 				output(String.fromCharCode(stack.pop()));
 				break;
+
 			case "eeE":
+
 				expl += "Output line break"
 				output("\n");
 				break;
+
 			case "eee":
+
 				expl += "Output stack as string";
 				stack.array.forEach(function(i) {
 					output(String.fromCharCode(i));
@@ -334,71 +436,96 @@ function pepe(code, inp) {
 
 			// 5 E/e (active)
 			case "EEEEE": // ++
+			cmdflag(patterns.push);
+
 				expl += "Increment, "+stack.now()+" → "+(stack.now()+1);
 				stack.set(stack.now() + 1);
 				break;
+
 			case "EEEEe": // --
+			cmdflag(patterns.push);
+
 				expl += "Decrement, "+stack.now()+" → "+(stack.now()-1);
 				stack.set(stack.now() - 1);
 				break;
+
 			case "EEEeE": // insert dupe
+
 				expl += "Insert self (duplicate to next)";
 				stack.insert(stack.now());
 				break;
+
 			case "EEEee": // push dupe
+			cmdflag(patterns.pos);
+
 				expl += "Push self (duplicate to end)";
 				stack.push(stack.now());
 				break;
+				
 			case "EEeEE": // random
+			cmdflag(patterns.push);
+
 				expl += "Random value from 0 to "+stack.now();
 				stack.set(Math.floor(Math.random() * stack.now()));
 				break;
 				// Empty slot
 			case "EEeeE": // round
+			cmdflag(patterns.push);
 				expl += "Round, "+stack.now()+" → "+Math.round(stack.now());
 				stack.set(Math.round(stack.now()));
 				break;
 			case "EEeee": // round to 0.5
+			cmdflag(patterns.push);
 				expl += "Round to 0.5, "+stack.now()+" → "+(Math.round(stack.now()*2)/2);
 				stack.set(Math.round(stack.now() * 2) / 2);
 				break;
 			case "EeEEE":
+			cmdflag(patterns.push);
 				expl += "Ceil, "+stack.now()+" → "+Math.ceil(stack.now());
 				stack.set(Math.ceil(stack.now()));
 				break;
 			case "EeEEe":
+			cmdflag(patterns.push);
 				expl += "Floor, "+stack.now()+" → "+Math.floor(stack.now());
 				stack.set(Math.floor(stack.now()));
 				break;
 			case "EeEeE":
+			cmdflag(patterns.push);
 				expl += "Absolute, "+stack.now()+" → "+Math.abs(stack.now());
 				stack.set(Math.abs(stack.now()));
 				break;
 			case "EeEee":
+			cmdflag(patterns.push);
 				expl += "Reverse, "+stack.now()+" → "+(stack.now()*-1);
 				stack.set(stack.now() * -1);
 				break;
 			case "EeeEE":
+			cmdflag(patterns.push);
 				expl += "Square, "+stack.now()+" → "+Math.pow(stack.now(), 2);
 				stack.set(Math.pow(stack.now(), 2));
 				break;
 			case "EeeEe":
+			cmdflag(patterns.push);
 				expl += "Cube, "+stack.now()+" → "+Math.pow(stack.now(),3);
 				stack.set(Math.pow(stack.now(), 3));
 				break;
 			case "EeeeE":
+			cmdflag(patterns.push);
 				expl += "Square root, "+stack.now()+" → "+Math.sqrt(stack.now());
 				stack.set(Math.sqrt(stack.now()));
 				break;
 			case "Eeeee":
+			cmdflag(patterns.push);
 				expl += "Cube root, "+stack.now()+" → "+Math.cbrt(stack.now());
 				stack.set(Math.cbrt(stack.now()));
 				break;
 			case "eEEEE":
+			cmdflag(patterns.push);
 				expl += "Modulus 2, "+stack.now()+" → "(stack.now()%2);
 				stack.set(stack.now()%2);
 				break;
 			case "eEEEe":
+			cmdflag(patterns.push);
 				expl += "Modulus 3, "+stack.now()+" → "(stack.now()%3);
 				stack.set(stack.now()%3);
 				break;
@@ -559,6 +686,7 @@ function pepe(code, inp) {
 				// error
 			default:
 				if (scream.length == 9) {
+					cmdflag(patterns.pos);
 					var push = false;
 					if (scream.charAt(0) == "E") {
 						push = true;
