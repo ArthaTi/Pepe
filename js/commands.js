@@ -5,7 +5,7 @@ var cmds = []
 */
 function cmd_init(callback) {
 	$.get("./commands.md", function(data){
-		data.replace(/- `([eE]+)`\s*-\s*\[/g, function(m, cmd){
+		data.replace(/- `([eE]+)`\s*-\s*(?:\*[\w ]+\*)?\[/g, function(m, cmd){
 			cmds.push(cmd);
 		})
 		if (callback) callback();
