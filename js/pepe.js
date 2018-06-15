@@ -41,16 +41,20 @@ Array.prototype.shuffle = function() {
 	}
 }
 
+var consts = {
+	PRESERVE: 1,
+	INSERT: 2,
+	PREPEND: 4,
+	PUSH: 8,
+	RETURN: 16,
+};
 
 function nstack() {
 	return {
 		array: [],
 		pointer: 0,
 		flag: 0,
-		PRESERVE: 1,
-		INSERT: 2,
-		PREPEND: 4,
-		PUSH: 8,
+		
 		refresh: function() {
 			var t = this;
 			if (t.array.length <= t.pointer) {
@@ -73,8 +77,7 @@ function nstack() {
 		set: function(val) {
 			var t = this;
 			t.refresh();
-			console.log("flag:", t.flag.toString(2));
-			if (t.flag & t.PUSH) {
+			if (t.flag & consts.PUSH) {
 				t.pop();
 				t.push(val);
 			} else {
@@ -105,9 +108,9 @@ function nstack() {
 		push: function(item) {
 			var t = this;
 
-			if (t.flag & t.INSERT) {
+			if (t.flag & consts.INSERT) {
 				t.insert(item);
-			} else if (t.flag & t.PREPEND) {
+			} else if (t.flag & consts.PREPEND) {
 				t.prepend(item);
 			} else {
 				t.array.push(item);
@@ -131,7 +134,7 @@ function nstack() {
 			var t = this;
 			var sel = t.now();
 
-			if (!(t.flag & t.PRESERVE)) {
+			if (!(t.flag & consts.PRESERVE)) {
 				t.array.splice(t.pointer, 1);
 			}
 			
@@ -144,6 +147,7 @@ function pepe(code, inp) {
 	var out = "";
 	var flags = {};
 	var ip = 0;
+	var returns = [];
 	
 	function getinp() {
 		if (inp[ip]) {
@@ -154,13 +158,11 @@ function pepe(code, inp) {
 	}
 
 	function output(text) {
-		console.log(JSON.stringify(text));
 		out += text;
 		return text;
 	}
 
 	var debug = function() {
-		console.log.apply(window, arguments);
 	}
 	
 	if (arguments.length >= 3) {
@@ -176,8 +178,22 @@ function pepe(code, inp) {
 	}
 
 	var labels = {
+		flag: 0,
 		goto: function(label) {
 			var t = this;
+
+			if (t.flag & consts.RETURN) {
+				var ret = -1;
+
+				returns.forEach(function(x){
+					if (x > i) {
+						ret = x;
+					}
+				});
+
+				return ret
+			}
+
 			if (t.hasOwnProperty(label)) {
 				return t[label];
 			} else {
@@ -187,14 +203,20 @@ function pepe(code, inp) {
 	};
 
 	var stacks = {};
-	var lgoto = 0;
+	var lgoto = -1;
 	stacks.r = nstack();
 	stacks.R = nstack();
 	code = code.replace(/#.*|[^re]/ig, "");
 	code = code.replace(/(r+)/gi, " $1");
 	code = code.split(" ");
 	code = code.filter(function(i) {
-		return i
+		return i;
+	});
+	code.forEach(function(i, idx){
+		// If it's return, add to returns list
+		if (i.replace(/[^e]/ig, "") == "Ee") {
+			returns.push(idx)
+		}
 	});
 	
 	var pflags = "";
@@ -233,29 +255,33 @@ function pepe(code, inp) {
 
 		var patterns = {
 			pos: {
-				r: stack.INSERT,
-				R: stack.PREPEND,
+				r: consts.INSERT,
+				R: consts.PREPEND,
 			},
 			pop: {
-				r: stack.PRESERVE,
+				r: consts.PRESERVE,
 			},
 			push: {
-				r: stack.PUSH,
-				R: stack.PUSH | stack.PRESERVE,
+				r: consts.PUSH,
+				R: consts.PUSH | consts.PRESERVE,
 			},
 			mix: {
-				r: stack.PRESERVE,
+				r: consts.PRESERVE,
 				R: 0,
-				rr: stack.INSERT,
-				rR: stack.PREPEND,
-				Rr: stack.INSERT  | stack.PRESERVE,
-				RR: stack.PREPEND | stack.PRESERVE,
+				rr: consts.INSERT,
+				rR: consts.PREPEND,
+				Rr: consts.INSERT  | consts.PRESERVE,
+				RR: consts.PREPEND | consts.PRESERVE,
+			},
+			flow: {
+				r: consts.RETURN,
 			}
 		};
 
 		function cmdflag(pattern) {
 			var res = 0;
 
+			// console.log(pattern, cflag)
 			if (pattern[cflag]) {
 				res = pattern[cflag];
 			} else if (cflag && pattern.length) {
@@ -264,16 +290,20 @@ function pepe(code, inp) {
 
 			stack.flag = res;
 			other.flag = res;
+			labels.flag = res;
 		}
 
-		if (scream.length == 6
+		// console.log("len:", scream.length, cflag, patterns.flow[cflag]);
+		if (scream.length == 2) {
+			cmdflag(patterns.flow);
+		} else if (scream.length == 6
 			|| scream.length == 7) {
 			cmdflag(patterns.mix);
 		} else {
 			cmdflag({});
 		}
 
-		console.log(stack, other, scream);
+		// console.log(stack, other, scream);
 		switch (scream) {
 			// 1 E/e (basic)
 			case "E":
@@ -290,7 +320,15 @@ function pepe(code, inp) {
 			case "EE": // label
 				expl += "Create label "+stack.now();
 				labels[stack.now()] = i;
-				console.log("label",i);
+				// console.log("label:", i, stack.flag & consts.RETURN);
+
+				if (stack.flag & consts.RETURN) {
+					var n = labels.goto();
+					// console.log("gotor:", i, n);
+					if (n != -1) {
+						i = n;
+					}
+				}
 				break;
 			case "Ee": // return
 				expl += "Return to command "+(lgoto+1)
@@ -321,7 +359,7 @@ function pepe(code, inp) {
 				} else {
 					expl += "A!=B, false";
 				}
-				console.log(stack.now(), other.now(), "goto",i);
+				// console.log(stack.now(), other.now(), "goto",i);
 				break;
 
 			// 3 E/e (I/O)
@@ -710,12 +748,16 @@ function pepe(code, inp) {
 		}
 		
 		if (flags["step"] || i >= code.length-1) {
+
+			var xlabels = labels;
+
+			delete xlabels.flag;
 		
 			debug(expl)
 			debug("")
 			
 			debug("Labels:");
-			debug("\t", JSON.stringify(labels));
+			debug("\t", JSON.stringify(xlabels));
 			debug("");
 			
 			debug("Stacks:");
@@ -724,6 +766,7 @@ function pepe(code, inp) {
 			debug("");
 		}
 		
+		// console.log("Command done!", i);
 		if (i >= code.length-1) {
 			// Execution finished
 			return [true, out, i];
