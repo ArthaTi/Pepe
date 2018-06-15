@@ -80,7 +80,7 @@ List of commands available in Pepe.
   > R = [PreservePush]
    - `EEEEE` - [Increment active item](https://github.com/Soaku/Pepe/projects/2#card-7338659)
    - `EEEEe` - [Decrement active item](https://github.com/Soaku/Pepe/projects/2#card-7338662)
-- `EEEeE` *Deprecated* - [Duplicate active item (duplicate to next)](https://github.com/Soaku/Pepe/projects/2#card-7338639)
+- `EEEeE` - *Deprecated* [Duplicate active item (duplicate to next)](https://github.com/Soaku/Pepe/projects/2#card-7338639)
 - > Flags:
   > r = [Insert], 
   > R = [Prepend]
