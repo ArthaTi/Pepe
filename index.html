@@ -211,7 +211,6 @@ $(function() {
 	
 	highlight = function(mark=-1, preserve) {
 		if (preserve) {
-			console.log(mark, $("#highlight .pepe-cmd"));
 			$("#highlight .pepe-cmd").eq(mark).addClass("pepe-highlight").addClass("pepe-target");
 			$("#highlight").addClass("pepe-jump");
 			return;
@@ -223,7 +222,6 @@ $(function() {
 		var cmt  = false;
 		var code = $("#code").val();
 		var res  = "";
-		var match = false;
 		var flag  = true;
 		var f_started = false;
 		
@@ -271,25 +269,21 @@ $(function() {
 						} else {
 							classes += "pepe-cmd ";
 						}
+
+						// console.log("end", flag, f_started);
 					
-						if (!flag) {
-							cmd++;
-						}
 						if (flag && f_started) {
 							res += "</span>";
 						}
 
-						if (match) {
-							match = false;
+						if (!flag && !isflag) {
+							cmd++;
 						}
+
 						if (cmd) {
 							res += "</span>";
 						}
-						
-						if (mark == cmd) {
-							match = true;
-							classes += "pepe-highlight"
-						}
+
 						res += "<span class='"+classes+"'>";
 						
 						flag = false;
@@ -330,16 +324,22 @@ $(function() {
 		res = res.replace(/\r\n|\n|\r/g, "<br />");
 		
 		var res = $($.parseHTML(res));
+			
 		res.filter(".pepe-cmd").add(res.find(".pepe-cmd")).each(function(){
 			var cmd = $(this).ignore(".pepe-comment").text();
 			if (!cmd_exists(cmd)) {
-				console.log(cmd);
 				$(this).addClass("pepe-error");
 			}
 		});
 		$("#highlight")
 			.show()
 			.html(res);
+
+		if (mark >= 0) {
+			$("#highlight .pepe-cmd")
+				.eq(mark)
+				.addClass("pepe-highlight");
+		}
 	}
  
 	gettext = function() {
@@ -381,17 +381,16 @@ $(function() {
 			if ($("[name=step]:checked").length) {
 				$("#run").text("Restart");
 				$("#stop, #step").prop("disabled", false);
-				console.log("REEE");
 				exc = pepe(
 					$("#code").val(),
 					inputs,
 					stdlog,
 					{"step":true}
 				);
-				console.log(exc);
 				highlight();
 				//console.log(exc);
 				steps = 0;
+				i     = -1;
 				
 				$("#steps").text(steps);
 				if (exc) {
@@ -417,7 +416,6 @@ $(function() {
 				res = exc();
 				var pre = i;
 				i = res[2];
-				console.log("CMP:", pre, i);
 				if (pre+1 != i) {
 					highlight(i, true)
 				}
