@@ -186,7 +186,7 @@ function pepe(code, inp) {
 				var ret = -1;
 
 				returns.forEach(function(x){
-					if (x > i) {
+					if (x > i && (ret == -1 || x < ret)) {
 						ret = x;
 					}
 				});
@@ -333,7 +333,7 @@ function pepe(code, inp) {
 			case "Ee": // return
 				expl += "Return to command "+(lgoto+1)
 				if (lgoto > 0) {
-					i = lgoto + 1;
+					i = lgoto;
 				}
 				break;
 			case "eE": // goto if WI == OI
