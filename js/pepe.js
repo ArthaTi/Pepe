@@ -120,7 +120,6 @@ function nstack() {
 		},
 		prepend: function(item) {
 			var t = this;
-			t.refresh();
 			t.array.splice(0, 0, item);
 			return item;
 		},
