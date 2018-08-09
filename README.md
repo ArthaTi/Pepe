@@ -1,6 +1,6 @@
 # Pepe
 
-Pepe is a programming language based on a meme. It uses only 4 characters: `r`, `e`, `R`, `E`, other are ignored. It's preffered to separate commands with a space.
+Pepe is a programming language based on a meme. It uses only 4 characters: `r`, `e`, `R`, `E`, other are ignored. It's preferred to separate commands with a space.
 
 Pepe is stack-based and has 2 stacks: `r` and `R`. Every command starts with the stack name, defining on which stack will it work.
 
@@ -25,10 +25,10 @@ This might not be the cleanest and the shortest solution, but works. Uses the ch
 ### Cat
 
 ```
-REEE Reee 
+REEe Reee 
 ```
 
-Take input and print it. Just note, that if the input is a valid integer, Pepe will try to convert it to a charcode.
+Take input and print it.
 
 ## List of commands
 
