@@ -700,12 +700,9 @@ function pepe(code, inp) {
 				break;
 			case "EEEEeEEe":
 				expl += "Clear without removing selected item";
-				for (var it in stack.array) {
-					stack.refresh();
-					if (it != stack.pointer) {
-						stack.array.splice(it, 1)
-					}
-				}
+				var it = stack.now();
+				stack.array.length = 0;
+				stack.array.push(it);
 				break;
 			case "EEEEeEeE":
 				expl += "Sort the stack";
