@@ -709,7 +709,10 @@ function pepe(code, inp) {
 				break;
 			case "EEEEeEeE":
 				expl += "Sort the stack";
-				stack.array.sort();
+				// source: https://stackoverflow.com/a/1063027/5147563
+				stack.array.sort(function(a,b) {
+						return a - b;
+				});
 				break;
 			case "EEEEeEee":
 				expl += "Reverse the stack";
