@@ -690,7 +690,7 @@ function pepe(code, inp) {
 				break;
 			case "EEEEEeee":
 				expl += "Decrement stack content";
-				stack.array.forEach(function(a) {
+				stack.array = stack.array.map(function(a) {
 					return a-1;
 				});
 				break;
