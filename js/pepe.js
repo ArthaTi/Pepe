@@ -503,7 +503,10 @@ function pepe(code, inp) {
 			cmdflag(patterns.push);
 
 				expl += "Random value from 0 to "+stack.now();
-				stack.set(Math.floor(Math.random() * stack.now()));
+				var neg = Math.abs(stack.now()) != stack.now();
+				var val = (neg?Math.abs(stack.now()):stack.now())+1
+				val = Math.floor(Math.random() * val)
+				stack.set(neg?-val:val);
 				break;
 				// Empty slot
 			case "EEeeE": // round
