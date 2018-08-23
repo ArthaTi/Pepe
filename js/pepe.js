@@ -674,7 +674,7 @@ function pepe(code, inp) {
 				expl += "Multiply stack content";
 				stack.push(stack.array.reduce(function(a, b) {
 					return a * b;
-				}, 0));
+				}, 1));
 				break;
 			case "EEEEEeEE":
 				expl += "Join stack content";
