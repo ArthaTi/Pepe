@@ -561,12 +561,12 @@ function pepe(code, inp) {
 				break;
 			case "eEEEE":
 			cmdflag(patterns.push);
-				expl += "Modulus 2, "+stack.now()+" → "(stack.now()%2);
+				expl += "Modulus 2, "+stack.now()+" → "+(stack.now()%2);
 				stack.set(stack.now()%2);
 				break;
 			case "eEEEe":
 			cmdflag(patterns.push);
-				expl += "Modulus 3, "+stack.now()+" → "(stack.now()%3);
+				expl += "Modulus 3, "+stack.now()+" → "+(stack.now()%3);
 				stack.set(stack.now()%3);
 				break;
 				// Empty slots
