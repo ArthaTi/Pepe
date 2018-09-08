@@ -31,6 +31,8 @@ List of commands available in Pepe.
 > Goto commands don't do anything if corresponding labels don't exist.
 >
 > Commands in this section do not pop.
+>
+> Flags are listen in a [project column](https://github.com/Soaku/Pepe/projects/4#column-2890828)
 
 - `EE` - [Create label with name X](https://github.com/Soaku/Pepe/projects/2#card-7338713)
   - Calling again with the same name will result in replacing previous label
