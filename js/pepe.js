@@ -606,9 +606,11 @@ function pepe(code, inp) {
 			case "EEEeee":
 				expl += "Chunk - Split "+stack.now()+" to "+other.now()+" parts";
 				var d2 = other.pop();
-				var d1 = stack.pop() / d2;
+				var d1 = stack.pop().toString(10);
 				for (var n = 0; n < d2; n++) {
-					stack.push(d1);
+					var len = Math.floor(d1.length / d2);
+					var xres = parseFloat(n+1 < d2 ? d1.substring(len*n, len*n+len) : d1.substring(len*n));
+					stack.push(xres);
 				}
 				break;
 				// Empty slot
