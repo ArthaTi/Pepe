@@ -588,7 +588,8 @@ function pepe(code, inp) {
 				break;
 			case "EEEEee":
 				expl += "Divide, "+stack.now()+" / "+other.now()+" = "+(stack.now() / other.now());
-				stack.push(stack.pop() / other.pop());
+				var xres = stack.pop() / other.pop();
+				stack.push(isFinite(xres)? xres : 0);
 				break;
 			case "EEEeEE":
 				expl += "Join, "+stack.now()+" + "+other.now()+" = "+("" + stack.now() + other.now());
