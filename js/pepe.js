@@ -15,7 +15,8 @@ Array.prototype.diff = function(a, r) {
 	//   remove non-repetative
 	// else:
 	//   remove repetative
-	for (var k in this) {
+	var k = this.length;
+	while (k--) {
 		var i = this[k];
 		if (typeof i == "function") continue;
 
