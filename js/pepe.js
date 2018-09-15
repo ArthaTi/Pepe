@@ -552,7 +552,8 @@ function pepe(code, inp) {
 			case "EeeeE":
 			cmdflag(patterns.push);
 				expl += "Square root, "+stack.now()+" → "+Math.sqrt(stack.now());
-				stack.set(Math.sqrt(stack.now()));
+				var xres = Math.sqrt(stack.now());
+				stack.set(xres ? xres : 0);
 				break;
 			case "Eeeee":
 			cmdflag(patterns.push);
