@@ -595,15 +595,15 @@ function pepe(code, inp) {
 				expl += "Join, "+stack.now()+" + "+other.now()+" = "+("" + stack.now() + other.now());
 				stack.push(parseInt("" + stack.pop() + other.pop()));
 				break;
-			case "EEEeEe":
+			case "EEEeeE":
 				expl += "Split "+stack.now()+" every "+other.now()+" digits";
-				var str = stack.pop();
+				var str = stack.pop().toString(10);
 				var sep = other.pop();
 				for (var m = 0; m < str.length; m += sep) {
 					stack.push(str.substring(m, m + sep));
 				}
 				break;
-			case "EEEeeE":
+			case "EEEeee":
 				expl += "Chunk - Split "+stack.now()+" to "+other.now()+" parts";
 				var d2 = other.pop();
 				var d1 = stack.pop() / d2;
