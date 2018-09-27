@@ -8,8 +8,6 @@ List of commands available in Pepe.
 - `Stack >>` - Pop **selected item** from the stack and perform action on the popped item.
 - Pushed items always go to the end of stack and they don't change pointer location.
 
-## v.1.0.1 alpha
-
 [Preserve]: https://github.com/Soaku/Pepe/projects/4#card-10518943
 [Insert]: https://github.com/Soaku/Pepe/projects/4#card-10519066
 [Prepend]: https://github.com/Soaku/Pepe/projects/4#card-10519078
@@ -32,7 +30,7 @@ List of commands available in Pepe.
 >
 > Commands in this section do not pop.
 >
-> Flags are listen in a [project column](https://github.com/Soaku/Pepe/projects/4#column-2890828)
+> Flags are listed in a [project column](https://github.com/Soaku/Pepe/projects/4#column-2890828)
 
 - `EE` - [Create label with name X](https://github.com/Soaku/Pepe/projects/2#card-7338713)
   - Calling again with the same name will result in replacing previous label
@@ -69,7 +67,6 @@ List of commands available in Pepe.
 - `EEEe` - [Move WS pointer to last item](https://github.com/Soaku/Pepe/projects/2#card-7337939)
 - `EEeE` - [Rewind - Move WS pointer to previous item](https://github.com/Soaku/Pepe/projects/2#card-7337914)
 - `EEee` - [Forward - Move WS pointer to next item](https://github.com/Soaku/Pepe/projects/2#card-7337906)
-- Empty slots...
 - `EeEE` - [Set position to random item](https://github.com/Soaku/Pepe/projects/2#card-7487437)
 - `EeEe` - Empty (reserved for random function)
 
@@ -104,6 +101,8 @@ List of commands available in Pepe.
    - `Eeeee` - [Cube root of active item](https://github.com/Soaku/Pepe/projects/2#card-7488346)
    - `eEEEE` - [Modulo 2 of active item](https://github.com/Soaku/Pepe/projects/2#card-7708043)
    - `eEEEe` - [Modulo 3 of active item](https://github.com/Soaku/Pepe/projects/2#card-7708024)
+   - **TODO:** `eEEeE` - [Active item << 1](https://github.com/Soaku/Pepe/projects/2#card-13368193)
+   - **TODO:** `eEEee` - [Active item >>> 1](https://github.com/Soaku/Pepe/projects/2#card-13368228)
 
 ### [6 E/e (64) 2 value](https://github.com/Soaku/Pepe/projects/2#column-2172019)
 
@@ -134,6 +133,8 @@ List of commands available in Pepe.
 - `EEeEEe` - [WS << B'th root of A](https://github.com/Soaku/Pepe/projects/2#card-7487580)
 - `EEeEeE` - [WS << A%B (modulo)](https://github.com/Soaku/Pepe/projects/2#card-7708060)
 - `EEeEee` - Empty
+- **TODO:** `EEeeEE` - [Left bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368042)
+- **TODO:** `EEeeEe` - [Logical right bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368119)
 
 ### [7 E/e (128) Cross-stack](https://github.com/Soaku/Pepe/projects/2#column-2172008)
 
