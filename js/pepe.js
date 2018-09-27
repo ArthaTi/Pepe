@@ -571,8 +571,17 @@ function pepe(code, inp) {
 				expl += "Modulus 3, "+stack.now()+" → "+(stack.now()%3);
 				stack.set(stack.now()%3);
 				break;
+			case "eEEeE":
+			cmdflag(patterns.push);
+				expl += "Left bit shift, "+stack.now()+" → "+(stack.now() << 1);
+				stack.set(stack.now() << 1);
+				break;
+			case "eEEee":
+			cmdflag(patterns.push);
+				expl += "Logical right bit shift, "+stack.now()+" → "+(stack.now() >>> 1);
+				stack.set(stack.now() >>> 1);
+				break;
 				// Empty slots
-
 
 			// 6 E/e (2 value)
 			case "EEEEEE":
@@ -626,6 +635,15 @@ function pepe(code, inp) {
 			case "EEeEeE":
 				expl += "Modulus, "+stack.now()+" % "+other.now()+" = "+(stack.now() % other.now());
 				stack.push(stack.pop() % other.pop());
+				break;
+				// Empty slot
+			case "EEeeEE":
+				expl += "Left bit shift, "+stack.now()+" << "+other.now()+" → "+(stack.now() << other.now());
+				stack.push(stack.pop() << other.pop());
+				break;
+			case "EEeeEe":
+				expl += "Logical right bit shift, "+stack.now()+" >>> "+other.now()+" → "+(stack.now() >>> other.now());
+				stack.push(stack.pop() >>> other.pop());
 				break;
 				// Empty slots
 				
