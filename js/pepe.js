@@ -364,8 +364,7 @@ function pepe(code, inp) {
 
 			// 3 E/e (I/O)
 			case "EEE":
-
-				cmdflag(patterns.pos);
+			cmdflag(patterns.pos);
 
 				if (isNaN(getinp()) || !getinp().length) {
 					expl += "Input auto-parsed as string"
@@ -382,8 +381,7 @@ function pepe(code, inp) {
 				break;
 
 			case "EEe":
-
-				cmdflag(patterns.pos);
+			cmdflag(patterns.pos);
 
 				expl += "Input (string)"
 				for (let j = 0; j < getinp().length; j++) {
@@ -393,8 +391,7 @@ function pepe(code, inp) {
 				break;
 
 			case "EeE":
-
-				cmdflag(patterns.pos);
+			cmdflag(patterns.pos);
 
 				if (isNaN(getinp())) {
 					expl += "Input isn't a number, push 0 instead";
@@ -407,8 +404,7 @@ function pepe(code, inp) {
 				break;
 
 			case "Eee":
-
-				cmdflag(patterns.pos);
+			cmdflag(patterns.pos);
 
 				if (isNaN(getinp())) {
 					expl += "Input isn't a number, push 0 instead";
@@ -421,15 +417,15 @@ function pepe(code, inp) {
 				break;
 
 			case "eEE":
-
-				cmdflag(patterns.pop);
+			cmdflag(patterns.pop);
+			
 				expl += "Output as number";
 				output(stack.pop());
 				break;
 
 			case "eEe":
-
-				cmdflag(patterns.pop);
+			cmdflag(patterns.pop);
+			
 				expl += "Output as character"
 				output(String.fromCharCode(stack.pop()));
 				break;
@@ -585,27 +581,33 @@ function pepe(code, inp) {
 
 			// 6 E/e (2 value)
 			case "EEEEEE":
+			cmdflag(patterns.mix);
 				expl += "Sum, "+stack.now()+" + "+other.now()+" = "+(stack.now() + other.now());
 				stack.push(stack.pop() + other.pop());
 				break;
 			case "EEEEEe":
+			cmdflag(patterns.mix);
 				expl += "Substract, "+stack.now()+" - "+other.now()+" = "+(stack.now() - other.now());
 				stack.push(stack.pop() - other.pop());
 				break;
 			case "EEEEeE":
+			cmdflag(patterns.mix);
 				expl += "Multiply, "+stack.now()+" * "+other.now()+" = "+(stack.now() * other.now());
 				stack.push(stack.pop() * other.pop());
 				break;
 			case "EEEEee":
+			cmdflag(patterns.mix);
 				expl += "Divide, "+stack.now()+" / "+other.now()+" = "+(stack.now() / other.now());
 				var xres = stack.pop() / other.pop();
 				stack.push(isFinite(xres)? xres : 0);
 				break;
 			case "EEEeEE":
+			cmdflag(patterns.mix);
 				expl += "Join, "+stack.now()+" + "+other.now()+" = "+("" + stack.now() + other.now());
 				stack.push(parseInt("" + stack.pop() + other.pop()));
 				break;
 			case "EEEeeE":
+			cmdflag(patterns.mix);
 				expl += "Split "+stack.now()+" every "+other.now()+" digits";
 				var str = stack.pop().toString(10);
 				var sep = other.pop();
@@ -614,6 +616,7 @@ function pepe(code, inp) {
 				}
 				break;
 			case "EEEeee":
+			cmdflag(patterns.mix);
 				expl += "Chunk - Split "+stack.now()+" to "+other.now()+" parts";
 				var d2 = other.pop();
 				var d1 = stack.pop().toString(10);
@@ -625,23 +628,28 @@ function pepe(code, inp) {
 				break;
 				// Empty slot
 			case "EEeEEE":
+			cmdflag(patterns.mix);
 				expl += "Power, "+stack.now()+" ^ "+other.now()+" = "+Math.pow(stack.now(), other.now());
 				stack.push(Math.pow(stack.pop(), other.pop()));
 				break;
 			case "EEeEEe":
+			cmdflag(patterns.mix);
 				expl += stack.now()+"th root of "+other.now()+" = "+nthroot(stack.now(), other.now());
 				stack.push(nthroot(stack.pop(), other.pop()));
 				break;
 			case "EEeEeE":
+			cmdflag(patterns.mix);
 				expl += "Modulus, "+stack.now()+" % "+other.now()+" = "+(stack.now() % other.now());
 				stack.push(stack.pop() % other.pop());
 				break;
 				// Empty slot
 			case "EEeeEE":
+			cmdflag(patterns.mix);
 				expl += "Left bit shift, "+stack.now()+" << "+other.now()+" → "+(stack.now() << other.now());
 				stack.push(stack.pop() << other.pop());
 				break;
 			case "EEeeEe":
+			cmdflag(patterns.mix);
 				expl += "Logical right bit shift, "+stack.now()+" >>> "+other.now()+" → "+(stack.now() >>> other.now());
 				stack.push(stack.pop() >>> other.pop());
 				break;
@@ -691,18 +699,21 @@ function pepe(code, inp) {
 
 			// 8 E/e
 			case "EEEEEEEE":
+			cmdflag(patterns.mix);
 				expl += "Sum stack content";
 				stack.push(stack.array.reduce(function(a, b) {
 					return a + b;
 				}, 0));
 				break;
 			case "EEEEEEeE":
+			cmdflag(patterns.mix);
 				expl += "Multiply stack content";
 				stack.push(stack.array.reduce(function(a, b) {
 					return a * b;
 				}, 1));
 				break;
 			case "EEEEEeEE":
+			cmdflag(patterns.mix);
 				expl += "Join stack content";
 				stack.push(stack.array.reduce(function(a, b) {
 					return window.parseInt(a.toString() + b.toString());
