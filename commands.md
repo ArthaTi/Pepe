@@ -69,7 +69,6 @@ List of commands available in Pepe.
 - `EEEe` - [Move WS pointer to last item](https://github.com/Soaku/Pepe/projects/2#card-7337939)
 - `EEeE` - [Rewind - Move WS pointer to previous item](https://github.com/Soaku/Pepe/projects/2#card-7337914)
 - `EEee` - [Forward - Move WS pointer to next item](https://github.com/Soaku/Pepe/projects/2#card-7337906)
-- Empty slots...
 - `EeEE` - [Set position to random item](https://github.com/Soaku/Pepe/projects/2#card-7487437)
 - `EeEe` - Empty (reserved for random function)
 
