@@ -101,8 +101,8 @@ List of commands available in Pepe.
    - `Eeeee` - [Cube root of active item](https://github.com/Soaku/Pepe/projects/2#card-7488346)
    - `eEEEE` - [Modulo 2 of active item](https://github.com/Soaku/Pepe/projects/2#card-7708043)
    - `eEEEe` - [Modulo 3 of active item](https://github.com/Soaku/Pepe/projects/2#card-7708024)
-   - **TODO:** `eEEeE` - [Active item << 1](https://github.com/Soaku/Pepe/projects/2#card-13368193)
-   - **TODO:** `eEEee` - [Active item >>> 1](https://github.com/Soaku/Pepe/projects/2#card-13368228)
+   - `eEEeE` - [Active item << 1](https://github.com/Soaku/Pepe/projects/2#card-13368193)
+   - `eEEee` - [Active item >>> 1](https://github.com/Soaku/Pepe/projects/2#card-13368228)
 
 ### [6 E/e (64) 2 value](https://github.com/Soaku/Pepe/projects/2#column-2172019)
 
@@ -133,8 +133,8 @@ List of commands available in Pepe.
 - `EEeEEe` - [WS << B'th root of A](https://github.com/Soaku/Pepe/projects/2#card-7487580)
 - `EEeEeE` - [WS << A%B (modulo)](https://github.com/Soaku/Pepe/projects/2#card-7708060)
 - `EEeEee` - Empty
-- **TODO:** `EEeeEE` - [Left bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368042)
-- **TODO:** `EEeeEe` - [Logical right bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368119)
+- `EEeeEE` - [Left bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368042)
+- `EEeeEe` - [Logical right bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368119)
 
 ### [7 E/e (128) Cross-stack](https://github.com/Soaku/Pepe/projects/2#column-2172008)
 
