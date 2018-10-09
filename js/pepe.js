@@ -461,12 +461,21 @@ function pepe(code, inp) {
 				expl += "Move pointer to next position";
 				stack.next();
 				break;
-				// empty slots...
 			case "EeEE":
 				expl += "Move pointer to a random position";
 				stack.pointer = Math.floor(Math.random() * stack.array.length);
 				break;
 				// empty random slot
+			case "EeeE":
+			cmdflag(patterns.pos);
+				expl += "Push pointer position";
+				stack.push(stack.pointer);
+				break;
+			case "Eeee":
+			cmdflag(patterns.pos);
+				expl += "Push reverse pointer position";
+				stack.push(stack.array.length - stack.pointer - 1)
+				break;			
 
 			// 5 E/e (active)
 			case "EEEEE": // ++
