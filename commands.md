@@ -137,6 +137,7 @@ List of commands available in Pepe.
 - `EEeEee` - Empty
 - `EEeeEE` - [Left bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368042)
 - `EEeeEe` - [Logical right bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368119)
+- `EEeeeE` - WS << Character repeated B times.
 
 ### [7 E/e (128) Cross-stack](https://github.com/Soaku/Pepe/projects/2#column-2172008)
 
