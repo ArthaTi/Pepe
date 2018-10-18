@@ -69,8 +69,8 @@ List of commands available in Pepe.
 - `EEee` - [Forward - Move WS pointer to next item](https://github.com/Soaku/Pepe/projects/2#card-7337906)
 - `EeEE` - [Set position to random item](https://github.com/Soaku/Pepe/projects/2#card-7487437)
 - `EeEe` - Empty (reserved for random function)
-- `EeeE` - Push pointer position (0-indexed)
-- `Eeee` - Push pointer position in reverse 
+- `EeeE` - [Push pointer position (0-indexed)](https://github.com/Soaku/Pepe/issues/10)
+- `Eeee` - [Push pointer position in reverse](https://github.com/Soaku/Pepe/issues/10)
 
 ### [5 E/e (32) Active item](https://github.com/Soaku/Pepe/projects/2#column-2173896)
 
@@ -137,7 +137,7 @@ List of commands available in Pepe.
 - `EEeEee` - Empty
 - `EEeeEE` - [Left bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368042)
 - `EEeeEe` - [Logical right bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368119)
-- `EEeeeE` - WS << Character repeated B times.
+- `EEeeeE` - [WS << Character repeated B times.](https://github.com/Soaku/Pepe/issues/12)
 
 ### [7 E/e (128) Cross-stack](https://github.com/Soaku/Pepe/projects/2#column-2172008)
 
