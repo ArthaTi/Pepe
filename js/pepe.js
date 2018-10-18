@@ -662,6 +662,13 @@ function pepe(code, inp) {
 				expl += "Logical right bit shift, "+stack.now()+" >>> "+other.now()+" → "+(stack.now() >>> other.now());
 				stack.push(stack.pop() >>> other.pop());
 				break;
+			case "EEeeeE":
+			cmdflag(patterns.mix);
+				expl += "Push "+stack.now()+" "+other.now()+" times."
+				var times = other.pop();
+				var item  = stack.pop();
+				while(times --> 0) stack.push(item);
+				break;
 				// Empty slots
 				
 
