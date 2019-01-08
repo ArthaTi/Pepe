@@ -69,8 +69,19 @@ List of commands available in Pepe.
 - `EEee` - [Forward - Move WS pointer to next item](https://github.com/Soaku/Pepe/projects/2#card-7337906)
 - `EeEE` - [Set position to random item](https://github.com/Soaku/Pepe/projects/2#card-7487437)
 - `EeEe` - Empty (reserved for random function)
-- `EeeE` - [Push pointer position (0-indexed)](https://github.com/Soaku/Pepe/issues/10)
-- `Eeee` - [Push pointer position in reverse](https://github.com/Soaku/Pepe/issues/10)
+- `EeeE` - [Push pointer position (0-indexed)][i10]
+- `Eeee` - [Push pointer position in reverse][i10]
+- `eEEE` - [Move input pointer to the first item][i10]
+- `eEEe` - [Move input pointer to the last item][i10]
+- `eEeE` - [Move input pointer to the previous item][i10]
+- `eEee` - [Move input pointer to the next item][i10]
+- `eeEE` - [Push input pointer position][i10]
+- `eeEe` - [Push amount of input items left][i10]
+  - Warning: this will return a negative number if end of input was crossed.
+- `eeeE` - [Lock input pointer – prevent automatic changes to it][i10]
+- `eeee` - [Unlock input pointer – allow automatic changes to it][i10]
+
+[i10]: https://github.com/Soaku/Pepe/issues/10
 
 ### [5 E/e (32) Active item](https://github.com/Soaku/Pepe/projects/2#column-2173896)
 

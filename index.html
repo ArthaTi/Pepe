@@ -376,8 +376,11 @@ $(function() {
 			$("#debug, #output").text("");
 			
 			var inputs = $("#input").val();
-			if ($("#isinpsep").is(":checked")) inputs = inputs.split($("#inpsep").val());
-			else inputs = [inputs];
+			if ($("#isinpsep").is(":checked")) { 
+				if (inputs.length) inputs = inputs.split($("#inpsep").val());
+				else inputs
+				
+			} else inputs = [inputs];
 				
 			if ($("[name=step]:checked").length) {
 				$("#run").text("Restart");

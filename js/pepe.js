@@ -1,3 +1,6 @@
+// Before entering this file, be aware that this is my second worst code I've ever written.
+// TODO: Rewrite this.
+
 function nthroot(x, n) {
 	try {
 		var negate = n % 2 == 1 && x < 0;
@@ -147,6 +150,7 @@ function pepe(code, inp) {
 	var out = "";
 	var flags = {};
 	var ip = 0;
+	var iplock = false;
 	var returns = [];
 	
 	function getinp() {
@@ -377,7 +381,7 @@ function pepe(code, inp) {
 					debug("input:",parse)
 					stack.push(parse);
 				}
-				ip++;
+				if (!iplock) ip++;
 				break;
 
 			case "EEe":
@@ -387,7 +391,7 @@ function pepe(code, inp) {
 				for (let j = 0; j < getinp().length; j++) {
 					stack.push(getinp().charCodeAt(j));
 				}
-				ip++;
+				if (!iplock) ip++;
 				break;
 
 			case "EeE":
@@ -400,7 +404,7 @@ function pepe(code, inp) {
 					expl += "Input (int): "+Math.round(getinp());
 					stack.push(Math.round(getinp()))
 				}
-				ip++;
+				if (!iplock) ip++;
 				break;
 
 			case "Eee":
@@ -413,7 +417,7 @@ function pepe(code, inp) {
 					expl += "Input (float): "+getinp();
 					stack.push(parseFloat(getinp()))
 				}
-				ip++;
+				if (!iplock) ip++;
 				break;
 
 			case "eEE":
@@ -475,7 +479,41 @@ function pepe(code, inp) {
 			cmdflag(patterns.pos);
 				expl += "Push reverse pointer position";
 				stack.push(stack.array.length - stack.pointer - 1)
-				break;			
+				break;
+			case "eEEE":
+				ip = 0;
+				expl += "Move input pointer before the first item ("+ip+")";
+				break;
+			case "eEEe":
+				ip = inp.length -1;
+				expl += "Move input pointer before the last item ("+ip+")";
+				break;
+			case "eEeE":
+				ip = Math.max(ip-1, 0);
+				expl += "Move input pointer to previous item ("+ip+")";
+				break;
+			case "eEee":
+				ip++;
+				expl += "Move input pointer to next item ("+ip+")";
+				break;
+			case "eeEE":
+				stack.push(ip);
+				expl += "Push input pointer position ("+ip+")";
+				break;
+			case "eeEe":
+				var pos = inp.length - ip;
+				stack.push(pos);
+				expl += "Push amount of input items left ("+pos+")";
+				break;
+			case "eeeE":
+				expl += "Lock input pointer";
+				iplock = true;
+				break;
+			case "eeee":
+				expl += "Unlock input pointer";
+				iplock = false;
+				break;
+			
 
 			// 5 E/e (active)
 			case "EEEEE": // ++
