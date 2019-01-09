@@ -61,7 +61,7 @@ List of commands available in Pepe.
 
 ### [4 E/e (16) Pointer](https://github.com/Soaku/Pepe/projects/2#column-2171962)
 
-*10 slots left*
+*1 slot left*
 
 - `EEEE` - [Move WS pointer to first item](https://github.com/Soaku/Pepe/projects/2#card-7337904)
 - `EEEe` - [Move WS pointer to last item](https://github.com/Soaku/Pepe/projects/2#card-7337939)
