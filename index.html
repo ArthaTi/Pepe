@@ -1,488 +1,61 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Pepe</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <script
+        src="http://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+        crossorigin="anonymous"></script>
+    <script type="module" src="/js/main.js"></script>
+</head>
 <html>
 
-<head>
-  <script
-  src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-  crossorigin="anonymous"></script>
-  <script src="js/pepe.js"></script>
-  <script src="js/commands.js"></script>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  
-  <style>
-	textarea {
-	  width: 100%;
-	  resize: vertical;
-	}
+    <div class="col-50" id="editor-root">
 
-	pre, #highlight, #link {
-	  white-space: pre-wrap;
-	  word-wrap: break-word;
-	}
-	
-	.pepe-highlight {
-		color: #08f;
-	}
-	
-	.pepe-jump .pepe-highlight:not(.pepe-target) {
-		color: #adf;
-	}
-	
-	.pepe-comment {
-		color: #5c5;
-	}
-	
-	.pepe-error {
-		color: red;
-	}
+        <div id="debug">
+            <button id="run">Run</button>
+            <div class="vr"></div>
+            <button id="prev" disabled>← Previous</button>
+            <button id="into" disabled>Step into ↓</button>
+            <button id="next" disabled>Next →</button>
+            <button id="continue" disabled>Continue</button>
+        </div>
 
-	.pepe-flag {
-		display: inline-block;
-		color: purple;
-		font-style: italic;
-		transform: scale(1, 0.75);
-		transform-origin: 50% 90%;
-	}
-	
-	#code {
-		font-size: 13px;
-		color: rgba(0,0,0,0);
-		caret-color: black;
-		overflow:hidden;
-	}
-	#highlight {
-		font-size:13px;
-		z-index: 3;
-		font-family:monospace;
-		overflow: hidden;
-		pointer-events: none;
-		padding: 6px;
-	}
-	table {
-		width:100%;
-	}
-	
-	.relative {
-		position:relative
-	}
-	.absolute {
-		position: absolute;
-		top:0;
-		left:0;
-		right:0;
-		bottom:0
-	}
-  </style>
-</head>
+        <div id="editor" class="view" contenteditable="true" autofocus="true">
+            <br />
+        </div>
 
-<body>
+        <div id="data">
 
-<p>Code <button onclick="gettext()">Generate text</button></p>
-<p>Compressed & permalink: <code><a id="link"></a></code></p>
-<p style="font-size:0.75em" id="count"></p>
-<table class="relative">
-	<tr>
-		<td>
-			<textarea 
-				id="code" 
-				rows="15" 
-				autocomplete="off" 
-				autocorrect="off" 
-				autocapitalize="off" 
-				spellcheck="false"></textarea>
-		</td>
-		<td style="display:none" class="absolute" id="highlight">
-		</td>
-	</tr>
-</table>
+            <div class="col-50 scroll" id="suggestions">
 
-<p>Input</p>
-<textarea id="input"></textarea>
-<p>
-	<input type="checkbox" id="isinpsep" checked />
-	<label for="isinpsep"> Separated by </label>
-	<input type="text" id="inpsep" value=";" />
-</p>
+                <div>Suggestions</div>
+                <div>Suggestions</div>
+                <div>Suggestions</div>
+                <div>Suggestions</div>
 
-<button id="run">Run</button> 
-<button id="stop" disabled>Stop</button> 
-<button id="step" disabled>&gt;</button> <span id="steps"></span>
+            </div>
 
-<p>Output</p>
-<pre id="output"></pre>
+            <div class="col-50 scroll" id="documentation">
 
-<p>Execution flags</p>
-<div>
-	<input type="checkbox" id="boxstep" name="step"> 
-	<label for="boxstep">Debug step by step</label>
-	
-	<div style="margin-left:20px;">
-		<input type="checkbox" id="boxclear" name="clear" checked> 
-		<label for="boxclear">Clear log each step (major optimization)</label>
-	</div>
-</div>
+                <h1>pop</h1>
+                <p>This is some documentation</p>
 
-<p>Debug</p>
-<pre id="debug"></pre>
+            </div>
 
-<script>
-var getlink, gettext, init = false, highlight;
-getlink = gettext = function(){alert("Wait a bit, then retry, please!")};
-$(function() {
+        </div>
 
-	$.fn.ignore = function(sel){
-		return this.clone().find(sel||">*").remove().end();
-	};
+    </div>
 
-	cmd_init(function(){
-		highlight();
-		init = true;
-	});
+    <div class="col-50">
 
-	$("#code")
-		.on("input propertychange", calclen)
-		.on("keydown", function() {
-			var ecode = $("#code")[0];
-			if (ecode.clientHeight < ecode.scrollHeight) { ecode.style.height = ecode.scrollHeight + 'px'; }
-		});
-	
-	function upperPepe(x) {
-		x = x.toUpperCase();
-		x = x.replace(/1/g, "!");
-		x = x.replace(/2/g, "@");
-		x = x.replace(/3/g, "-");
-		x = x.replace(/4/g, "$");
-		x = x.replace(/5/g, ".");
-		x = x.replace(/6/g, "_");
-		x = x.replace(/7/g, "&");
-		x = x.replace(/8/g, "*");
-		x = x.replace(/9/g, "/");
-		x = x.replace(/0/g, "?");
-		return x;
-	}
-	
-	function lowerPepe(x) {
-		x = x.toLowerCase();
-		x = x.replace(/\!/g, "1");
-		x = x.replace(/\@/g, "2");
-		x = x.replace(/\-/g, "3");
-		x = x.replace(/\$/g, "4");
-		x = x.replace(/\./g, "5");
-		x = x.replace(/\_/g, "6");
-		x = x.replace(/\&/g, "7");
-		x = x.replace(/\*/g, "8");
-		x = x.replace(/\//g, "9");
-		x = x.replace(/\?/g, "0");
-		return x;
-	}
+        <div id="output" class="view"></div>
 
-	function calclen() {
-		var code = $("#code").val();
-		code = code.replace(/#.*/g, "");
-		code = code.replace(/[^rReE]/g, "");
-		$("#count").text(code.length+" bytes minimum, "+getlink().length+" compressed");
-		
-		if (init) highlight();
-	}
- 
-	getlink = function() {
-		code = $("#code").val();
-		code = code.replace(/#.*|[^re]/ig, "");
-		code = code.replace(/(r)/gi, " $1");
-		code = code.replace(/E/g, "1");
-		code = code.replace(/e/g, "0");
-		code = code.split(" ");
-		code = code.filter(function(x) {
-			return x;
-		});
-		code = code.map(function(x) {
-			var stack = x.charAt(0)
-			x = x.substr(1);
-			x = "1"+x+(+(stack == "R"));
-			x = parseInt(x, 2).toString(36);
-			x = upperPepe(x.charAt(0)) + x.substr(1);
-			return x;
-		}).join("");
-		//console.log(code);
-		
-		$("#link").text(code).attr("href", "#"+code);
-		return code;
-	}
-	
-	highlight = function(mark=-1, preserve) {
-		if (preserve) {
-			$("#highlight .pepe-cmd").eq(mark).addClass("pepe-highlight").addClass("pepe-target");
-			$("#highlight").addClass("pepe-jump");
-			return;
-		} else {
-			$("#highlight").removeClass("pepe-jump");
-		}
-		var mode = 0;
-		var cmd  = 0;
-		var cmt  = false;
-		var code = $("#code").val();
-		var res  = "";
-		var flag  = true;
-		var f_started = false;
-		
-		lexing: for(var i = 0; i < code.length; i++) {
-			var c = code[i];
-			
-			if (mode == 0) {
-				switch (c) {
-					case "#":
-						if (cmt) {
-							cmt = false;
-						} else {
-							if (f_started) {
-								f_started = false;
-								res += "</span>";
-							}
-							res += "<span class='pepe-comment'>";
-						}
-						mode = 1;
-						
-						break;
-					case "r":
-					case "R":
+    </div>
 
-						if (cmt) {
-							res += "</span>";
-							cmt = false;
-						}
-
-						var classes = "";
-
-						var isflag = false;
-
-						for (var j = i+1; j < code.length; j++) {
-							var d = code[j].toLowerCase();
-							if (d == "e") break;
-							if (d == "r") {
-								isflag = true;
-								break;
-							}
-						}
-
-						if (isflag) {
-							classes += "pepe-flag ";
-						} else {
-							classes += "pepe-cmd ";
-						}
-
-						// console.log("end", flag, f_started);
-					
-						if (flag && f_started) {
-							res += "</span>";
-						}
-
-						if (!flag && !isflag) {
-							cmd++;
-						}
-
-						if (cmd) {
-							res += "</span>";
-						}
-
-						res += "<span class='"+classes+"'>";
-						
-						flag = false;
-						break;
-
-					case "E":
-					case "e":
-
-						if (cmt) {
-							res += "</span>";
-							cmt = false;
-						}
-
-						if (flag && !f_started) {
-							f_started = true;
-							res += "<span class='pepe-flag'>"
-						}
-
-						break;
-					default:
-						if (cmt) break;
-						cmt = true;
-						res += "<span class='pepe-comment'>"+c;
-						continue lexing;
-				}
-			} else if (mode == 1) {
-				switch (c) {
-					case "\r":
-					case "\n":
-						mode = 0;
-						res += "</span>"
-						break;
-				}
-			}
-			
-			res += c;
-		}
-		res = res.replace(/\r\n|\n|\r/g, "<br />");
-		
-		var res = $($.parseHTML(res));
-			
-		res.filter(".pepe-cmd").add(res.find(".pepe-cmd")).each(function(){
-			var cmd = $(this).ignore(".pepe-comment").text();
-			if (!cmd_exists(cmd)) {
-				$(this).addClass("pepe-error");
-			}
-		});
-		$("#highlight")
-			.show()
-			.html(res);
-
-		if (mark >= 0) {
-			$("#highlight .pepe-cmd")
-				.eq(mark)
-				.addClass("pepe-highlight");
-		}
-	}
- 
-	gettext = function() {
-		var val = prompt("Enter text");
-		if (!val) val = "";
-		var res = "";
-		for (let i = 0; i < val.length; i++) { // For each, except first, letter
-			var ch = val.charCodeAt(i).toString(2).padStart(8, "e");
-			ch = ch.replace(/1/g, "E");
-			ch = ch.replace(/0/g, "e");
-			res += " re"+ch;
-		}
-		$("#code").val($("#code").val()+res);
-		calclen();
-	}
-
-  
-    
-    try {
-		var stdlog = function(){
-						var d = $("#debug");
-						var args = Array.prototype.slice.call(arguments);
-						d.text(d.text()+args.join(" ")+"\n");
-						return arguments[0];
-					}
-	
-		var exc, res, can=false, steps, i=-1;
-		$("#stop").click(function(a) {
-			$("#stop, #step").prop("disabled", true);
-			$("#run").text("Run");
-		});
-    	$("#run").click(function(){
-			$("#debug, #output").text("");
-			
-			var inputs = $("#input").val();
-			if ($("#isinpsep").is(":checked")) { 
-				if (inputs.length) inputs = inputs.split($("#inpsep").val());
-				else inputs
-				
-			} else inputs = [inputs];
-				
-			if ($("[name=step]:checked").length) {
-				$("#run").text("Restart");
-				$("#stop, #step").prop("disabled", false);
-				exc = pepe(
-					$("#code").val(),
-					inputs,
-					stdlog,
-					{"step":true}
-				);
-				highlight();
-				//console.log(exc);
-				steps = 0;
-				i     = -1;
-				
-				$("#steps").text(steps);
-				if (exc) {
-					can = true;
-				} else {
-					stdlog("Nothing to execute.")
-				}
-			} else {
-				$("#output").text(
-					pepe($("#code").val(), inputs, stdlog)
-				);
-			}
-		});
-		$("#step")
-			.click(function() {
-				if (!can) return;
-			
-				if ($("[name=clear]:checked").length) {
-					$("#debug").text("");
-				}
-			
-				highlight(i+1);
-				res = exc();
-				var pre = i;
-				i = res[2];
-				if (pre+1 != i) {
-					highlight(i, true)
-				}
-				if (res) {
-					$("#output").text(res[1]);
-					$("#steps").text(++steps);
-				}
-				if (!res || res[0]) {
-					can = false;
-					$("#step").prop("disabled", true);
-					stdlog("Execution finished")
-				}
-			})
-    } catch(a) {
-    	console.log("Error caught");
-    	$("#debug").text(a.message);
-    }
-	
-	
-	
-
-	var loadc = location.hash.substr(1);
-	if (loadc) {
-		var code = loadc;
-		
-		// If it contains a letter that wasn't used in the old compressor, 
-		if (/[\W_A-Y]/.test(code)) {
-			// It's the new compressor
-			
-			code = code.replace(/([\W_A-Z])/g, " $1");
-			code = code.split(" ");
-			//console.log(code);
-			code = code.filter(function(i) {
-				return i
-			});
-			code = code.map(function(i) {
-				i = parseInt(lowerPepe(i), 36).toString(2).substr(1);
-				var stack = i.slice(-1).replace("0", "r").replace("1", "R");
-				return stack + i.slice(0, -1).replace(/0/g, "e").replace(/1/g, "E");
-			}).join(" ");
-			
-		} else {
-			// It's the old one
-			
-			code = code.replace(/(z)/gi, " $1");
-			code = code.split(" ");
-			//console.log(code);
-			code = code.filter(function(i) {
-				return i
-			});
-			code = code.map(function(i) {
-				console.log(i.charAt(0));
-				return i.charAt(0).replace("z", "r").replace("Z", "R")+parseInt(i.substr(1), 35).toString(2).substr(1).replace(/0/g, "e").replace(/1/g, "E");
-			}).join(" ");
-			
-		}
-		
-		$("#code").val(code);
-		calclen();
-	}
-	
-});
-</script>
 </body>
-
 </html>

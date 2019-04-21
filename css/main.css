@@ -1,0 +1,149 @@
+html, body {
+
+    /* Maximum height, no margins */
+    height: 100%;
+    margin: 0;
+
+    /* Background */
+    background: #000;
+
+    /* Font */
+    font-family: sans-serif;
+    font-size: 16px;
+    color: white;
+}
+
+body > div {
+
+    /* Maximum height */
+    height: 100%;
+
+    /* Allow absolute positioning inside */
+    position: relative;
+}
+
+.vr {
+    display: inline-block;
+    background: #5c5c5c;
+    width: 1px;
+    margin: 0 10px;
+    height: 1em;
+    vertical-align: middle;
+}
+
+button {
+    background: #3c3c3c;
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+}
+
+#editor-root {
+
+    /* Background */
+    background: #222;
+
+    /* Flexbox */
+    display: flex;
+    flex-direction: column;
+}
+
+#editor, #output {
+
+    /* Font */
+    font-family: monospace;
+
+    /* Disable outline, it just looks bad */
+    outline: none;
+
+    /* Padding */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#output {
+    white-space: pre;
+}
+
+#data {
+    background: #2c2c2c;
+    padding: 10px;
+}
+
+#documentation h1 {
+
+    /* View in monospace */
+    font-family: monospace;
+    font-size: 1.5em;
+}
+
+#documentation h1:first-child {
+    margin-top: 0;
+}
+
+#documentation h2 { font-size: 1.4em }
+#documentation h3 { font-size: 1.3em }
+#documentation h4 { font-size: 1.2em }
+#documentation h5 { font-size: 1.15em }
+#documentation h6 { font-size: 1.1em }
+
+#run {
+    /* The color of Pepe */
+    background: #5A8D3E;
+    color: white;
+
+    /* Width of 4 characters (Length of "Stop") */
+    width: 4ch;
+    box-sizing: content-box;
+}
+
+.view {
+    /* Maximum height */
+    height: 100%;  /* Box */
+    flex-grow: 1;  /* Flex */
+}
+
+.scroll, .view {
+
+    /* Enable vertical scroll */
+    overflow-y: auto;
+}
+
+.col-50 {
+
+    /* View each column next to each other */
+    float: left;
+    width: 50%;
+
+    /* Include border in the width */
+    box-sizing: border-box;
+
+    /* No margin */
+    margin: 0;
+}
+
+@media (max-width: 850px) {
+
+    /* Disable column view on small devices */
+    .col-50 {
+        float: none;
+        width: initial;
+    }
+
+    /* Restore doc header margin */
+    #documentation h1:first-child {
+        margin-top: 1em;
+    }
+
+    /* Decrease subroot height */
+    body > div {
+
+        height: 50%;
+
+    }
+
+}
+
+.info {
+    color: #3a9be0;
+}

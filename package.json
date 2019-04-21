@@ -1,0 +1,18 @@
+{
+  "name": "pepe",
+  "version": "2.0.0",
+  "description": "Pepe is your friendly esoteric language you hate.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Soaku/Pepe.git"
+  },
+  "author": "Soaku",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Soaku/Pepe/issues"
+  },
+  "homepage": "https://github.com/Soaku/Pepe#readme"
+}
