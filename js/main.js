@@ -2,7 +2,7 @@ import { Pepe } from "./pepe.js";
 
 let tests = [
     {
-        "name": "Interactive run",
+        "name": "Execution",
         "inputs": [],
         "last": [],
         "output": "",
@@ -91,14 +91,20 @@ $(() => {
 
             // It's a button
             $("<button>")
-                .text("Unit test " + n)
                 .click(() => viewTest(tests.length - 1))
                 .append(
+
+                    // A text label
+                    $("<span>").text("Unit test " + n),
 
                     // With some actions at the end
                     $("<button>")
                         .addClass("action")
-                        .text("Rename"),
+                        .text("Rename")
+                        .click(event => {
+                            renameTest(n);
+                            event.stopPropagation();
+                        }),
                     $("<button>")
                         .addClass("action")
                         .text("Delete")
@@ -151,8 +157,87 @@ $(() => {
         // Show the output
         $("#output").html(tests[index].output);
 
+        // Set title
+        $("#execution-title").text(tests[index].name);
+
         // Set as the current test
         open_test = index;
+
+    }
+
+    /**
+     * Show rename GUI
+     * @param {number} test Number of test to rename
+     */
+    function renameTest(test, el) {
+
+        // Get the jQuery element
+        let $test = $(el);
+
+        // None given
+        if (!$test.length) {
+
+            // Get the test from list
+            $test = $("#test-list > button").eq(test);
+        }
+
+        // Hide the element
+        $test.hide();
+
+        // Add the rename element
+        $("<input>")
+            .attr("type", "text")
+            .addClass("rename")
+            .focusout(endRenaming)
+            .val(tests[test].name)
+            .keyup((event) => {
+                switch (event.key) {
+                    case "Enter":
+
+                        console.log("End:", test, $test);
+
+                        // Rename the test
+                        tests[test].name = $(event.target).val();
+
+                        // Change the button text
+                        $("#test-list")
+                            .children().eq(test)  // nth test
+                            .children().eq(0)     // label
+                            .text(tests[test].name);
+
+                        // If the test is open
+                        if (open_test === test) {
+
+                            // Change the current title
+                            $("#execution-title").text(tests[test].name);
+                        }
+
+                    // eslint-disable-next-line no-fallthrough
+                    case "Escape":
+
+                        // Stop renaming
+                        endRenaming();
+                }
+            })
+            .insertAfter($test)
+            .focus()
+            .click()  /* select() doesn't work without this */
+            .select();
+
+    }
+
+    /**
+     * Quit renaming tests
+     */
+    function endRenaming() {
+        let $rename = $(".rename");
+        let $name = $rename.prev();
+
+        // Remove the renames
+        $rename.remove();
+
+        // Show the names
+        $name.show();
 
     }
 
@@ -173,6 +258,7 @@ $(() => {
     //  Events
     //
 
+    // Bind run
     $("#run").click(toggle);
 
     // Open unit
@@ -185,11 +271,23 @@ $(() => {
     $("#open-interactive").click(() => viewTest(0));
     $("#open-last").click(() => viewTest(open_test));
 
+    // Bind adding new arguments
     $("#add-input").click(() => addArgument());
 
-    // "New test" clicked
+    // Bind creating new tests
     $("#new-test").click(createTest);
 
+    // When test title is double clicked
+    $("#execution-title").dblclick(event => {
+
+        // Ignore if no test is open
+        if (!open_test) return;
+
+        // Otherwise, rename the current test
+        renameTest(open_test, "#execution-title");
+    });
+
+    // Bind keyboard shortcuts
     $(document).keydown(event => {
 
         // Pressed ctrl+enter

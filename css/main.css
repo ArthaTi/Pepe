@@ -179,12 +179,13 @@ summary {
 
 .buttons * {
     vertical-align: middle;
-    margin: 6px 10px;
+    margin: 6px;
 }
 
 .buttons span {
     padding: 10px;
     flex-grow: 1;
+    text-transform: uppercase;
 }
 
 .action {
