@@ -75,20 +75,23 @@ $(() => {
      */
     function createTest() {
 
+        /** Test number */
+        let n = tests.length;
+
         // Add to tests
         tests.push({
-            "name": "",
+            "name": "Unit test " + n,
             "inputs": [],
             "last": [],
             "output": "",
         });
 
         // Add a new item
-        $("#open-interactive").after(
+        $("#new-test").before(
 
             // It's a button
             $("<button>")
-                .text("Unit test")
+                .text("Unit test " + n)
                 .click(() => viewTest(tests.length - 1))
                 .append(
 
