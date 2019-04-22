@@ -8,7 +8,7 @@ html, body {
     background: #000;
 
     /* Font */
-    font-family: sans-serif;
+    font-family: monospace;
     font-size: 16px;
     color: white;
 }
@@ -20,22 +20,38 @@ body > div {
 
     /* Allow absolute positioning inside */
     position: relative;
+
+    /* Flexbox */
+    display: flex;
+    flex-direction: column;
 }
 
 .vr {
     display: inline-block;
     background: #5c5c5c;
     width: 1px;
-    margin: 0 10px;
+    margin: 0 5px;
     height: 1em;
     vertical-align: middle;
 }
 
 button {
-    background: #3c3c3c;
+    background: none;
+    font-family: inherit;
     border: none;
     outline: none;
+}
+
+.buttons button {
+    font-family: sans-serif;
+    background: #6666;
     padding: 10px 20px;
+}
+
+#unit-tests {
+
+    /* Hide it by default */
+    display: none;
 }
 
 #editor-root {
@@ -43,9 +59,6 @@ button {
     /* Background */
     background: #222;
 
-    /* Flexbox */
-    display: flex;
-    flex-direction: column;
 }
 
 #editor, #output {
@@ -68,6 +81,14 @@ button {
 #data {
     background: #2c2c2c;
     padding: 10px;
+}
+#data * {
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+#documentation {
+    font-family: sans-serif;
 }
 
 #documentation h1 {
@@ -97,6 +118,47 @@ button {
     box-sizing: content-box;
 }
 
+.options, summary {
+    margin: 10px;
+}
+summary {
+    padding: 0 5px;
+}
+
+.options > * {
+    display: flex;
+    font-family: monospace;
+    font-size: inherit;
+    text-align: start;
+    box-sizing: border-box;
+    border: none;
+    width: 100%;
+    margin: 4px 0;
+    padding: 10px;
+    background: #fff2;
+}
+
+.options > * > span {
+    flex-grow: 1;
+}
+
+#suggestions.options > * {
+    margin: 2px 0;
+    padding: 4px;
+    font-size: 0.8em;
+    background: #aaa1;
+}
+
+#unit-tests .options > :first-child,  /* Interactive */
+#unit-tests .options > :last-child    /* New test */
+{
+    background: #fff4;
+    margin: 8px 0;
+}
+#return {
+    display: none;
+}
+
 .view {
     /* Maximum height */
     height: 100%;  /* Box */
@@ -107,6 +169,36 @@ button {
 
     /* Enable vertical scroll */
     overflow-y: auto;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.buttons * {
+    vertical-align: middle;
+    margin: 6px 10px;
+}
+
+.buttons span {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.action {
+    display: none;
+}
+.action:first-child {
+    margin-left: auto;
+}
+:hover > .action {
+    display: block;
+}
+
+.float-right {
+    float: right;
 }
 
 .col-50 {
@@ -146,4 +238,12 @@ button {
 
 .info {
     color: #3a9be0;
+}
+
+.passed {
+    background: #5A8D3E;
+}
+
+.failed {
+    background: #e63838;
 }

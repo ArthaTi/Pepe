@@ -70,8 +70,12 @@ export class Pepe {
 
     /**
      * Run the Pepe code.
+     * @param {string[]} args Arguments to pass to the app
+     * @param {function} callback Function to call when the code finished execution.
      */
-    run(callback) {
+    run(args, callback) {
+
+        //
 
         // Call the callback
         if (callback) callback();
@@ -101,7 +105,7 @@ const FLAG = 1;
 /**
  * Represents a parsed executable command.
  */
-class ParsedCommand {
+export class ParsedCommand {
 
     /**
      * @param {string} str The command as a string

@@ -1,61 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Pepe</title>
     <link rel="stylesheet" href="css/main.css" />
-    <script
-        src="http://code.jquery.com/jquery-3.4.0.min.js"
-        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
-        crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
     <script type="module" src="js/main.js"></script>
 </head>
 <html>
 
-    <div class="col-50" id="editor-root">
+<div class="col-50" id="editor-root">
 
-        <div id="debug">
-            <button id="run">Run</button>
-            <div class="vr"></div>
-            <button id="prev" disabled>← Previous</button>
-            <button id="into" disabled>Step into ↓</button>
-            <button id="next" disabled>Next →</button>
-            <button id="continue" disabled>Continue</button>
+    <div class="buttons">
+        <span>CODE</span>
+        <div class="float-right">
+            <button>Permalink</button>
+            <button>Options</button>
+        </div>
+    </div>
+
+    <div id="editor" class="view" contenteditable="true" autofocus="true" placeholder="Your code goes here!">
+        <br />
+    </div>
+
+    <div id="data">
+
+        <div class="col-50 scroll options" id="suggestions">
+
+            <button>Suggestions</button>
+            <button>Suggestions</button>
+            <button>Suggestions</button>
+            <button>Suggestions</button>
+
         </div>
 
-        <div id="editor" class="view" contenteditable="true" autofocus="true">
-            <br />
-        </div>
+        <div class="col-50 scroll" id="documentation">
 
-        <div id="data">
-
-            <div class="col-50 scroll" id="suggestions">
-
-                <div>Suggestions</div>
-                <div>Suggestions</div>
-                <div>Suggestions</div>
-                <div>Suggestions</div>
-
-            </div>
-
-            <div class="col-50 scroll" id="documentation">
-
-                <h1>pop</h1>
-                <p>This is some documentation</p>
-
-            </div>
+            <h1>pop</h1>
+            <p>This is some documentation</p>
 
         </div>
 
     </div>
 
-    <div class="col-50">
+</div>
 
-        <div id="output" class="view"></div>
+<div id="unit-tests" class="col-50">
+
+    <div id="unit-top" class="buttons">
+
+        <span>UNIT TESTS</span>
+        <div class="float-right">
+            <button>Run all</button>
+            <button id="open-last">Back</button>
+        </div>
 
     </div>
+
+    <div id="test-list" class="options view">
+        <button id="open-interactive">Interactive run</button>
+        <button id="new-test">+ New test</button>
+    </div>
+
+</div>
+
+<div id="execution" class="col-50">
+
+    <div id="execution-top" class="buttons">
+
+        <span>EXECUTION</span>
+        <div class="float-right">
+            <button id="open-unit">Unit tests</button>
+        </div>
+
+    </div>
+
+    <div id="debug" class="buttons">
+        <button id="run" title="Run the code – Ctrl+Enter">Run</button>
+        <div class="vr"></div>
+        <button id="prev" title="Step to the previous command" disabled>← Previous</button>
+        <button id="into" title="Step to the next executed command" disabled>Step into ↓</button>
+        <button id="next" title="Step to the next command, not pausing on GOTOs" disabled>Next →</button>
+        <button id="continue" title="Continue normal execution" disabled>Continue</button>
+    </div>
+
+    <div class="view">
+
+        <details>
+            <summary>Arguments</summary>
+            <div class="options" id="inputs">
+                <textarea class="input" placeholder="Argument 1"></textarea>
+                <button id="add-input">Add new argument</button>
+            </div>
+        </details>
+
+        <details id="return">
+            <summary>Expected output</summary>
+            <div class="options">
+                <textarea class="expected option" placeholder="Expected output"></textarea>
+            </div>
+        </details>
+
+        <div id="output"></div>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>
