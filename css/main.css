@@ -182,10 +182,17 @@ summary {
     margin: 6px;
 }
 
-.buttons span {
+.buttons span, .buttons .rename {
     padding: 10px;
     flex-grow: 1;
     text-transform: uppercase;
+}
+
+.buttons .rename {
+    background: none;
+    border: none;
+    font: inherit;
+    text-transform: none;
 }
 
 .action {

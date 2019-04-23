@@ -8,6 +8,14 @@ let tests = [
         "output": "",
     }
 ];
+
+/**
+ * Currently open test. Test is considered open if it's visible in the output or the unit test menu was opened while
+ * the test was open.
+ *
+ * Negative values indicate that no test is open, zero indicates standard debug is open, positive values indicate
+ * a test is open.
+ */
 let open_test = 0;
 
 $(() => {
@@ -18,7 +26,7 @@ $(() => {
     /** Time when the execution started */
     let time;
 
-    const toggle = function () {
+    function toggle() {
 
         let starting = $(document.body)
             .toggleClass("running")
@@ -68,7 +76,7 @@ $(() => {
                     .text("Execution finished in " + diff + "ms.")
             );
         }
-    };
+    }
 
     /**
      * Create a test
@@ -91,7 +99,7 @@ $(() => {
 
             // It's a button
             $("<button>")
-                .click(() => viewTest(tests.length - 1))
+                .click(event => viewTest($(event.currentTarget).index()))
                 .append(
 
                     // A text label
@@ -102,12 +110,33 @@ $(() => {
                         .addClass("action")
                         .text("Rename")
                         .click(event => {
+
+                            // Rename the test
                             renameTest(n);
+
+                            // Don't propagate
                             event.stopPropagation();
                         }),
                     $("<button>")
                         .addClass("action")
                         .text("Delete")
+                        .click(event => {
+
+                            // Get the parent button
+                            let $target = $(event.currentTarget).parent();
+
+                            // Remove the test it refers to.
+                            tests.splice($target.index(), 1);
+
+                            // Remove the button
+                            $target.remove();
+
+                            // Force test reload
+                            open_test = -1;
+
+                            // Don't propagate
+                            event.stopPropagation();
+                        })
 
                 )
         );
@@ -122,12 +151,16 @@ $(() => {
         $("#execution").show();
         $("#unit-tests").hide();
 
-        // Save the current test
-        tests[open_test].output = $("#output").children();
-        tests[open_test].inputs = $("#inputs textarea").map((i, v) => $(v).val());
+        // If there was a test open
+        if (open_test >= 0) {
 
-        // Ignore the rest if the test is already open
-        if (index === open_test) return;
+            // Save the current test
+            tests[open_test].output = $("#output").children();
+            tests[open_test].inputs = $("#inputs textarea").map((_i, v) => $(v).val());
+
+            // Ignore the rest if trying to open already opened test
+            if (index === open_test) return;
+        }
 
         // Show the expected return options, but only on test cases (non-zero indexes)
         $("#return").toggle(!!index);
@@ -197,7 +230,7 @@ $(() => {
                         console.log("End:", test, $test);
 
                         // Rename the test
-                        tests[test].name = $(event.target).val();
+                        tests[test].name = $(event.currentTarget).val();
 
                         // Change the button text
                         $("#test-list")
