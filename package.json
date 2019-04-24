@@ -14,5 +14,8 @@
   "bugs": {
     "url": "https://github.com/Soaku/Pepe/issues"
   },
-  "homepage": "https://github.com/Soaku/Pepe#readme"
+  "homepage": "https://github.com/Soaku/Pepe#readme",
+  "devDependencies": {
+    "js-cookie": "^2.2.0"
+  }
 }

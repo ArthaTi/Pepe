@@ -41,6 +41,9 @@ button {
     border: none;
     outline: none;
 }
+a {
+    color: inherit;
+}
 
 .buttons button {
     font-family: sans-serif;
@@ -75,7 +78,8 @@ button {
 }
 
 #output {
-    white-space: pre;
+    white-space: pre-wrap;
+    word-break: break-all;
 }
 
 #data {
@@ -244,12 +248,22 @@ summary {
 
 }
 
+/* Output colors */
 .info {
     color: #3a9be0;
 }
 
+.success {
+    color: #5a8d3e;
+}
+
+.error {
+    color: #e63838;
+}
+
+/* Test button colors */
 .passed {
-    background: #5A8D3E;
+    background: #5a8d3e;
 }
 
 .failed {

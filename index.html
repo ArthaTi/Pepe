@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/main.css" />
     <script src="http://code.jquery.com/jquery-3.4.0.min.js"
         integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script type="module" src="js/main.js"></script>
 </head>
 <html>
@@ -16,16 +17,15 @@
 <div class="col-50" id="editor-root">
 
     <div class="buttons">
+
         <span>CODE</span>
-        <div class="float-right">
-            <button>Permalink</button>
-            <button>Options</button>
-        </div>
+
+        <button>Permalink</button>
+        <button>Options</button>
+
     </div>
 
-    <div id="editor" class="view" contenteditable="true" autofocus="true" placeholder="Your code goes here!">
-        <br />
-    </div>
+    <div id="editor" class="view" contenteditable="true" autofocus="true" placeholder="Your code goes here!"></div>
 
     <div id="data">
 
@@ -54,15 +54,14 @@
     <div id="unit-top" class="buttons">
 
         <span>UNIT TESTS</span>
-        <div class="float-right">
-            <button>Run all</button>
-            <button id="open-last">Back</button>
-        </div>
+
+        <button>Run all</button>
+        <button id="open-last">Back</button>
 
     </div>
 
     <div id="test-list" class="options view">
-        <button id="open-interactive">Interactive run</button>
+        <button id="open-interactive">Common run</button>
         <button id="new-test">+ New test</button>
     </div>
 
@@ -73,9 +72,8 @@
     <div id="execution-top" class="buttons">
 
         <span id="execution-title">EXECUTION</span>
-        <div class="float-right">
-            <button id="open-unit">Unit tests</button>
-        </div>
+
+        <button id="open-unit">Unit tests</button>
 
     </div>
 
@@ -101,7 +99,7 @@
         <details id="return">
             <summary>Expected output</summary>
             <div class="options">
-                <textarea class="expected option" placeholder="Expected output"></textarea>
+                <textarea id="expected" class="expected" placeholder="Expected output"></textarea>
             </div>
         </details>
 

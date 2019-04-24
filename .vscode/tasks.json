@@ -11,6 +11,14 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Open in Firefox",
+            "linux": {
+                "command": "firefox localhost:8080 --start-debugger-server",
+            },
+            "isBackground": true,
+            "type": "shell"
         }
     ]
 }
