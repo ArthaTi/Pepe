@@ -2,6 +2,7 @@
 
 import { Pepe } from "./pepe.js";
 import { Test, Type, openTest } from "./tests.js";
+import "./syntax.js";
 
 //
 //  Execution
@@ -61,9 +62,9 @@ function toggle() {
 
         // Add info
         output.append(
-            $("\n<span>")
+            $("<span>")
                 .addClass("info")
-                .text("Execution finished in " + diff + "ms.")
+                .text("Execution finished in " + diff + "ms.\n")
         );
     }
 }

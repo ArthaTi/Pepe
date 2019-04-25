@@ -248,6 +248,23 @@ summary {
 
 }
 
+/* Syntax highlighting colors */
+.comment {
+    color: #6a9955;
+}
+
+.ignored {
+    color: #a2c592;
+}
+
+.flag {
+    color: #aaa;
+}
+
+.invalid {
+    text-decoration: #e63838 wavy underline;
+}
+
 /* Output colors */
 .info {
     color: #3a9be0;

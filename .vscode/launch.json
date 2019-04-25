@@ -10,7 +10,12 @@
             "name": "Launch localhost",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "Open Firefox"
+            "preLaunchTask": "Open in Firefox",
+            "skipFiles": [
+                "${workspaceFolder}/node_modules/**/*",
+                "https://*/**",
+                "jquery*"
+            ]
         }
     ]
 }

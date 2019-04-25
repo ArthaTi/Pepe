@@ -134,7 +134,7 @@ export class ParsedCommand {
         let comment = false;
 
         // Parse the string
-        [...str].some(char => {
+        for (let char of str) {
 
             // Decrement the first counter
             if (first) first--;
@@ -154,7 +154,7 @@ export class ParsedCommand {
                 }
 
                 // Ignore the character
-                return;
+                continue;
 
             }
 
@@ -173,7 +173,7 @@ export class ParsedCommand {
                 this.command += char;
 
                 // Continue to the next character
-                return;
+                continue;
 
             }
 
@@ -187,7 +187,7 @@ export class ParsedCommand {
                     this.length--;
 
                     // End this command
-                    return true;
+                    break;
 
                 }
 
@@ -195,7 +195,7 @@ export class ParsedCommand {
                 this.flag += char;
 
                 // Continue to the next character
-                return;
+                continue;
 
             }
 
@@ -205,13 +205,13 @@ export class ParsedCommand {
                 // Mark as a comment
                 comment = true;
 
-                return;
+                continue;
 
             }
 
             // Other characters, ignore them.
 
-        });
+        }
 
         // If a flag is given
         if (this.flag.length) {

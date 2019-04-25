@@ -38,6 +38,7 @@
         "no-var": "warn",
         "no-debugger": "off",
         "no-console": "off",
-        "no-empty": "off"
+        "no-empty": "off",
+        "no-constant-condition": "off"
     }
 }

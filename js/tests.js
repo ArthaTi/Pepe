@@ -157,12 +157,14 @@ export class Test {
 
                 // Add a notice
                 $("#output").append(
+
                     $("<span>")
                         .addClass("error")
                         .text(
                             "This unit test had been removed. Changes will not be saved and the test will stop being " +
                             "accessible once you open another. "
                         ).append(
+
                             $("<a>")
                                 .text("Restore this test.")
                                 .attr("href", "javascript:void(0)")
@@ -175,12 +177,13 @@ export class Test {
                                     $(event.currentTarget).parent().remove();
 
                                     $("#output").append(
+
                                         $("<span>")
                                             .addClass("success")
-                                            .text("The test has been restored."),
-                                        $("<br>")
+                                            .text("The test has been restored.\n"),
                                     );
                                 }),
+
                             $("<br>")
                         ),
                 );
