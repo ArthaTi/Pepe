@@ -38,6 +38,7 @@ body > div {
 button {
     background: none;
     font-family: inherit;
+    color: inherit;
     border: none;
     outline: none;
 }
@@ -263,6 +264,11 @@ summary {
 
 .invalid {
     text-decoration: #e63838 wavy underline;
+}
+
+/* Bugfix for Chrome not showing correct font color */
+#editor font {
+    color: inherit;
 }
 
 /* Output colors */
