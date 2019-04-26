@@ -13,7 +13,6 @@ $("#editor").on("input", event => {
 
     // Set the returned selection
     sel.collapse(s[0], s[1]);
-
 });
 
 /**
@@ -39,38 +38,34 @@ function tokenize(node, offset) {
 
         // The node is the span
         $span = $node;
-
     }
 
     // The $node is the editor.
     // This happens when the field is cleared.
     else if ($node.is("#editor")) {
 
-        // Just return an anchor at the beginning.
-        return [$node, 0];
+            // Just return an anchor at the beginning.
+            return [$node, 0];
+        }
 
-    }
+        // If the node isn't wrapped in a span
+        else if (!$span.length) {
 
-    // If the node isn't wrapped in a span
-    else if (!$span.length) {
+                // Assert $node.parent() is not a <span>
+                if ($node.parent("span").length) debugger;
 
-        // Assert $node.parent() is not a <span>
-        if ($node.parent("span").length) debugger;
+                // Wrap it
+                $node.wrap("<span>");
 
-        // Wrap it
-        $node.wrap("<span>");
-
-        // Set the span
-        $span = $node.parent();
-
-    }
+                // Set the span
+                $span = $node.parent();
+            }
 
     // If the node is empty
     if (!$span.text().length) {
 
         // Clear the class
         $span.attr("class", "");
-
     }
 
     // If the node is ignored or is a command
@@ -78,13 +73,10 @@ function tokenize(node, offset) {
 
         // Add as a mode
         open.push("comment");
-
-
     } else if ($span.hasClass("ignored")) {
 
         // Add as a mode
         open.push("ignored");
-
     }
 
     /** Current character index */
@@ -112,31 +104,27 @@ function tokenize(node, offset) {
 
                 // Reset index
                 i = 0;
-
             }
 
             // If the parent is a line <div>
             else if ($span.parent("div").not("#editor").length) {
 
-                // Get the first child of its next sibling.
-                let sp = $span.parent().next().children().eq(0);
+                    // Get the first child of its next sibling.
+                    let sp = $span.parent().next().children().eq(0);
 
-                // If still not found, stop iterating
-                if (!sp.length) break iter;
+                    // If still not found, stop iterating
+                    if (!sp.length) break iter;
 
-                // Found, set as next span
-                $span = sp;
+                    // Found, set as next span
+                    $span = sp;
 
-                // Reset index
-                i = 0;
+                    // Reset index
+                    i = 0;
+                } else {
 
-            } else {
-
-                // Stop iterating
-                break iter;
-
-            }
-
+                    // Stop iterating
+                    break iter;
+                }
         }
 
         let char = text.charAt(i);
@@ -146,14 +134,12 @@ function tokenize(node, offset) {
 
             // Stop iterating
             break iter;
-
         }
 
         // Ignore whitespace
         if (char === " " || char === "\t") {
 
             continue;
-
         }
 
         // Check the open mode
@@ -173,7 +159,6 @@ function tokenize(node, offset) {
 
                     // End parsing
                     break iter;
-
                 }
 
                 break;
@@ -191,20 +176,16 @@ function tokenize(node, offset) {
                     open.pop();
 
                     // Continue parsing as a command
-
                 }
 
                 // Other special characters
-                else if (
-                    ["R", "r", "\n", "\r", "#"].includes(char)
-                ) {
+                else if (["R", "r", "\n", "\r", "#"].includes(char)) {
 
-                    // End the mode
-                    open.pop();
+                        // End the mode
+                        open.pop();
 
-                    // Continue parsing as a command
-
-                } else break;
+                        // Continue parsing as a command
+                    } else break;
 
             // eslint-disable-next-line no-fallthrough
             case "command":
@@ -217,64 +198,59 @@ function tokenize(node, offset) {
                     i = 0;
 
                     // Set attributes
-                    $span.attr("class", "open command");  // Overwrite previous classes
-                    $span.removeAttr("spellcheck");       // Inherit spellcheck
+                    $span.attr("class", "open command"); // Overwrite previous classes
+                    $span.removeAttr("spellcheck"); // Inherit spellcheck
                     // The "open" class is used later to highlight continuation of the command, in case if it is split
                     // in multiple spans.
-
                 }
 
                 // Command continuation character
                 else if (char === "E" || char === "e") {
 
-                    // Add the "command" class
-                    $span.addClass("command");
+                        // Add the "command" class
+                        $span.addClass("command");
+                    }
 
-                }
+                    // Comment
+                    else if (char === "#") {
 
-                // Comment
-                else if (char === "#") {
+                            // Open the comment mode
+                            open.push("comment");
 
-                    // Open the comment mode
-                    open.push("comment");
+                            // Split this span
+                            $span = jSplit($span, i);
+                            i = 0;
 
-                    // Split this span
-                    $span = jSplit($span, i);
-                    i = 0;
+                            // Set attributes
+                            $span.attr("class", "comment"); // Overwrite previous classes
+                            $span.attr("spellcheck", "true"); // Enable spellcheck
+                        }
 
-                    // Set attributes
-                    $span.attr("class", "comment");    // Overwrite previous classes
-                    $span.attr("spellcheck", "true");  // Enable spellcheck
-                }
+                        // End of line
+                        else if (char === "\n" || char === "\r") {
 
-                // End of line
-                else if (char === "\n" || char === "\r") {
+                                // End parsing
+                                break iter;
+                            }
 
-                    // End parsing
-                    break iter;
+                            // Anything else
+                            else {
 
-                }
+                                    // Split the span
+                                    $span = jSplit($span, i);
+                                    i = 0;
 
-                // Anything else
-                else {
+                                    // Set attributes
+                                    $span.attr("class", "ignored"); // Overwrite previous classes
+                                    $span.removeAttr("spellcheck"); // Disable spellcheck, it might mix with command characters.
 
-                    // Split the span
-                    $span = jSplit($span, i);
-                    i = 0;
-
-                    // Set attributes
-                    $span.attr("class", "ignored");    // Overwrite previous classes
-                    $span.removeAttr("spellcheck");    // Disable spellcheck, it might mix with command characters.
-
-                    // Open ignored mode
-                    open.push("ignored");
-
-                }
+                                    // Open ignored mode
+                                    open.push("ignored");
+                                }
 
                 break;
 
         }
-
     } while (i++ || true);
     // increment the index; wait for break.
 
@@ -297,16 +273,15 @@ function tokenize(node, offset) {
 
             // Use the $span instead
             textnode = $span[0];
-
         }
 
         // Set the anchor to the current position.
         anchor = [textnode, i];
 
+        console.log(anchor);
     }
 
     return anchor;
-
 }
 
 /**
@@ -334,10 +309,6 @@ function jSplit(jq, index) {
         $this.text(content[0]);
 
         // Add the second item
-        return $("<" + $this.prop("tagName") + ">")
-            .text(content[1])
-            .insertAfter($this)[0];
-
+        return $("<" + $this.prop("tagName") + ">").text(content[1]).insertAfter($this)[0];
     });
-
 }

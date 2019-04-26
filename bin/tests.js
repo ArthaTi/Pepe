@@ -13,7 +13,7 @@ export const Type = {
     TEST: 0,
 
     /** Debugger – exclude from unit testing. */
-    DEBUG: 1,
+    DEBUG: 1
 
 };
 
@@ -81,12 +81,10 @@ export class Test {
 
             // Add this test
             this.add();
-
         }
 
         // Add to save
         Save.tests[Save.lastTest++] = this;
-
     }
 
     /**
@@ -96,58 +94,33 @@ export class Test {
     add() {
 
         // Create a button
-        this.button = $("<button>")
-            .click(() => this.view())
+        this.button = $("<button>").click(() => this.view())
 
-            // Inside
-            .append(
+        // Inside
+        .append(
 
-                // A text label
-                $("<span>").text(this.name),
+        // A text label
+        $("<span>").text(this.name),
 
-                // With some actions at the end
-                $("<button>")
-                    .addClass("action")
-                    .text("Rename")
-                    .click(event => {
+        // With some actions at the end
+        $("<button>").addClass("action").text("Rename").click(event => {
 
-                        // Rename the test
-                        this.rename();
+            // Rename the test
+            this.rename();
 
-                        // Don't propagate
-                        event.stopPropagation();
-                    }),
-                $("<button>")
-                    .addClass("action")
-                    .text("Remove")
-                    .click(event => {
+            // Don't propagate
+            event.stopPropagation();
+        }), $("<button>").addClass("action").text("Remove").click(event => {
 
-                        // Remove the button
-                        this.button.remove();
+            // Remove the button
+            this.button.remove();
 
-                        // Don't propagate
-                        event.stopPropagation();
-                    })
-
-            );
+            // Don't propagate
+            event.stopPropagation();
+        }));
 
         // Add it to the UI
         $("#new-test").before(this.button);
-    }
-
-    /**
-     * Refresh the test with user input.
-     */
-    refresh() {
-
-        // This test is not open
-        if (openTest !== this) return;
-
-        // Save the data
-        openTest.output = $("#output").children();
-        openTest.inputs = $("#inputs textarea").map((_i, v) => $(v).val()).toArray();
-        openTest.expected = $("#expected").val();
-
     }
 
     /**
@@ -162,45 +135,25 @@ export class Test {
         // If there was a test open
         if (openTest) {
 
-            // Take the input
-            openTest.refresh();
+            // Save it
+            openTest.output = $("#output").children();
+            openTest.inputs = $("#inputs textarea").map((_i, v) => $(v).val()).toArray();
+            openTest.expected = $("#expected").val();
 
             // If its button had been removed
             if (this.button && !this.button.parent().length) {
 
                 // Add a notice
-                $("#output").append(
+                $("#output").append($("<span>").addClass("error").text("This unit test had been removed. Changes will not be saved and the test will stop being " + "accessible once you open another. ").append($("<a>").text("Restore this test.").attr("href", "javascript:void(0)").click(event => {
 
-                    $("<span>")
-                        .addClass("error")
-                        .text(
-                            "This unit test had been removed. Changes will not be saved and the test will stop being " +
-                            "accessible once you open another. "
-                        ).append(
+                    // Add to list
+                    this.add();
 
-                            $("<a>")
-                                .text("Restore this test.")
-                                .attr("href", "javascript:void(0)")
-                                .click(event => {
+                    // Remove the message
+                    $(event.currentTarget).parent().remove();
 
-                                    // Add to list
-                                    this.add();
-
-                                    // Remove the message
-                                    $(event.currentTarget).parent().remove();
-
-                                    $("#output").append(
-
-                                        $("<span>")
-                                            .addClass("success")
-                                            .text("The test has been restored.\n"),
-                                    );
-                                }),
-
-                            $("<br>")
-                        ),
-                );
-
+                    $("#output").append($("<span>").addClass("success").text("The test has been restored.\n"));
+                }), $("<br>")));
             }
 
             // If that test is being opened, ignore the rest
@@ -227,7 +180,6 @@ export class Test {
 
             // Add one
             addArgument();
-
         }
 
         // Set expected return value
@@ -259,48 +211,38 @@ export class Test {
 
             // Change the title instead
             $test = $("#execution-title");
-
         }
 
         // Hide the element
         $test.hide();
 
         // Add the rename element
-        $("<input>")
-            .attr("type", "text")
-            .addClass("rename")
-            .focusout(Test.endRenaming)
-            .val(this.name)
-            .keyup((event) => {
-                switch (event.key) {
-                    case "Enter":
+        $("<input>").attr("type", "text").addClass("rename").focusout(Test.endRenaming).val(this.name).keyup(event => {
+            switch (event.key) {
+                case "Enter":
 
-                        // Rename the test
-                        this.name = $(event.currentTarget).val();
+                    // Rename the test
+                    this.name = $(event.currentTarget).val();
 
-                        // Change the button text
-                        this.button
-                            .children().eq(0)     // label
-                            .text(this.name);
+                    // Change the button text
+                    this.button.children().eq(0) // label
+                    .text(this.name);
 
-                        // If the test is open
-                        if (open) {
+                    // If the test is open
+                    if (open) {
 
-                            // Change the current title
-                            $("#execution-title").text(this.name);
-                        }
+                        // Change the current title
+                        $("#execution-title").text(this.name);
+                    }
 
-                    // eslint-disable-next-line no-fallthrough
-                    case "Escape":
+                // eslint-disable-next-line no-fallthrough
+                case "Escape":
 
-                        // Stop renaming
-                        Test.endRenaming();
-                }
-            })
-            .insertAfter($test)
-            .focus()
-            .click()  /* select() doesn't work without this */
-            .select();
+                    // Stop renaming
+                    Test.endRenaming();
+            }
+        }).insertAfter($test).focus().click() /* select() doesn't work without this */
+        .select();
     }
 
     /**

@@ -1,1 +1,7 @@
+# Node
 node_modules
+
+# VSCode
+.vscode/
+!.vscode/launch.json
+!.vscode/tasks.json

@@ -1,3 +1,18 @@
+"use strict";
+
+import ParsedCommand from "./parsedcommand.js";
+import Stack from "./stack.js";
+import * as Packs from "./packs.js";
+
+/**
+ * @typedef {import("./packs.js").Command} Command
+ */
+
+/**
+ * @callback TakeOutput
+ * @param {string} output String to be outputted.
+ */
+
 /**
  * The Pepe interpreter.
  */
@@ -5,14 +20,24 @@ export class Pepe {
 
     /**
      * Instance the Pepe interpreter.
-     * @param {string} code The Pepe code to run.
+     * @param {string} [code] The Pepe code to run.
+     * @param {Command[][]} [packs] Packs to load.
      */
-    constructor(code) {
+    constructor(code, packs) {
+
+        /**
+         * Packs in use.
+         * @type {Command[][]}
+         */
+        this.packs = packs !== undefined ? packs
+            : [
+                Packs.basic
+            ];
 
         /**
          * @var {string} code Pepe code.
          */
-        this.code = code || "";
+        this.code = code !== undefined ? code : "";
 
         /**
          * @var {int} step Current execution step.
@@ -23,6 +48,29 @@ export class Pepe {
          * @var parsed The Pepe code, parsed.
          */
         this.parsed = Pepe.parse(code);
+
+        /**
+         * All available stacks.
+         * @type {Object<string, Stack>}
+         */
+        this.stacks = {};
+
+        /**
+         * Given arguments
+         * @type {string[]}
+         */
+        this.args = [];
+
+        /**
+         * Function sending output.
+         * @type {?TakeOutput}
+         */
+        this.output = null;
+
+        /**
+         * Currently active stack.
+         */
+        this.stack = null;
 
     }
 
@@ -69,16 +117,54 @@ export class Pepe {
     }
 
     /**
-     * Run the Pepe code.
+     * Run or restart the Pepe code.
      * @param {string[]} args Arguments to pass to the app
-     * @param {function} callback Function to call when the code finished execution.
+     * @param {TakeOutput} output Function to call when program sends output.
      */
-    run(args, callback) {
+    run(args, output) {
 
-        //
+        // Initialize the stacks
+        this.stacks = {
+            r: new Stack(),
+            R: new Stack(),
+        };
 
-        // Call the callback
-        if (callback) callback();
+        // Get the input
+        this.args = args !== undefined ? args : [];
+
+        // Get the output function
+        this.output = output;
+
+        /** Current command pointer */
+        let i = 0;
+
+        // Start the execution
+        while (i < this.parsed.length) {
+
+            /** Current command */
+            let cmd = this.parsed[i++];
+
+            // Set active stack
+            this.stack = this.stacks[cmd.stack];
+
+            /** The command as a number */
+            let bin = "";
+
+            // Convert command to a number
+            for (let ltr of cmd.command) {
+
+                // Convert "E" to 1, "e" to 0.
+                if (ltr === "E") bin += "1";
+                if (ltr === "e") bin += "0";
+
+            }
+
+            // Perform the command
+            this.packs[cmd.command.length - 1][parseInt(bin, 2)].do(this);
+
+        }
+
+        debugger;
     }
 
     /**
@@ -90,150 +176,4 @@ export class Pepe {
      *
      */
     breakpoint() { }
-}
-
-/**
- * A common command.
- */
-const COMMAND = 0;
-
-/**
- * A program flag.
- */
-const FLAG = 1;
-
-/**
- * Represents a parsed executable command.
- */
-export class ParsedCommand {
-
-    /**
-     * @param {string} str The command as a string
-     */
-    constructor(str) {
-
-        /** 1 on the first iteration, 0 on the other. */
-        let first = 2;
-
-        /** Type of the command. */
-        this.type = 0;
-
-        /** Flag applied to the command. */
-        this.flag = "";
-
-        /** Stack this command works on. */
-        this.stack = "";
-
-        /** Command content. */
-        this.command = "";
-
-        /** Length of the command in the code. Also includes following comments. */
-        this.length = 0;
-
-        /** Whether a comment is open or not */
-        let comment = false;
-
-        // Parse the string
-        for (let char of str) {
-
-            // Decrement the first counter
-            if (first) first--;
-
-            // Increase the length
-            this.length++;
-
-            // If we are currently in a comment
-            if (comment) {
-
-                // End of line
-                if (char === "\n" || char === "\r") {
-
-                    // End the comment
-                    comment = false;
-
-                }
-
-                // Ignore the character
-                continue;
-
-            }
-
-            // If the character is an "E"
-            if (char.toUpperCase() === "E") {
-
-                // If it's the first character in the command
-                if (first) {
-
-                    // It's a flag
-                    this.type = FLAG;
-
-                }
-
-                // Add to command content
-                this.command += char;
-
-                // Continue to the next character
-                continue;
-
-            }
-
-            // If the character is an "R"
-            if (char.toUpperCase() === "R") {
-
-                // If the command has been opened
-                if (this.command) {
-
-                    // This character doesn't belong here
-                    this.length--;
-
-                    // End this command
-                    break;
-
-                }
-
-                // Add as a flag
-                this.flag += char;
-
-                // Continue to the next character
-                continue;
-
-            }
-
-            // It's a "#"
-            if (char === "#") {
-
-                // Mark as a comment
-                comment = true;
-
-                continue;
-
-            }
-
-            // Other characters, ignore them.
-
-        }
-
-        // If a flag is given
-        if (this.flag.length) {
-
-            // Get a single character from the end of the flag
-            this.stack = this.flag.charAt(this.flag.length - 1);
-
-            // Remove it from the flag
-            this.flag = this.flag.slice(0, -1);
-        }
-
-    }
-
-    /**
-     * Compare two commands
-     * @param {ParsedCommand} other
-     */
-    equals(other) {
-
-        return this.stack === other.stack
-            && this.command === other.command;
-
-    }
-
 }

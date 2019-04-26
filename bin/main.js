@@ -19,25 +19,23 @@ let time;
  */
 function toggle() {
 
-    let starting = $(document.body)
-        .toggleClass("running")
-        .hasClass("running");
+    let starting = $(document.body).toggleClass("running").hasClass("running");
 
     // Toggle text
     $("#run").text(starting ? "Stop" : "Run");
 
     // Get the elements
-    let $output = $("#output");
-    let $editor = $("#editor");
+    let output = $("#output");
+    let editor = $("#editor");
 
     // If starting
     if (starting) {
 
         // Clear the output
-        $output.text("");
+        output.text("");
 
         // Get the code
-        let code = $editor.text();
+        let code = editor.text();
 
         // Create the Pepe object
         pepe = new Pepe(code);
@@ -45,17 +43,12 @@ function toggle() {
         // Measure time
         time = performance.now();
 
-        // Refresh the test data
-        openTest.refresh();
-
         // Run Pepe
-        pepe.run(openTest.inputs, out => $output.append(
-            document.createTextNode(out)
-        ));
+        pepe.run([], () => {
 
-        // Done – Toggle Pepe off
-        toggle();
-
+            // When done, mark as completed
+            toggle();
+        });
     } else if (pepe) {
 
         // Stop pepe
@@ -65,11 +58,7 @@ function toggle() {
         let diff = performance.now() - time;
 
         // Add info
-        $output.append(
-            $("<span>")
-                .addClass("info")
-                .text("Execution finished in " + diff + "ms.\n")
-        );
+        output.append($("<span>").addClass("info").text("Execution finished in " + diff + "ms.\n"));
     }
 }
 
@@ -78,12 +67,7 @@ function toggle() {
  * @param {string} [text] Value of the argument.
  */
 export function addArgument(text) {
-    $("#inputs :last-child").before(
-        $("<textarea>")
-            .attr("placeholder", "Argument " + ($("#inputs > textarea").length + 1))
-            .addClass("input")
-            .val(text)
-    );
+    $("#inputs :last-child").before($("<textarea>").attr("placeholder", "Argument " + ($("#inputs > textarea").length + 1)).addClass("input").val(text));
 }
 
 $(() => {
@@ -118,14 +102,13 @@ $(() => {
     $("#add-input").click(() => addArgument());
 
     // Bind creating new tests
-    $("#new-test").click(() => new Test("New test "+(testNum++)));
+    $("#new-test").click(() => new Test("New test " + testNum++));
 
     // When test title is double clicked
     $("#execution-title").dblclick(event => {
 
         // Otherwise, rename the current test
         openTest.rename();
-
     });
 
     // Bind keyboard shortcuts
@@ -135,8 +118,6 @@ $(() => {
         if (event.ctrlKey && (event.keyCode == 10 || event.keyCode == 13)) {
 
             $("#run").click();
-
         }
     });
-
 });
