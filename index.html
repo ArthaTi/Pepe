@@ -181,7 +181,7 @@ $(function() {
 		var code = $("#code").val();
 		code = code.replace(/#.*/g, "");
 		code = code.replace(/[^rReE]/g, "");
-		$("#count").text(code.length+" bytes minimum, "+getlink().length+" compressed");
+		$("#count").text(code.length+" bytes minimum, "+getlink().length+" compressed link, "+code.length/4+" compressed binary.");
 		
 		if (init) highlight();
 	}
