@@ -42,7 +42,7 @@ List of commands available in Pepe.
 
 > If input is a string, every contained byte is pushed as an integer
 >
-> **WARNING** - Pepe has multiple inputs support. Calling an input-taking 
+> **WARNING** - Pepe has multiple inputs support. Calling an input-taking
 > function will move the "input pointer" to the next value
 
 - > Flags:
@@ -94,7 +94,7 @@ List of commands available in Pepe.
    - `EEEEe` - [Decrement active item](https://github.com/Soaku/Pepe/projects/2#card-7338662)
 - `EEEeE` - *Deprecated* [Duplicate active item (duplicate to next)](https://github.com/Soaku/Pepe/projects/2#card-7338639)
 - > Flags:
-  > r = [Insert], 
+  > r = [Insert],
   > R = [Prepend]
    - `EEEee` - [Push active item (duplicate to end)](https://github.com/Soaku/Pepe/projects/2#card-7338640)
 - > Flags:
@@ -154,10 +154,13 @@ List of commands available in Pepe.
 
 *121 slots left*
 
-- `EEEEEEE` - [Move active item to the other stack](https://github.com/Soaku/Pepe/projects/2#card-7338040)
-- `EEEEEEe` - [Copy active item to the other stack](https://github.com/Soaku/Pepe/projects/2#card-7338048)
-- `EEEEEeE` - [Move WS content to the other stack](https://github.com/Soaku/Pepe/projects/2#card-7338051)
-- `EEEEEee` - [Copy WS content to the other stack](https://github.com/Soaku/Pepe/projects/2#card-7338052)
+- > Flags:
+  > r = [Insert],
+  > R = [Prepend]
+    - `EEEEEEE` - [Move active item to the other stack](https://github.com/Soaku/Pepe/projects/2#card-7338040)
+    - `EEEEEEe` - [Copy active item to the other stack](https://github.com/Soaku/Pepe/projects/2#card-7338048)
+    - `EEEEEeE` - [Move WS content to the other stack](https://github.com/Soaku/Pepe/projects/2#card-7338051)
+    - `EEEEEee` - [Copy WS content to the other stack](https://github.com/Soaku/Pepe/projects/2#card-7338052)
 - `EEEEeEE` - [Reverse stack names (R = r; r = R)](https://github.com/Soaku/Pepe/projects/2#card-7344098)
 - `EEEEeEe` - Empty
 - `EEEEeeE` - [Diff - Remove items from WS that occur in the other stack](https://github.com/Soaku/Pepe/projects/2#card-7487263)

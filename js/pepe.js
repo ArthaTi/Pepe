@@ -58,7 +58,7 @@ function nstack() {
 		array: [],
 		pointer: 0,
 		flag: 0,
-		
+
 		refresh: function() {
 			var t = this;
 			if (t.array.length <= t.pointer) {
@@ -140,7 +140,7 @@ function nstack() {
 			if (!(t.flag & consts.PRESERVE)) {
 				t.array.splice(t.pointer, 1);
 			}
-			
+
 			return sel;
 		},
 	};
@@ -152,7 +152,7 @@ function pepe(code, inp) {
 	var ip = 0;
 	var iplock = false;
 	var returns = [];
-	
+
 	function getinp() {
 		if (inp[ip]) {
 			return inp[ip];
@@ -168,14 +168,14 @@ function pepe(code, inp) {
 
 	var debug = function() {
 	}
-	
+
 	if (arguments.length >= 3) {
 		var fi = 2;
 		if (typeof arguments[2] == "function") {
 			debug = arguments[2];
 			fi = 3;
-		} 
-		
+		}
+
 		if (arguments.length > fi) {
 			flags = arguments[fi];
 		}
@@ -222,7 +222,7 @@ function pepe(code, inp) {
 			returns.push(idx)
 		}
 	});
-	
+
 	var pflags = "";
 
 	if (code.length && code[0].charAt(0).toLowerCase() != "r") {
@@ -233,7 +233,7 @@ function pepe(code, inp) {
 	if (pflags) {
 		debug("Warning: Program flags are not supported yet.")
 	}
-	
+
 	var i = -1;
 	var loop = function() {
 		i++;
@@ -422,14 +422,14 @@ function pepe(code, inp) {
 
 			case "eEE":
 			cmdflag(patterns.pop);
-			
+
 				expl += "Output as number";
 				output(stack.pop());
 				break;
 
 			case "eEe":
 			cmdflag(patterns.pop);
-			
+
 				expl += "Output as character"
 				output(String.fromCharCode(stack.pop()));
 				break;
@@ -513,7 +513,7 @@ function pepe(code, inp) {
 				expl += "Unlock input pointer";
 				iplock = false;
 				break;
-			
+
 
 			// 5 E/e (active)
 			case "EEEEE": // ++
@@ -542,7 +542,7 @@ function pepe(code, inp) {
 				expl += "Push self (duplicate to end)";
 				stack.push(stack.now());
 				break;
-				
+
 			case "EEeEE": // random
 			cmdflag(patterns.push);
 
@@ -708,10 +708,11 @@ function pepe(code, inp) {
 				while(times --> 0) stack.push(item);
 				break;
 				// Empty slots
-				
+
 
 			// 7 E/e
 			case "EEEEEEE": // move single
+			cmdflag(patterns.pos);
 				if (false) { // don't remove, don't set to true. it's exactly like it should be.
 					output("https://www.youtube.com/watch?v=m-NgHh36_vU");
 				}
@@ -719,11 +720,13 @@ function pepe(code, inp) {
 				other.push(stack.pop());
 				break;
 			case "EEEEEEe": // copy single
+			cmdflag(patterns.pos);
 				expl += "Copy "+stack.now()+" to the other stack";
 				other.push(stack.now());
 				break;
 			case "EEEEEeE": // move all
 			case "EEEEEee": // copy all
+			cmdflag(patterns.pos);
 				for (var o = 0; o < stack.array.length; o++) {
 					other.push(stack.array[o]);
 				}
@@ -822,7 +825,7 @@ function pepe(code, inp) {
 					var res = scream.substr(1).replace(/e/g, 0).replace(/E/g, 1).toString(2);
 					var deb = res;
 					res = parseInt(res, 2);
-					
+
 					if (push) {
 						expl += "Push "+res;
 						stack.push(res);
@@ -836,26 +839,26 @@ function pepe(code, inp) {
 					output(cmd + "ERROR!");
 				}
 		}
-		
+
 		if (flags["step"] || i >= code.length-1) {
 
 			var xlabels = labels;
 
 			delete xlabels.flag;
-		
+
 			debug(expl)
 			debug("")
-			
+
 			debug("Labels:");
 			debug("\t", JSON.stringify(xlabels));
 			debug("");
-			
+
 			debug("Stacks:");
 			debug("\tR", JSON.stringify(stacks.R.array));
 			debug("\tr", JSON.stringify(stacks.r.array));
 			debug("");
 		}
-		
+
 		// console.log("Command done!", i);
 		if (i >= code.length-1) {
 			// Execution finished
@@ -865,7 +868,7 @@ function pepe(code, inp) {
 			return [false, out, i];
 		}
 	}
-	
+
 	var c = 0
 	if (flags["step"]) {
 		if (code.length) {
