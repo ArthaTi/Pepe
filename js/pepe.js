@@ -634,7 +634,7 @@ function pepe(code, inp) {
 				break;
 			case "EEEEEe":
 			cmdflag(patterns.mix);
-				expl += "Substract, "+stack.now()+" - "+other.now()+" = "+(stack.now() - other.now());
+				expl += "Subtract, "+stack.now()+" - "+other.now()+" = "+(stack.now() - other.now());
 				stack.push(stack.pop() - other.pop());
 				break;
 			case "EEEEeE":
@@ -653,7 +653,7 @@ function pepe(code, inp) {
 				expl += "Join, "+stack.now()+" + "+other.now()+" = "+("" + stack.now() + other.now());
 				stack.push(parseInt("" + stack.pop() + other.pop()));
 				break;
-			case "EEEeeE":
+			case "EEEeEe":
 			cmdflag(patterns.mix);
 				expl += "Split "+stack.now()+" every "+other.now()+" digits";
 				var str = stack.pop().toString(10);
@@ -662,7 +662,7 @@ function pepe(code, inp) {
 					stack.push(str.substring(m, m + sep));
 				}
 				break;
-			case "EEEeee":
+			case "EEEeeE":
 			cmdflag(patterns.mix);
 				expl += "Chunk - Split "+stack.now()+" to "+other.now()+" parts";
 				var d2 = other.pop();

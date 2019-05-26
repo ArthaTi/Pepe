@@ -139,7 +139,7 @@ List of commands available in Pepe.
 - `EEEEeE` - [WS << A\*B](https://github.com/Soaku/Pepe/projects/2#card-7338506)
 - `EEEEee` - [WS << A/B](https://github.com/Soaku/Pepe/projects/2#card-7338512)
 - `EEEeEE` - [WS << str(A)+str(B)](https://github.com/Soaku/Pepe/projects/2#card-7487145)
-- `EEEeEe` - [WS << A splitted every B digit](https://github.com/Soaku/Pepe/projects/2#card-7492924)
+- `EEEeEe` - [WS << A split every B digit](https://github.com/Soaku/Pepe/projects/2#card-7492924)
 - `EEEeeE` - [WS << B chunks of A](https://github.com/Soaku/Pepe/projects/2#card-7492793)
 - `EEEeee` - Empty
 - `EEeEEE` - [WS << A^B](https://github.com/Soaku/Pepe/projects/2#card-7487563)
