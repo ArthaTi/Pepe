@@ -144,7 +144,7 @@ export class Test {
         if (openTest !== this) return;
 
         // Save the data
-        openTest.output = $("#output").children();
+        openTest.output = $("#output").contents();
         openTest.inputs = $("#inputs textarea").map((_i, v) => $(v).val()).toArray();
         openTest.expected = $("#expected").val();
 
@@ -248,6 +248,8 @@ export class Test {
      * @param {string} [name] New name for the test, if not specified, the user will be prompted.
      */
     rename(name) {
+
+        if (name) console.warn("rename(name) is not implemented, rename() was used instead.");
 
         let $test = this.button;
         let open = false;

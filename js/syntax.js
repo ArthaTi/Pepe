@@ -11,8 +11,16 @@ $("#editor").on("input", event => {
     // All edits will always be in the anchorNode, no matter the case.
     let s = tokenize(sel.anchorNode, sel.anchorOffset);
 
-    // Set the returned selection
-    sel.collapse(s[0], s[1]);
+    try {
+
+        // Set the returned selection
+        sel.collapse(s[0], s[1]);
+
+    } catch (err) {
+
+        console.error("Failed on", s[0], "– not a node.");
+
+    }
 
 });
 
@@ -178,7 +186,38 @@ function tokenize(node, offset) {
 
                 break;
 
+            case "breakpoint":
+
+                // End the breakpoint mode – it will always be 2 characters
+                open.pop();
+
+                // Second character of the breakpoint
+                if (char === "!") {
+
+                    // Set attributes
+                    $span.attr("class", "breakpoint");  // Overwrite classes
+                    $span.removeAttr("spellcheck");     // Inherit spellcheck
+
+                    // End the ignored mode
+                    open.pop();
+
+                    // End the breakpoint
+                    break;
+
+                }
+
+                // Otherwise continue parsing as an ignored character
+
+            // eslint-disable-next-line no-fallthrough
             case "ignored":
+
+                // If the character was an exclamation mark
+                if (char === "!") {
+
+                    // Open breakpoint mode
+                    open.push("breakpoint");
+
+                }
 
                 // Command character
                 if (char === "E" || char === "e") {
@@ -268,6 +307,14 @@ function tokenize(node, offset) {
 
                     // Open ignored mode
                     open.push("ignored");
+
+                    // If the character was an exclamation mark
+                    if (char === "!") {
+
+                        // Open breakpoint mode
+                        open.push("breakpoint");
+
+                    }
 
                 }
 

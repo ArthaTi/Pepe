@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Pepe</title>
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_o5hd5vvqpoqiwwmi.css">
     <script src="https://code.jquery.com/jquery-3.4.0.min.js"
         integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
@@ -18,15 +19,14 @@
 
     <div class="buttons">
 
-        <span>CODE</span>
+        <h1>CODE</h1>
 
-        <button>Permalink</button>
-        <button>Options</button>
+        <button title="Get a permalink to this code and the testcases">Permalink</button>
+        <button title="Change editor settings">Options</button>
 
     </div>
 
-    <div id="editor" class="view" contenteditable="true" autofocus="true" placeholder="Your code goes here!"
-        spellcheck="false"></div>
+    <div id="editor" class="view" contenteditable="true" spellcheck="false"></div>
 
     <div id="data">
 
@@ -54,16 +54,16 @@
 
     <div id="unit-top" class="buttons">
 
-        <span>UNIT TESTS</span>
+        <h1>UNIT TESTS</h1>
 
-        <button>Run all</button>
-        <button id="open-last">Back</button>
+        <button title="Run all unit tests">Run all</button>
+        <button id="open-last" title="Return to the last opened unit test">Back</button>
 
     </div>
 
     <div id="test-list" class="options view">
-        <button id="open-interactive">Common run</button>
-        <button id="new-test">+ New test</button>
+        <button id="open-interactive" title="Manually specify the arguments and run the code">Common run</button>
+        <button id="new-test" title="Create a new unit test">+ New test</button>
     </div>
 
 </div>
@@ -72,19 +72,10 @@
 
     <div id="execution-top" class="buttons">
 
-        <span id="execution-title">EXECUTION</span>
+        <h1 id="execution-title">EXECUTION</h1>
 
-        <button id="open-unit">Unit tests</button>
+        <button id="open-unit" title="View unit tests">Unit tests</button>
 
-    </div>
-
-    <div id="debug" class="buttons">
-        <button id="run" title="Run the code – Ctrl+Enter">Run</button>
-        <div class="vr"></div>
-        <button id="prev" title="Previous command" disabled>←</button>
-        <button id="into" title="Next command/jump in" disabled>↓</button>
-        <button id="next" title="Next command" disabled>→</button>
-        <button id="continue" title="Continue normal execution" disabled>▶</button>
     </div>
 
     <div class="view">
@@ -104,9 +95,52 @@
             </div>
         </details>
 
-        <div id="output"></div>
+        <div id="output">
+Loading the editor...
+If this doesn't disappear after a while, your browser might not be supported.
+        </div>
 
     </div>
+
+    <details id="debug">
+
+        <summary class="buttons" title="Toggle full view">
+            <button id="run" title="Run the code – Ctrl+Enter">Run</button>
+            <div class="vr"></div>
+            <button id="prev" title="Previous command" class="feather icon-arrow-left" disabled></button>
+            <button id="into" title="Next command/jump in" class="feather icon-arrow-down" disabled></button>
+            <button id="next" title="Next command" class="feather icon-arrow-right" disabled></button>
+            <button id="continue" title="Resume" class="feather icon-play" disabled></button>
+            <div class="circle"></div>
+        </summary>
+
+        <div id="stacks">
+
+            <div id="left-stack">
+
+                <h2>LEFT STACK</h2>
+                <div class="items">
+
+                    <div class="selected">0</div>
+
+                </div>
+
+            </div>
+
+            <div id="right-stack">
+
+                <h2>RIGHT STACK</h2>
+                <div class="items">
+
+                    <div class="selected">0</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </details>
 
 </div>
 

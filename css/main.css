@@ -26,6 +26,19 @@ body > div {
     flex-direction: column;
 }
 
+h1, h2, h3, .buttons .rename {
+    font-family: monospace;
+    margin: 10px;
+    flex-grow: 1;
+    text-transform: uppercase;
+    font-size: 1em;
+    font-weight: 400;
+}
+
+p {
+    margin: 0.5em 0;
+}
+
 .vr {
     display: inline-block;
     background: #5c5c5c;
@@ -42,6 +55,11 @@ button {
     border: none;
     outline: none;
 }
+
+button:disabled {
+    opacity: 0.6;
+}
+
 a {
     color: inherit;
 }
@@ -50,6 +68,7 @@ a {
     font-family: sans-serif;
     background: #6666;
     padding: 10px 20px;
+    margin: 6px;
 }
 
 #unit-tests {
@@ -80,11 +99,11 @@ a {
 
 #output {
     white-space: pre-wrap;
-    word-break: break-all;
+    word-break: break-word;
 }
 
-#data {
-    background: #2c2c2c;
+#data, #debug {
+    background: #5554;
     padding: 10px;
 }
 #data * {
@@ -94,24 +113,16 @@ a {
 
 #documentation {
     font-family: sans-serif;
-}
-
-#documentation h1 {
-
-    /* View in monospace */
-    font-family: monospace;
-    font-size: 1.5em;
+    font-size: 0.8em;
 }
 
 #documentation h1:first-child {
-    margin-top: 0;
+    margin: 0;
 }
 
-#documentation h2 { font-size: 1.4em }
-#documentation h3 { font-size: 1.3em }
-#documentation h4 { font-size: 1.2em }
-#documentation h5 { font-size: 1.15em }
-#documentation h6 { font-size: 1.1em }
+#documentation h1 {
+    font-size: 1.2em;
+}
 
 #run {
     /* The color of Pepe */
@@ -123,11 +134,20 @@ a {
     box-sizing: content-box;
 }
 
-.options, summary {
+.options, summary:not(.buttons) {
     margin: 10px;
 }
 summary {
     padding: 0 5px;
+}
+summary:active:focus {
+    background: #5554;
+}
+summary:focus {
+    outline: none;
+}
+summary::-moz-focus-inner {
+    border: 0;
 }
 
 .options > * {
@@ -164,6 +184,47 @@ summary {
     display: none;
 }
 
+/* Stacks container */
+#stacks {
+    display: flex;
+    margin: 5px;
+}
+
+/* Stack */
+#stacks > div {
+    flex-grow: 1;
+    margin: 5px;
+}
+
+/* Active stack */
+#stacks > div.active {
+    background: #aaa1;
+}
+
+/* Stack contents */
+#stacks .items {
+    display: flex;
+    margin: 15px 10px;
+}
+
+/* Stack header */
+#stacks h2 {
+    margin: 15px 10px;
+}
+
+/* Stack items */
+#stacks .items * {
+    display: inline-block;
+    background: #aaa1;
+    padding: 3.5px 8px;
+    margin: 0 4px;
+}
+
+/* Selected stack item */
+#stacks .items .selected {
+    background: #5A8D3E
+}
+
 .view {
     /* Maximum height */
     height: 100%;  /* Box */
@@ -182,15 +243,12 @@ summary {
     align-items: center;
 }
 
-.buttons * {
-    vertical-align: middle;
-    margin: 6px;
+.buttons h1 {
+    margin-left: 15px;
 }
 
-.buttons span, .buttons .rename {
-    padding: 10px;
-    flex-grow: 1;
-    text-transform: uppercase;
+.buttons * {
+    vertical-align: middle;
 }
 
 .buttons .rename {
@@ -208,6 +266,16 @@ summary {
 }
 :hover > .action {
     display: block;
+}
+
+.circle {
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 5px;
+    height: 5px;
+    margin: 10px;
+    margin-left: auto;
+    cursor: pointer;
 }
 
 .float-right {
@@ -260,6 +328,10 @@ summary {
 
 .flag {
     color: #aaa;
+}
+
+.breakpoint {
+    color: #fe8282;
 }
 
 .invalid {

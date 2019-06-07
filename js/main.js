@@ -139,4 +139,15 @@ $(() => {
         }
     });
 
+    // Show a welcome message
+    $("#output").html(`
+        Welcome to the online Pepe editor and debugger!
+
+        Write your code in the textarea on the left and run it with the "Run" button below.
+        Supply arguments to your program using the "Arguments" fields above.
+        You can place breakpoints by typing <span class="breakpoint">!!</span> in the editor.
+
+        You can learn what each button does by hovering over it.
+    `.replace(/ {2,}/g, "").trim());
+
 });

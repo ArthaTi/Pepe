@@ -30,6 +30,20 @@ class Stack {
         this.pointer = 0;
 
         /**
+         * @todo
+         * Bound `add` events
+         * @var {StackEvent[]} onadd
+         */
+        this.onadd = [];
+
+        /**
+         * @todo
+         * Bound `remove` events
+         * @var {StackEvent[]} onremove
+         */
+        this.onremove = [];
+
+        /**
          * @callback DefaultParam
          * @param {Stack} stack
          */
@@ -38,7 +52,7 @@ class Stack {
          * Default index for all changes.
          * @type {DefaultParam}
          */
-        this.defaultIndex = stack => stack.data.length.index -1;
+        this.defaultIndex = stack => stack.data.length.index - 1;
 
         /**
          * Whether popped items should be preserved by default.
@@ -100,6 +114,23 @@ class Stack {
         // Otherwise, pop it and return.
         return this.removed.pop();
 
+
+    }
+
+    /**
+     * @callback StackEvent
+     * @param {Stack} stack
+     * @param {number} index
+     */
+
+    /**
+     * Bind an event
+     * @param {"add" | "remove"} what Event to bind
+     * @param {StackEvent} callback Function to call on trigger
+     */
+    on(what, callback) {
+
+        this["on" + what].push(callback);
 
     }
 

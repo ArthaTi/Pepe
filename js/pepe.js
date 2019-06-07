@@ -163,8 +163,6 @@ export class Pepe {
             this.packs[cmd.command.length - 1][parseInt(bin, 2)].do(this);
 
         }
-
-        debugger;
     }
 
     /**
