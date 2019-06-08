@@ -119,7 +119,7 @@ List of commands available in Pepe.
 
 ### [6 E/e (64) 2 value](https://github.com/Soaku/Pepe/projects/2#column-2172019)
 
-*55 slots left*
+*49 slots left*
 
 > Commands operating on active items from both stacks.
 >
