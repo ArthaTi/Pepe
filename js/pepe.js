@@ -543,21 +543,28 @@ function pepe(code, inp) {
 				stack.push(stack.now());
 				break;
 
-			case "EEeEE": // random
+			case "EEeEE": // random 0–n
+			case "EEeEe": // random 1–n
 			cmdflag(patterns.push);
 
-				expl += "Random value from 0 to "+stack.now();
-				var neg = Math.abs(stack.now()) != stack.now();
-				var val = (neg?Math.abs(stack.now()):stack.now())+1
-				val = Math.floor(Math.random() * val)
+				// Set start index
+				var start = ~~(scream === "EEeEe");
+
+				var now = Math.floor(stack.now())
+				var neg = Math.abs(now) != now;
+				expl += "Random value from "+(neg ? -start : start)+" to "+now;
+				var val = (neg?Math.abs(now):now)+1 - start
+				val = Math.floor(Math.random() * val) + start
 				stack.set(neg?-val:val);
 				break;
-				// Empty slot
+
+
 			case "EEeeE": // round
 			cmdflag(patterns.push);
 				expl += "Round, "+stack.now()+" → "+Math.round(stack.now());
 				stack.set(Math.round(stack.now()));
 				break;
+
 			case "EEeee": // round to 0.5
 			cmdflag(patterns.push);
 				expl += "Round to 0.5, "+stack.now()+" → "+(Math.round(stack.now()*2)/2);
@@ -707,6 +714,21 @@ function pepe(code, inp) {
 				var item  = stack.pop();
 				while(times --> 0) stack.push(item);
 				break;
+			case "EeEEEE":
+			case "EeEEEe":
+
+				var min = Math.ceil(Math.min(stack.now(), other.now()));
+				var max = Math.floor(Math.max(stack.now(), other.now())) - (scream === "EeEEEe");
+				var result = Math.floor(Math.random() * (max - min + 1)) + min;
+
+				expl += "Push a random number within the range "
+					+ min + (scream === "EeEEEE"?"...":"..") + max
+					+ (scream === "EeEEEE" ? "" : " excluding the end")
+					+ ", resulting in " + result + ".";
+				stack.push(result);
+
+				break;
+
 				// Empty slots
 
 

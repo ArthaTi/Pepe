@@ -85,7 +85,7 @@ List of commands available in Pepe.
 
 ### [5 E/e (32) Active item](https://github.com/Soaku/Pepe/projects/2#column-2173896)
 
-*14 slots left*
+*12 slots left*
 
 - > Flags:
   > r = [PopPush],
@@ -101,7 +101,7 @@ List of commands available in Pepe.
   > r = [PopPush],
   > R = [PreservePush]
    - `EEeEE` - [Random from 0 to active item value](https://github.com/Soaku/Pepe/projects/2#card-7486911)
-   - `EEeEe` - Empty (reserved for random function)
+   - `EEeEe` - [Random from 1 to active item value](https://github.com/Soaku/Pepe/issues/18)
    - `EEeeE` - [Round active item](https://github.com/Soaku/Pepe/projects/2#card-7344007)
    - `EEeee` - [Round active item to 0.5](https://github.com/Soaku/Pepe/projects/2#card-7487731)
    - `EeEEE` - [Ceil active item](https://github.com/Soaku/Pepe/projects/2#card-7344020)
@@ -149,6 +149,9 @@ List of commands available in Pepe.
 - `EEeeEE` - [Left bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368042)
 - `EEeeEe` - [Logical right bit shift](https://github.com/Soaku/Pepe/projects/2#card-13368119)
 - `EEeeeE` - [WS << Character repeated B times.](https://github.com/Soaku/Pepe/issues/12)
+- `EEeeee` - Empty
+- `EeEEEE` - [WS << Random number A...B (inclusive)](https://github.com/Soaku/Pepe/issues/18)
+- `EeEEEe` - [WS << Random number A..B (exclusive)](https://github.com/Soaku/Pepe/issues/18)
 
 ### [7 E/e (128) Cross-stack](https://github.com/Soaku/Pepe/projects/2#column-2172008)
 
