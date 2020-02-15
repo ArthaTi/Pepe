@@ -152,6 +152,8 @@ List of commands available in Pepe.
 - `EEeeee` - Empty
 - `EeEEEE` - [WS << Random number A...B (inclusive)](https://github.com/Soaku/Pepe/issues/18)
 - `EeEEEe` - [WS << Random number A..B (exclusive)](https://github.com/Soaku/Pepe/issues/18)
+- `EeEEeE` - [WS << Greater number (max) of A and B](https://github.com/Soaku/Pepe/issues/19)
+- `EeEEee` - [WS << Lower number (min) of A and B](https://github.com/Soaku/Pepe/issues/19)
 
 ### [7 E/e (128) Cross-stack](https://github.com/Soaku/Pepe/projects/2#column-2172008)
 
@@ -196,6 +198,9 @@ List of commands available in Pepe.
 - `EEEEeEeE` - [Sort](https://github.com/Soaku/Pepe/projects/2#card-7488771)
 - `EEEEeEee` - [Reverse order](https://github.com/Soaku/Pepe/projects/2#card-7344092)
 - `EEEEeeEE` - [Shuffle order](https://github.com/Soaku/Pepe/projects/2#card-7487499)
+- `EEEEeeEe` - Reserved for an order-changing function
+- `EEEEeeeE` - [Greatest number in the stack (max)](https://github.com/Soaku/Pepe/issues/19)
+- `EEEEeeee` - [Lowest number in the stack (min)](https://github.com/Soaku/Pepe/issues/19)
 
 ### [9 E/e (512) Characters](https://github.com/Soaku/Pepe/projects/2#column-2205901)
 

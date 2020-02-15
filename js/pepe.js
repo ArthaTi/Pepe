@@ -729,7 +729,29 @@ function pepe(code, inp) {
 
 				break;
 
-				// Empty slots
+			case "EeEEeE":
+
+				var values = [stack.pop(), other.pop()];
+				var result = Math.max(values[0], values[1]);
+
+				expl += "Push greater number (max) of " + values[0] + " and " + values[1] + ", which is " + result + ".";
+
+				stack.push(result);
+
+				break;
+
+			case "EeEEee":
+
+				var values = [stack.pop(), other.pop()];
+				var result = Math.min(values[0], values[1]);
+
+				expl += "Push lower number (min) of " + values[0] + " and " + values[1] + ", which is " + result + ".";
+
+				stack.push(result);
+
+				break;
+
+			// Empty slots
 
 
 			// 7 E/e
@@ -834,6 +856,30 @@ function pepe(code, inp) {
 			case "EEEEeeEE":
 				expl += "Shuffle the stack";
 				stack.array.shuffle();
+				break;
+			case "EEEEeeeE":
+				expl += "Get the greatest number in the stack (max)";
+				var result;
+				stack.array.forEach(function (value) {
+
+					if (typeof result === "undefined") result = value;
+					else if (value > result) result = value;
+
+				});
+				stack.push(result);
+
+				break;
+			case "EEEEeeee":
+				expl += "Get the lowest number in the stack (min)";
+				var result;
+				stack.array.forEach(function (value) {
+
+					if (typeof result === "undefined") result = value;
+					else if (value < result) result = value;
+
+				});
+				stack.push(result);
+
 				break;
 
 				// error
