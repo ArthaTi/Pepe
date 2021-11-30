@@ -8,7 +8,7 @@ Ex: `REEE` operates on stack `R` while `rEEE` operates on stack `r`.
 
 Every R/r is followed by a specific amount of E/e, which tells, what command is executed.
 
-[You can find more on Pepe's wiki](https://github.com/Soaku/Pepe/wiki/Tutorial)
+[You can find more on Pepe's wiki](https://github.com/ArthaTi/Pepe/wiki/Tutorial)
 
 ## Examples
 
